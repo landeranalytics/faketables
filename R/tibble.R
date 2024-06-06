@@ -9,7 +9,6 @@ dt <-
 }
 
 .better_list_flatten <- function(l, .f) {
-  depth <- purrr::pluck_depth(l)
   is_f <- purrr::map_lgl(l, .f)
   if (!all(is_f)) .better_list_flatten(purrr::list_flatten(l), .f) else l
 }
@@ -26,7 +25,9 @@ col_def <- function(name, fun, cast, width, display_name = name, ...) {
 }
 
 table_def <- function(...) {
-  .better_rbind(...)
+  rlang::list2(...) |>
+    .better_list_flatten(tibble::is_tibble) |>
+    purrr::list_rbind()
 }
 
 faketable <- function(data, defs, rowId, show_delete = NULL, insert_selector = '#table') {

@@ -58,7 +58,7 @@ server_mod <- function(id) {
       )
     )
 
-    defs <- table_def(rlang::splice(col_defs))
+    defs <- table_def(col_defs)
     call_faketable <- function(.data) {
       faketable(.data, defs, rowId = 'rowId', show_delete = list(width = 3))
     }
