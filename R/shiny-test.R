@@ -27,37 +27,38 @@ server_mod <- function(id) {
     removed_data <- shiny::reactiveVal(head(dt, 0))
     counter <- shiny::reactiveVal(0)
 
-    funs <- list(
-      'mpg' = \(rowId, value) {
-        shinyjs::disabled(
-          shiny::textInput(
-            inputId = ns(glue::glue("table_{rowId}_mpg")),
-            label = NULL,
-            placeholder = 'Row key',
-            value = value
+    col_defs <- list(
+      col_def(
+        name = 'mpg',
+        fun = \(rowId, value) {
+          shinyjs::disabled(
+            shiny::textInput(
+              inputId = ns(glue::glue("table_{rowId}_mpg")),
+              label = NULL,
+              placeholder = 'Row key',
+              value = value
+            )
           )
-        )
-      },
-      'cyl' = \(rowId, value) {
-        shiny::selectInput(
-          inputId = ns(glue::glue("table_{rowId}_cyl")),
-          label = NULL,
-          choices = c(2,4,6),
-          selected = value
-        )
-      },
-      'vs' = \(rowId, value) {
-        shiny::checkboxInput(
-          inputId = ns(glue::glue("table_{rowId}_vs")),
-          label = 'vs',
-          value = as.logical(value)
-        )
-      }
+        },
+        cast = as.numeric,
+        width = 3
+      ),
+      col_def(
+        name = 'cyl',
+        fun = \(rowId, value) {
+          shiny::selectInput(
+            inputId = ns(glue::glue("table_{rowId}_cyl")),
+            label = NULL,
+            choices = c(2,4,6),
+            selected = value
+          )
+        },
+        cast = as.integer,
+        width = 3
+      )
     )
 
-    col_class <- list('mpg' = as.numeric, 'cyl' = as.integer, 'vs' = as.logical)
-
-    defs <- col_def(ns, funs, col_class, width = c(3, 3, 3))
+    defs <- table_def(rlang::splice(col_defs))
     call_faketable <- function(.data) {
       faketable(.data, defs, rowId = 'rowId', show_delete = list(width = 3))
     }
@@ -111,9 +112,9 @@ server_mod <- function(id) {
           by = 'rowId'
         ) |>
         purrr::imap(\(x, idx) {
-          col <- which(idx == defs$col_names)
+          col <- which(idx == defs$name)
           if (length(col) != 0) {
-            defs$col_class[col][[1]](x)
+            defs$cast[col][[1]](x)
           } else {
             x
           }
@@ -138,27 +139,3 @@ server <- function(input, output, session) {
 }
 
 shiny::shinyApp(ui, server)
-
-# updated_data <-
-#   all_vals |>
-#   tibble::as_tibble() |>
-#   tidyr::pivot_longer(
-#     cols = tidyselect::everything(),
-#     names_pattern = 'table_([a-z0-9]{32})_(.*)$',
-#     names_to = c('row', 'col'),
-#     values_transform = as.character
-#   ) |>
-#   tidyr::pivot_wider(
-#     id_cols = 'row',
-#     names_from = 'col',
-#     values_from = 'value'
-#   ) |>
-#   purrr::imap(\(x, idx) {
-#     col <- which(idx == defs$col_names)
-#     if (length(col) != 0) {
-#       defs$col_class[col][[1]](x)
-#     } else {
-#       x
-#     }
-#   }) |>
-#   dplyr::bind_cols()
