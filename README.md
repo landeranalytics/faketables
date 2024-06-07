@@ -1,4 +1,10 @@
-# Goals
+
+# faketables
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+## Goals
 
 - Minimize code required for end users
 - Squash namespace problems
@@ -19,6 +25,6 @@
     - Updating rows
     - Removing rows
   - An object call re-draws the UI and returns the current table as a tibble
-- To use, users must:
+- To use, users must (this means it's probably a shiny module):
   - Add function call to UI
   - Add function call to server to create object
