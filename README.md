@@ -1,4 +1,3 @@
-
 # faketables
 
 <!-- badges: start -->
@@ -8,7 +7,7 @@
 
 - Minimize code required for end users
 - Squash namespace problems
-- Turn `faketables` into an `S7` object with the following
+- Turn `faketables` into an `S7` (maybe `R6`) object with the following
   - Contains:
     - The current state of the data
     - The original data
@@ -28,3 +27,9 @@
 - To use, users must (this means it's probably a shiny module):
   - Add function call to UI
   - Add function call to server to create object
+
+
+## Notes
+
+- If R6, how best to get/set data?
+  - Another R6 class?
