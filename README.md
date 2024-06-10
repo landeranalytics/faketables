@@ -33,3 +33,14 @@
 
 - If R6, how best to get/set data?
   - Another R6 class?
+
+## 2024-06-10
+
+- Split into data history class and shiny module
+- Shiny module is UI element that can be added to other shiny apps
+- function that takes shiny input function and args and creates the column
+  - Is `shinyjs::disabled()` an arg?
+  - `create_fun(bare, ..., .editable = TRUE)`
+- User supplies starting data, column definitions
+  - Column definition could be an input or render function
+- Table only shows columns specified in the definitions
