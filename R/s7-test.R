@@ -2,7 +2,7 @@ source('R/s7.R')
 source('R/delete.R')
 source('R/render.R')
 
-ui_mod <- function(id) {
+ui_mod <- function(id = 'faketables') {
   ns <- shiny::NS(id)
   shiny::tagList(
     shinyjs::useShinyjs(),
@@ -19,24 +19,28 @@ server_mod <- function(id = 'faketables', faketable) {
   })
 }
 
-ui <- shiny::fluidPage( ui_mod('draw') )
+ui <- shiny::fluidPage( ui_mod() )
 
 server <- function(input, output, session) {
   c_def <- list(
     col_def(
       name = 'mpg',
-      fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
-      args = list(label = NULL, placeholder = 'Row Key'),
-      value = 'value',
+      input = input_call(
+        fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+        args = list(label = NULL, placeholder = 'Row Key'),
+        value = 'value'
+      ),
       cast = as.numeric,
       width = 3,
       display_name = 'MPG'
     ),
     col_def(
       name = 'cyl',
-      fun = shiny::selectInput,
-      args = list(label = NULL, choices = c(2,4,6)),
-      value = 'selected',
+      input = input_call(
+        fun = shiny::selectInput,
+        args = list(label = NULL, choices = c(2,4,6)),
+        value = 'selected',
+      ),
       cast = as.integer,
       width = 3,
       display_name = 'CYL'
@@ -46,7 +50,7 @@ server <- function(input, output, session) {
   t_def <- table_def(c_def)
 
   f_tab <- faketable(head(mtcars), t_def)
-  server_mod('draw', f_tab)
+  server_mod(faketable = f_tab)
 }
 
 shiny::shinyApp(ui, server)

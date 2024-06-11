@@ -1,17 +1,20 @@
-.better_rbind <- function(...) {
-  dots <- rlang::list2(...)
-  if (length(dots) == 1) dots[[1]] else dplyr::bind_rows(dots)
-}
-
-.better_list_flatten <- function(l, .f) {
-  is_f <- purrr::map_lgl(l, .f)
-  if (!all(is_f)) .better_list_flatten(purrr::list_flatten(l), .f) else l
-}
-
-.evaluate_fun <- function(fun, args, name, rowId, ns) {
-  args$inputId <- ns(glue::glue('table_{rowId}_{name}'))
-  fun(!!!args)
-}
+input_call <- S7::new_class(
+  name = 'input_call',
+  package = 'faketables',
+  properties = list(
+    'x' = S7::class_function
+  ),
+  constructor = \(fun, args, ...) {
+    S7::new_object(
+      S7::S7_object(),
+      'x' = \(...) {
+        rlang::call2(fun, !!!args) |>
+          rlang::call_modify(...) |>
+          rlang::eval_tidy()
+      }
+    )
+  }
+)
 
 col_def <- S7::new_class(
   name = 'col_def',
@@ -22,9 +25,7 @@ col_def <- S7::new_class(
       getter = \(self) {
         tibble::tibble(
           'name' = self@name,
-          'fun' = list(self@fun),
-          'args' = list(self@args),
-          'value' = self@value,
+          'input_call' = list(self@input_call),
           'cast' = list(self@cast),
           'width' = self@width,
           'display_name' = self@display_name,
@@ -33,22 +34,18 @@ col_def <- S7::new_class(
       }
     ),
     'name' = S7::class_character,
-    'fun' = S7::class_function,
-    'args' = S7::class_list,
-    'value' = S7::class_character,
+    'input_call' = input_call,
     'cast' = S7::class_function,
     'width' = S7::class_integer,
     'display_name' = S7::class_character,
     'dots' = S7::class_list
   ),
-  constructor = \(name, fun, args, value, cast, width, display_name = name, ...) {
+  constructor = \(name, input, cast, width, display_name = name, ...) {
     width <- as.integer(width)
     S7::new_object(
       S7::S7_object(),
       'name' = name,
-      'fun' = fun,
-      'args' = args,
-      'value' = value,
+      'input_call' = input,
       'cast' = cast,
       'width' = width,
       'display_name' = display_name,

@@ -36,13 +36,14 @@
         tail(-1) |> # drop rowId column
         purrr::map(\(nm) {
           c_def <- which(f_tab@.table_def@x$name == nm)
-          args <- f_tab@.table_def@x$args[[c_def]]
-          args$inputId <- glue::glue('table_{dots[[f_tab@.rowId]]}_{nm}')
-          args[[f_tab@.table_def@x$value[[c_def]]]] <- dots[[nm]]
+          args <- list(
+            inputId = glue::glue('table_{dots[[f_tab@.rowId]]}_{nm}'),
+            dots[[nm]] # TODO: find way to name this to ensure right values are used
+          )
           shiny::column(
             width = f_tab@.table_def@x$width[c_def],
             {
-              f_tab@.table_def@x$fun[[c_def]] |>
+              f_tab@.table_def@x$input_call[[c_def]]@x |>
                 rlang::call2(!!!args) |>
                 rlang::eval_tidy()
             }
