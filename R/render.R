@@ -1,6 +1,6 @@
 .create_table_header <- function(f_tab) {
   cols <-
-    f_tab@.table_def@x |>
+    f_tab@.table_def |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
       shiny::column(
@@ -27,7 +27,7 @@
 
 .create_table_body <- function(f_tab) {
   f_tab@x |>
-    dplyr::select(tidyselect::all_of(c(f_tab@.rowId, f_tab@.table_def@x$name))) |>
+    dplyr::select(tidyselect::all_of(c(f_tab@.rowId, f_tab@.table_def$name))) |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
       cols <-
@@ -35,15 +35,15 @@
         names() |>
         tail(-1) |> # drop rowId column
         purrr::map(\(nm) {
-          c_def <- which(f_tab@.table_def@x$name == nm)
+          c_def <- which(f_tab@.table_def$name == nm)
           args <- list(
             inputId = glue::glue('table_{dots[[f_tab@.rowId]]}_{nm}'),
             dots[[nm]] # TODO: find way to name this to ensure right values are used
           )
           shiny::column(
-            width = f_tab@.table_def@x$width[c_def],
+            width = f_tab@.table_def$width[c_def],
             {
-              f_tab@.table_def@x$input_call[[c_def]]@x |>
+              f_tab@.table_def$input_call[[c_def]] |>
                 rlang::call2(!!!args) |>
                 rlang::eval_tidy()
             }

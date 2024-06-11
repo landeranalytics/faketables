@@ -1,6 +1,8 @@
 source('R/s7.R')
 source('R/delete.R')
 source('R/render.R')
+source('R/definitions.R')
+source('R/helpers.R')
 
 ui_mod <- function(id = 'faketables') {
   ns <- shiny::NS(id)
