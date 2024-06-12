@@ -8,7 +8,7 @@ ui <- shiny::fluidPage(
     ),
     shiny::column(
       width = 3,
-      shiny::textInput('mpg', 'MPG')
+      shiny::textInput('mpg', 'MPG', value = 50)
     ),
     shiny::column(
       width = 3,
@@ -39,8 +39,8 @@ server <- function(input, output, session) {
       'mpg' = as.numeric(input$mpg),
       'cyl' = as.numeric(input$cyl)
     ) |>
-      dplyr::mutate('rowId' = digest::digest(.data))
-    f_tab <- insert(f_tab(), ins)
+      dplyr::mutate('rowId' = digest::digest(.data), .before = 0)
+    f_tab <- faketablesServer(faketable = insert(f_tab(), ins))
   }) |>
     shiny::bindEvent(input$add_row, ignoreInit = TRUE)
 }

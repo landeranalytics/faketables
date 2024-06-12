@@ -13,7 +13,15 @@ faketable <- S7::new_class(
     '.updated' = S7::new_property(
       class = S7::class_data.frame,
       getter = \(self) {
-        dplyr::anti_join(self@x, self@.raw_data, by = colnames(self@.raw_data))
+        self@x |>
+          dplyr::anti_join(
+            y = self@.inserted,
+            by = 'rowId'
+          ) |>
+          dplyr::anti_join(
+            y = self@.raw_data,
+            by = colnames(self@.raw_data)
+          )
       }
     ),
     '.deleted' = S7::new_property( # just the rows that have been removed
@@ -52,8 +60,6 @@ faketable <- S7::new_class(
       S7::S7_object(),
       'x' = x,
       '.raw_data' = x,
-      # '.updated' = head(x, 0),
-      # '.deleted' = head(x, 0),
       '.table_def' = table_def,
       '.rowId' = rowId,
       '.show_delete' = show_delete

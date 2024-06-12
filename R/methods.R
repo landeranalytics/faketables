@@ -10,7 +10,7 @@ S7::method(insert, faketable) <- function(f_tab, data) {
 
 update <- S7::new_generic('update', 'f_tab')
 S7::method(update, faketable) <- function(f_tab, data) {
-  f_tab@x <- dplyr::rows_update(
+  f_tab@x <- dplyr::rows_upsert(
     x = f_tab@x,
     y = data,
     by = 'rowId'
