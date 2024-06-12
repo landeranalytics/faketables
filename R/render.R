@@ -23,8 +23,8 @@
   shiny::fluidRow(cols, class = 'table-header-row')
 }
 
-render_header <- S7::new_generic('render_header', 'f_tab')
-S7::method(render_header, faketable) <- function(f_tab) {
+.render_header <- S7::new_generic('.render_header', 'f_tab')
+S7::method(.render_header, faketable) <- function(f_tab) {
   shiny::removeUI(
     selector = glue::glue("#table-header .table-header"),
     multiple = TRUE
@@ -49,7 +49,7 @@ S7::method(render_header, faketable) <- function(f_tab) {
       cols <-
         dots |>
         names() |>
-        tail(-1) |> # drop rowId column
+        utils::tail(-1) |> # drop rowId column
         purrr::map(\(nm) {
           c_def <- which(f_tab@.table_def$name == nm)
           args <- list(
@@ -78,7 +78,7 @@ S7::method(render_header, faketable) <- function(f_tab) {
     purrr::map(shiny::fluidRow, class = 'table-row')
 }
 
-render_table <- S7::new_generic('render_table', 'f_tab')
-S7::method(render_table, faketable) <- function(f_tab, ns) {
+.render_table <- S7::new_generic('.render_table', 'f_tab')
+S7::method(.render_table, faketable) <- function(f_tab, ns) {
   .create_table_body(f_tab, ns)
 }

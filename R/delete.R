@@ -13,7 +13,7 @@
   )
 }
 
-create_button_listener <- function(ns = shiny::NS(NULL)){
+.create_delete_listener <- function(ns = shiny::NS(NULL)){
   shiny::tags$head(
     shiny::tags$script(
       shiny::HTML(
