@@ -30,9 +30,9 @@ ui <- shiny::fluidPage(
 server <- function(input, output, session) {
   f_tab <- faketablesServer(faketable = f_tab)
   output$table <- shiny::renderTable(f_tab()@x)
-  output$inserted <- shiny::renderTable(f_tab()@.inserted)
-  output$updated <- shiny::renderTable(f_tab()@.updated)
-  output$deleted <- shiny::renderTable(f_tab()@.deleted)
+  output$inserted <- shiny::renderTable(f_tab()@inserted)
+  output$updated <- shiny::renderTable(f_tab()@updated)
+  output$deleted <- shiny::renderTable(f_tab()@deleted)
 
   shiny::observe({
     ins <- tibble::tibble(

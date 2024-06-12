@@ -8,6 +8,21 @@
   if (!all(is_f)) .better_list_flatten(purrr::list_flatten(l), .f) else l
 }
 
+.create_rowid <- function(x, rowId) {
+  if (is.null(x[[rowId]])) {
+    x <-
+      x |>
+      dplyr::mutate('.rowId' = dplyr::row_number()) |>
+      dplyr::mutate(
+        {{rowId}} := purrr::map_chr(.data, digest::digest),
+        .before = 0,
+        .by = '.rowId'
+      ) |>
+      dplyr::select(-'.rowId')
+  }
+  return(x)
+}
+
 .reconstruct_inputs <- function(faketable, input) {
   all_vals <- shiny::reactiveValuesToList(input)
   all_vals <- all_vals[grepl("table_[a-f0-9]{32}_", names(all_vals))]

@@ -11,11 +11,9 @@ faketablesUI <- function(id = 'faketables') {
   )
 }
 
-faketablesServer <- function(id = 'faketables', faketable, data = NULL) {
+faketablesServer <- function(id = 'faketables', faketable) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
-
-    if (!is.null(data)) faketable@x <- data
 
     deleted_rowId <- shiny::reactiveVal(character())
 
