@@ -4,11 +4,12 @@
   shiny::column(
     width = width,
     shiny::actionButton(
-      inputId = rowId,
+      inputId = glue::glue('{rowId}_delete'),
       class = 'btn-remove',
       style = 'background: #bf5959; color: #fff; border: none; width: 100%',
       label = "Delete"
-    )
+    ),
+    dots
   )
 }
 
