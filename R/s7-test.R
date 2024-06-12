@@ -7,7 +7,7 @@ ui_mod <- function(id = 'faketables') {
     create_button_listener(ns),
     htmltools::div(id = 'table-container',
     htmltools::div(id = 'table-header'),
-    htmltools::div(id = 'table')
+    shiny::uiOutput(ns('table'))
     )
   )
 }
@@ -15,8 +15,6 @@ ui_mod <- function(id = 'faketables') {
 server_mod <- function(id = 'faketables', faketable) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    render_header(faketable)
-    render_table(faketable, ns)
 
     deleted_rowId <- shiny::reactiveVal(character())
 
@@ -67,11 +65,14 @@ server_mod <- function(id = 'faketables', faketable) {
       # delete
       faketable <- .delete(faketable, deleted_rowId())
 
-      # render and return
-      render_table(faketable, ns)
+      # return
       return(faketable)
     })
 
+    render_header(faketable)
+    output$table <- shiny::renderUI({
+      render_table(f_tab(), ns)
+    })
     return(f_tab)
   })
 }

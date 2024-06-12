@@ -80,17 +80,5 @@ S7::method(render_header, faketable) <- function(f_tab) {
 
 render_table <- S7::new_generic('render_table', 'f_tab')
 S7::method(render_table, faketable) <- function(f_tab, ns) {
-  shiny::removeUI(
-    selector = glue::glue("#table .table-body"),
-    multiple = TRUE
-  )
-
-  shiny::insertUI(
-    selector = '#table',
-    where = 'afterBegin',
-    ui = shiny::tags$div(
-      .create_table_body(f_tab, ns),
-      class = 'table-body'
-    )
-  )
+  .create_table_body(f_tab, ns)
 }
