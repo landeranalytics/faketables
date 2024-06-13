@@ -46,7 +46,7 @@
 
 .create_table_body <- function(f_tab, ns) {
   f_tab@x |>
-    dplyr::select(tidyselect::all_of(c(f_tab@.rowId, f_tab@.table_def$name))) |>
+    dplyr::select(tidyselect::all_of(c('.rowId', f_tab@.table_def$name))) |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
       cols <-
@@ -56,7 +56,7 @@
         purrr::map(\(nm) {
           c_def <- which(f_tab@.table_def$name == nm)
           args <- list(
-            inputId = ns(glue::glue('table_{dots[[f_tab@.rowId]]}_{nm}')),
+            inputId = ns(glue::glue('table_{dots[[".rowId"]]}_{nm}')),
             dots[[nm]] # TODO: find way to name this to ensure right values are used
           )
           shiny::column(
@@ -72,7 +72,7 @@
         cols <-
           cols |>
           append(
-            list(.delete_button(dots[[f_tab@.rowId]], !!!f_tab@.show_delete)),
+            list(.delete_button(dots[[".rowId"]], !!!f_tab@.show_delete)),
             after = 0
           )
       }

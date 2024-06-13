@@ -2,13 +2,6 @@
 #' @name methods
 #' @rdname methods
 #'
-#' @details Unlike [faketables::update()] and [faketables::delete()] which are
-#' generally only used internally [faketables::insert()] must be implemented by
-#' end users. To do so, the return from [faketables::insert()] must be passed
-#' back into a [faketables::faketablesServer()] call and then reassigned to the
-#' users chosen variable as done with the initial
-#' [faketables::faketablesServer()] call.
-#'
 #' @param f_tab A [faketables::faketable()] object
 #' @param x
 #'  * `insert`: A data.frame to add to the data in the [faketables::faketable()]
@@ -21,6 +14,13 @@
 #'  * `delete`: Either a character vector of values from the primary key column
 #'   as specified in [faketables::table_def()] or a data.frame of rows to remove
 #'   with that vector as a column.
+#'
+#' @details Unlike [faketables::update()] and [faketables::delete()] which are
+#' generally only used internally [faketables::insert()] must be implemented by
+#' end users. To do so, the return from [faketables::insert()] must be passed
+#' back into a [faketables::faketablesServer()] call and then reassigned to the
+#' users chosen variable as done with the initial
+#' [faketables::faketablesServer()] call.
 #'
 #' @returns A [faketables::faketable()] object
 #'
@@ -38,7 +38,7 @@
 #' # delete
 #' # to delete the first six rows of the data where the primary key column is `rowId`
 #' rows_to_delete <- utils::head(faketable@x)
-#' faketable <- delete(faketable, rows_to_delete$rowId)
+#' faketable <- delete(faketable, rows_to_delete$.rowId)
 #' # OR
 #' faketable <- delete(faketable, rows_to_delete)
 #' }
@@ -54,11 +54,11 @@ insert <- S7::new_generic('insert', c('f_tab', 'x'), \(f_tab, x) {
 #'
 #' @export
 S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  x <- .create_rowid(x, f_tab@.rowId)
+  x <- .create_rowid(x, '.rowId')
   f_tab@x <- dplyr::rows_insert(
     x = f_tab@x,
     y = x,
-    by = 'rowId'
+    by = '.rowId'
   )
   return(f_tab)
 }
@@ -77,7 +77,7 @@ S7::method(update, list(faketable, S7::class_data.frame)) <- function(f_tab, x) 
   f_tab@x <- dplyr::rows_upsert(
     x = f_tab@x,
     y = x,
-    by = 'rowId'
+    by = '.rowId'
   )
   return(f_tab)
 }
@@ -97,7 +97,7 @@ S7::method(delete, list(faketable, S7::class_missing)) <- function(f_tab, x) {
 
 #' @export
 S7::method(delete, list(faketable, S7::class_vector)) <- function(f_tab, x) {
-  x <- dplyr::filter(f_tab@x, .data$rowId %in% .env$x)
+  x <- dplyr::filter(f_tab@x, .data$.rowId %in% .env$x)
   f_tab <- delete(f_tab, x)
   return(f_tab)
 }
@@ -105,6 +105,6 @@ S7::method(delete, list(faketable, S7::class_vector)) <- function(f_tab, x) {
 #' @export
 S7::method(delete, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
   f_tab@.deleted <- dplyr::bind_rows(f_tab@.deleted, x)
-  f_tab@x <- dplyr::anti_join(f_tab@x, x, by = f_tab@.rowId)
+  f_tab@x <- dplyr::anti_join(f_tab@x, x, by = '.rowId')
   return(f_tab)
 }

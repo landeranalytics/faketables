@@ -6,6 +6,8 @@
 \alias{faketables-package}
 \title{faketables: Create a table of shiny inputs}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Create an interactive table of shiny inputs by providing data and a table definition.
 }
 \seealso{

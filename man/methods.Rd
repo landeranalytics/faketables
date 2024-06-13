@@ -56,7 +56,7 @@ faketable <- update(faketable, dplyr::mutate(faketable@x, 'new' = 'new'))
 # delete
 # to delete the first six rows of the data where the primary key column is `rowId`
 rows_to_delete <- utils::head(faketable@x)
-faketable <- delete(faketable, rows_to_delete$rowId)
+faketable <- delete(faketable, rows_to_delete$.rowId)
 # OR
 faketable <- delete(faketable, rows_to_delete)
 }
