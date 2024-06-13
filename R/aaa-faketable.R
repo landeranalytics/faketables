@@ -19,6 +19,7 @@
 #'   the addition of a `.rowId` column as the first column. This column is
 #'   calculated using by hashing either the provided `rowId` column or using the
 #'   row number and system time.
+#'  * `.rowId`: The value of the `rowId` argument
 #'  * `.deleted`: All rows that have been removed from `x`, including those that
 #'   were inserted then deleted
 #'  * `.table_def`: A copy of the user supplied [faketables::table_def()] passed
@@ -68,24 +69,29 @@ faketable <- S7::new_class(
       }
     ),
     '.raw_data' = S7::class_data.frame,
+    '.rowId' = S7::class_character,
     '.deleted' = S7::class_data.frame,
     '.table_def' = S7::new_S3_class('table_def'),
     '.show_delete' = S7::new_property(
-      class = S7::class_list,
+      class = S7::class_any,
       # getter = \(self) { self@.show_delete },
       # default = list()
     )
   ),
-  constructor = \(x, table_def, rowId = NULL, show_delete = list()) {
+  constructor = \(x, table_def, rowId = NULL, show_delete = NULL) {
+    stopifnot(is.null(show_delete) | (!is.null(show_delete) & is.list(show_delete)))
     x <-
       x |>
       tibble::as_tibble() |>
       .create_rowid(rowId)
 
+    if (is.null(rowId)) rowId <- '.rowId'
+
     S7::new_object(
       S7::S7_object(),
       'x' = x,
       '.raw_data' = x,
+      '.rowId' = rowId,
       '.deleted' = utils::head(x, 0),
       '.table_def' = table_def,
       '.show_delete' = show_delete

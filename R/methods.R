@@ -54,7 +54,7 @@ insert <- S7::new_generic('insert', c('f_tab', 'x'), \(f_tab, x) {
 #'
 #' @export
 S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  x <- .create_rowid(x, '.rowId')
+  x <- .create_rowid(x, f_tab@.rowId)
   f_tab@x <- dplyr::rows_insert(
     x = f_tab@x,
     y = x,
