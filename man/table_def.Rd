@@ -8,7 +8,8 @@ table_def(...)
 }
 \arguments{
 \item{...}{At least one \code{\link[=col_def]{col_def()}} object. Only columns with a
-definition will be displayed.}
+definition will be displayed. If a column does not have a definition and
+rows are added, any column without a definition will receive an \code{NA} value.}
 }
 \value{
 A \code{\link[=table_def]{table_def()}} object

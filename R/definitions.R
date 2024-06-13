@@ -65,7 +65,8 @@ col_def <- function(name, input, cast, width, display_name = name, ...) {
 #' Create a `faketable` table definition
 #'
 #' @param ... At least one [faketables::col_def()] object. Only columns with a
-#'   definition will be displayed.
+#'   definition will be displayed. If a column does not have a definition and
+#'   rows are added, any column without a definition will receive an `NA` value.
 #'
 #' @returns A [faketables::table_def()] object
 #' @export
