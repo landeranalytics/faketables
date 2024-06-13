@@ -4,8 +4,25 @@
 \name{faketables-package}
 \alias{faketables}
 \alias{faketables-package}
-\title{faketables: What the Package Does (Title Case)}
+\title{faketables: Create a table of shiny inputs}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+Create an interactive table of shiny inputs by providing data and a table definition.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/landeranalytics/faketables}
+  \item Report bugs at \url{https://github.com/landeranalytics/faketables/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Gus Lipkin \email{gus@landeranalytics.com}
+
+Other contributors:
+\itemize{
+  \item Lander Analytics [copyright holder, funder]
+}
+
 }
 \keyword{internal}

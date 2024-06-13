@@ -1,0 +1,30 @@
+url: ~
+
+home:
+  title: Create a table of shiny inputs
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+- title: Create
+- subtitle: The `faketable` object
+  contents:
+  - faketable
+- subtitle: Used to create a `faketable` object
+  contents:
+  - input_call
+  - col_def
+  - table_def
+- title: Implement
+  contents:
+  - shiny
+- title: Manipulate
+  contents:
+  - methods

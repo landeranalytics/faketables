@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 DEPRECATED
 ^s7-test\.R$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

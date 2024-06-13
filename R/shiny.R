@@ -1,3 +1,22 @@
+#' Create the `shiny` components required to use `faketables`
+#' @name shiny
+#' @rdname shiny
+#'
+#' @param id An ID string used to identify the module UI
+#' @param faketable A [faketables::faketable()] object
+#'
+#' @returns
+#'  * `faketablesUI`: A [shiny::shinyApp()] ui
+#'  * `faketablesServer`: A [shiny::reactive()] object that represents the
+#'    passed [faketables::faketable()] object
+#'
+#' @keywords internal
+NULL
+
+#' @name faketablesUI
+#' @rdname shiny
+#'
+#' @export
 faketablesUI <- function(id = 'faketables') {
   ns <- shiny::NS(id)
   shiny::tagList(
@@ -11,6 +30,10 @@ faketablesUI <- function(id = 'faketables') {
   )
 }
 
+#' @name faketablesServer
+#' @rdname shiny
+#'
+#' @export
 faketablesServer <- function(id = 'faketables', faketable) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns

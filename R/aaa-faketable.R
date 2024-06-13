@@ -1,3 +1,14 @@
+#' Create a `faketable` object
+#'
+#' @param x A data.frame
+#' @param table_def A [faketables::table_def()] object
+#' @param rowId A character vector of length one identifying which column to use
+#'   as a primary key
+#' @param show_delete A named list passed to the [shiny::column()] that holds
+#'   the Delete button. If `NULL`, the delete column will not be shown.
+#'
+#' @returns A `faketable` object
+#' @export
 faketable <- S7::new_class(
   name = 'faketable',
   package = 'faketables',

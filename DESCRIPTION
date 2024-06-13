@@ -1,15 +1,18 @@
-Package: faketables
 Type: Package
-Title: What the Package Does (Title Case)
+Package: faketables
+Title: Create a table of shiny inputs
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Gus", "Lipkin", , "gus@landeranalytics.com", role = c("cre", "aut")),
+    person("Lander Analytics", role = c("cph", "fnd"))
+  )
+Description: Create an interactive table of shiny inputs by providing data
+    and a table definition.
 License: file LICENSE
-Encoding: UTF-8
-LazyData: true
+URL: https://github.com/landeranalytics/faketables
+BugReports: https://github.com/landeranalytics/faketables/issues
 Imports:
+    cli,
     digest,
     dplyr,
     glue,
@@ -25,4 +28,7 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
