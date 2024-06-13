@@ -55,8 +55,6 @@ faketablesServer <- function(id = 'faketables', faketable) {
       shiny::bindEvent(input$table_btns)
 
     f_tab <- shiny::reactive({
-      # insert
-
       # update
       updated_data <- .reconstruct_inputs(faketable, input)
       if (nrow(updated_data) > 0) faketable <- update(faketable, updated_data)

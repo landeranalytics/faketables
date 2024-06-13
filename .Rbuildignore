@@ -5,3 +5,4 @@ DEPRECATED
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^shinylive$
