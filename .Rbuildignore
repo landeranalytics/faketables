@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 DEPRECATED
-^s7-test\.R$
+^app\.R$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
