@@ -1,0 +1,195 @@
+---
+title: "faketables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{faketables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Intro
+
+This vignette is a complete example and shows how to use `faketables` and all of its components.
+
+In this vignette we will create a shiny app that allows us to modify data from our dataset and then preview each component of our `faketables` object.
+
+## Setup
+
+Load our library.
+
+```{r setup}
+library(faketables)
+```
+
+To make sure things don't get out of hand, we first filter down to just the first six rows. Then, we want the rownames as a column, and then for the sake of example, we convert `qsec` to a list column where every row is a vector of length two that is the original value of `qsec` both subtracted by and added by `1`. We then select the columns we wish to display.
+
+```{r data}
+df <-
+  mtcars |>
+  head() |>
+  tibble::rownames_to_column() |>
+  dplyr::mutate('qsec' = purrr::map(.data$qsec, \(x) round(c(x - 1, x + 1)))) |>
+  dplyr::select('rowname', 'mpg', 'cyl', 'qsec')
+```
+
+## Creating a `faketable`
+
+### Understanding `input_call()`
+
+Because `faketables` creates the inputs dynamically, it can't work with the output of a function, but rather needs to work with the function itself. This is called a "bare function". `input_call()` requires a bare function and a list of `args` to be passed to the bare function.
+
+The bare function usually takes the form of the function call, but without the parenthesis or any of the arguments such as `sum` for the `sum()` function. Alternatively, a function definition can be passed. It is important that this match exactly, or the `updated` table will contain all rows.
+
+The `args` should be a list of all desired arguments that would normally be passed to your function, except the `inputId`. Even if one is supplied, it will be ignored.
+
+These can be stored as a variable or passed directly to the `input` argument of `col_def()`.
+
+### Creating a `col_def`
+
+First, we need a `col_def` for each column we wish to display. We will name ours `c_def`. Each `col_def` must have the `name` of the column it is being created for, an `input_call` object, a bare function call to `cast` and ensure that the column has the desired class, a `width`. They can also have an optional `display_name`.
+
+There are some things to note here:
+
+- `'rowname'` uses an anonymous function that wraps the input it `shinyjs::disabled()`. This is so the `rowname` column can be rendered as part of the table without users being allowed to modify its value.
+- `'qsec'` uses an anonymous function that wraps the actual casting function. This is because `qsec` should be a list column, but we still want to ensure the contents of the list match our desired class.
+
+```{r col_def}
+c_def <- list(
+  col_def(
+    name = 'rowname',
+    input = input_call(
+      fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+      args = list(label = NULL, placeholder = 'Vehicle Name')
+    ),
+    cast = as.character,
+    width = 3,
+    display_name = 'Vehicle Name'
+  ),
+  col_def(
+    name = 'mpg',
+    input = input_call(
+      fun = shiny::numericInput,
+      args = list(label = NULL)
+    ),
+    cast = as.numeric,
+    width = 2,
+    display_name = 'MPG'
+  ),
+  col_def(
+    name = 'cyl',
+    input = input_call(
+      fun = shiny::selectInput,
+      args = list(label = NULL, choices = c(4, 6, 8))
+    ),
+    cast = as.integer,
+    width = 2,
+    display_name = 'CYL'
+  ),
+  col_def(
+    name = 'qsec',
+    input = input_call(
+      fun = shiny::sliderInput,
+      args = list(label = 'Quarter Mile', min = 10, max = 25)
+    ),
+    cast = \(x) purrr::map(x, as.numeric),
+    width = 3,
+    display_name = 'QSEC'
+  )
+)
+```
+
+### Creating a `table_def`
+
+A `table_def` is, at its core, a collection of `col_def` objects that have been neatly organized into a `tibble`. We will name ours `t_def`.
+
+```{r table_def}
+t_def <- table_def(c_def)
+```
+
+### Creating a `faketable`
+
+The last step in creating our `faketable` is to bring our data and `table_def` together. Since we know our `rowname` column is unique, we use that as our `rowId`. We also supply an empty list so that the delete buttons are show for each row.
+
+```{r faketable}
+f_tab <- faketable(df, t_def, rowId = 'rowname', show_delete = list())
+```
+
+## The Shiny App
+
+### Creating the UI
+
+Our UI will be relatively simple as we're just trying to demonstrate our `faketable`. First, we use `faketablesUI()` to make sure our `faketable` is rendered. Then we create a row of inputs that match those from our `col_def` so that we can input data and press the `'Add Row'` button to add the row. At the bottom, we have a radio button that lets us switch between each of our `faketable` object tables to preview.
+
+```{r ui}
+ui <- shiny::fluidPage(
+  title = 'mtcars',
+  faketablesUI(),
+  shiny::tags$h3('Add Row'),
+  shiny::fluidRow(
+    shiny::column(
+      width = 2, shiny::actionButton('add_row', 'Add Row')
+    ),
+    shiny::column(
+      width = 3, shiny::textInput('rowname', 'Vehicle Name')
+    ),
+    shiny::column(
+      width = 2, shiny::textInput('mpg', 'MPG', value = 50)
+    ),
+    shiny::column(
+      width = 2, shiny::selectInput('cyl', 'CYL', c(4, 6, 8))
+    ),
+    shiny::column(
+      width = 3, shiny::sliderInput('qsec', 'QSEC', min = 10, max = 25, value = c(10, 25))
+    )
+  ),
+  shiny::tags$h3('Preview Table'),
+  shiny::radioButtons(
+    'preview', 
+    label = 'Choose Table to Preview', 
+    choices = c('x', 'inserted', 'updated', 'deleted'),
+    inline = TRUE
+  ),
+  shiny::tableOutput('preview_table')
+)
+```
+
+### Creating the Server
+
+The first thing we do is call `faketablesServer()` on our `faketable`, `f_tab`, and assign it back to `f_tab`. This is no longer a `faketables` object, but a [shiny::reactive()](https://shiny.posit.co/r/reference/shiny/latest/reactive.html) that holds our `faketables` object. As such, in order to access our `faketable`, we now have to use `f_tab()` rather than `f_tab`. This reactive will handle all row updating and deleting on its own. In order to support inserting rows, we need to create an event listener for the `'Add Row'` button and call our `faketablesServer` again, but this time with the new `faketables` object created by `insert`.
+
+
+```{r server}
+server <- function(input, output, session) {
+  f_tab <- faketablesServer(faketable = f_tab)
+  
+  # get the table referenced by the radio buttons
+  preview_table <- shiny::reactive({ S7::prop(f_tab(), input$preview) })
+  # use an un-exported function to ensure list columns render
+  output$preview_table <- shiny::renderTable(faketables:::.list_col_to_chr(preview_table()))
+  
+  shiny::observe({
+    ins <- tibble::tibble(
+      'rowname' = input$rowname,
+      'mpg' = as.numeric(input$mpg),
+      'cyl' = as.numeric(input$cyl),
+      'qsec' = list(as.integer(input$qsec))
+    )
+    f_tab <- faketablesServer(faketable = insert(f_tab(), ins))
+  }) |>
+    shiny::bindEvent(input$add_row)
+}
+```
+
+### Running the app
+
+```{r shinyApp, eval=FALSE}
+shiny::shinyApp(ui, server)
+```
+
