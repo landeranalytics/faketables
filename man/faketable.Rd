@@ -4,7 +4,7 @@
 \alias{faketable}
 \title{Create a \code{faketable} object}
 \usage{
-faketable(x, table_def, rowId = NULL, show_delete = list())
+faketable(x, table_def, rowId = NULL, show_delete = NULL)
 }
 \arguments{
 \item{x}{A data.frame}
@@ -31,6 +31,7 @@ do not appear in \code{x}
 the addition of a \code{.rowId} column as the first column. This column is
 calculated using by hashing either the provided \code{rowId} column or using the
 row number and system time.
+\item \code{.rowId}: The value of the \code{rowId} argument
 \item \code{.deleted}: All rows that have been removed from \code{x}, including those that
 were inserted then deleted
 \item \code{.table_def}: A copy of the user supplied \code{\link[=table_def]{table_def()}} passed

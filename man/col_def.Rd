@@ -11,7 +11,9 @@ col_def(name, input, cast, width, display_name = name, ...)
 
 \item{input}{A \code{\link[=input_call]{input_call()}} object}
 
-\item{cast}{A bare function call to convert the column to its intended class}
+\item{cast}{A bare function call to convert the column to its intended class.
+It is important that this match exactly, or the \code{updated} table will
+contain all rows.}
 
 \item{width}{The grid width of the column (must be between 1 and 12)}
 

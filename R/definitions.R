@@ -26,7 +26,9 @@ input_call <- function(fun, args) {
 #'
 #' @param name The column name
 #' @param input A [faketables::input_call()] object
-#' @param cast A bare function call to convert the column to its intended class
+#' @param cast A bare function call to convert the column to its intended class.
+#'   It is important that this match exactly, or the `updated` table will
+#'   contain all rows.
 #' @param display_name The name to use for the column header
 #' @inheritParams shiny::column
 #'

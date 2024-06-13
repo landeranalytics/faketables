@@ -1,3 +1,10 @@
+#' Create and render a `faketables` table header
+#' @rdname render_header
+#'
+#' @param f_tab A [faketables::faketable()] object
+#'
+#' @returns `NULL`
+#' @keywords internal
 .render_header <- function(f_tab) {
   shiny::removeUI(
     selector = glue::glue("#table-header .table-header"),
@@ -15,6 +22,11 @@
   )
 }
 
+#' @rdname render_header
+#'
+#' @returns A [shiny::fluidRow()] containing the display names from `f_tab`'s
+#'   [faketables::table_def()] each rendered in [shiny::column()]
+#' @keywords internal
 .create_table_header <- function(f_tab) {
   cols <-
     f_tab@.table_def |>
@@ -40,10 +52,25 @@
   shiny::fluidRow(cols, class = 'table-header-row')
 }
 
+#' Create and render a `faketables` table body
+#' @rdname render_table
+#'
+#' @description This output should be passed to [shiny::renderUI()] in the
+#'   server
+#'
+#' @param f_tab A [faketables::faketable()] object
+#' @param ns The session namespace from `shiny::NS()`or `session$ns`
+#'
+#' @keywords internal
 .render_table <- function(f_tab, ns) {
   .create_table_body(f_tab, ns)
 }
 
+#' @rdname render_table
+#'
+#' @returns A [shiny::fluidRow()] containing a [shiny::column()] for each column
+#'   specified in `f_tab`'s [faketables::table_def()]
+#' @keywords internal
 .create_table_body <- function(f_tab, ns) {
   f_tab@x |>
     dplyr::select(tidyselect::all_of(c('.rowId', f_tab@.table_def$name))) |>
