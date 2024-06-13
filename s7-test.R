@@ -50,7 +50,7 @@ c_def <- list(
     name = 'mpg',
     input = input_call(
       fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
-      args = list(label = NULL, placeholder = 'Row Key')
+      args = list(label = NULL, placeholder = 'mpg')
     ),
     cast = as.numeric,
     width = 3,

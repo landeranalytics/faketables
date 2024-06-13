@@ -18,7 +18,8 @@
         .before = 0,
         .by = '.rowId'
       ) |>
-      dplyr::select(-'.rowId')
+      dplyr::select(-'.rowId') |>
+      dplyr::select('rowId', tidyselect::everything())
   }
   return(x)
 }
