@@ -14,7 +14,7 @@ input_call <- function(fun, args) {
     {
       function(...) {
         rlang::call2(fun, !!!args) |>
-          rlang::call_modify(...) |>
+          rlang::call_modify(..., .homonyms = 'last') |>
           rlang::eval_tidy()
       }
     },
