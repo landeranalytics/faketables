@@ -6,3 +6,4 @@ DEPRECATED
 ^docs$
 ^pkgdown$
 ^shinylive$
+^vignettes$
