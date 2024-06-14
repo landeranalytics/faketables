@@ -26,6 +26,7 @@ Imports:
     tidyselect,
     utils
 Suggests: 
+    leaflet,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
