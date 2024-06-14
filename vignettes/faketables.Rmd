@@ -131,6 +131,7 @@ Our UI will be relatively simple as we're just trying to demonstrate our `faketa
 ```{r}
 ui <- shiny::fluidPage(
   title = 'mtcars',
+  shinyjs::useShinyjs(),
   faketablesUI(),
   shiny::tags$h3('Add Row'),
   shiny::fluidRow(

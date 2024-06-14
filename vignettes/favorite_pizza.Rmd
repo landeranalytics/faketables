@@ -114,6 +114,7 @@ pz <-
 ```{r}
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
+  shinyjs::useShinyjs(),
   bslib::nav_panel(
     title = 'NYC',
     bslib::layout_columns(

@@ -1,3 +1,4 @@
+devtools::load_all()
 ## ---- col_def --------
 c_def <- list(
   faketables::col_def(
@@ -81,6 +82,7 @@ pz <-
 ## ---- ui --------
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
+  shinyjs::useShinyjs(),
   bslib::nav_panel(
     title = 'NYC',
     bslib::layout_columns(
