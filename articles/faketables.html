@@ -48,6 +48,12 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/favorite_pizza.html">Favorite Pizza Places</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -149,6 +155,8 @@ an <code>input_call</code> object, a bare function call to
 <code>display_name</code>.</p>
 <p>There are some things to note here:</p>
 <ul>
+<li>Our label is <code>NULL</code> so that the input isn’t labelled for
+each row, but it doesn’t have to be that way.</li>
 <li>
 <code>'rowname'</code> uses an anonymous function that wraps the
 input it <code><a href="https://rdrr.io/pkg/shinyjs/man/disabled.html" class="external-link">shinyjs::disabled()</a></code>. This is so the
@@ -196,7 +204,7 @@ desired class.</li>
 <span>    name <span class="op">=</span> <span class="st">'qsec'</span>,</span>
 <span>    input <span class="op">=</span> <span class="fu"><a href="../reference/input_call.html">input_call</a></span><span class="op">(</span></span>
 <span>      fun <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput</a></span>,</span>
-<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">'Quarter Mile'</span>, min <span class="op">=</span> <span class="fl">10</span>, max <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
+<span>      args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>label <span class="op">=</span> <span class="cn">NULL</span>, min <span class="op">=</span> <span class="fl">10</span>, max <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
 <span>    cast <span class="op">=</span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">as.numeric</span><span class="op">)</span>,</span>
 <span>    width <span class="op">=</span> <span class="fl">3</span>,</span>
@@ -290,6 +298,7 @@ by <code>insert</code>.</p>
 <span>  <span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shiny.html">faketablesServer</a></span><span class="op">(</span>faketable <span class="op">=</span> <span class="va">f_tab</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># get the table referenced by the radio buttons</span></span>
+<span>  <span class="co"># `object@property_name` is the same as `prop(object, 'property_name')`</span></span>
 <span>  <span class="va">preview_table</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reactive.html" class="external-link">reactive</a></span><span class="op">(</span><span class="op">{</span> <span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/prop.html" class="external-link">prop</a></span><span class="op">(</span><span class="fu">f_tab</span><span class="op">(</span><span class="op">)</span>, <span class="va">input</span><span class="op">$</span><span class="va">preview</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="co"># use an un-exported function to ensure list columns render</span></span>
 <span>  <span class="va">output</span><span class="op">$</span><span class="va">preview_table</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderTable.html" class="external-link">renderTable</a></span><span class="op">(</span><span class="fu">faketables</span><span class="fu">:::</span><span class="fu"><a href="../reference/dot-list_col_to_chr.html">.list_col_to_chr</a></span><span class="op">(</span><span class="fu">preview_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>

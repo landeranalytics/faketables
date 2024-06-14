@@ -3,7 +3,8 @@ pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   faketables: faketables.html
-last_built: 2024-06-14T02:04Z
+  favorite_pizza: favorite_pizza.html
+last_built: 2024-06-14T16:00Z
 urls:
   reference: https://landeranalytics.github.io/faketables/reference
   article: https://landeranalytics.github.io/faketables/articles
