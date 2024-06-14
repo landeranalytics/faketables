@@ -1,3 +1,4 @@
+devtools::load_all()
 ## ---- col_def --------
 c_def <- list(
   faketables::col_def(
