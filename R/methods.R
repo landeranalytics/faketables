@@ -53,6 +53,11 @@ insert <- S7::new_generic('insert', c('f_tab', 'x'), \(f_tab, x) {
 #' @usage insert(f_tab, x)
 #'
 #' @export
+S7::method(insert, list(faketable, S7::class_missing)) <- function(f_tab, x) {
+  cli::cli_abort('{.fun faketables::insert} requires a second argument')
+}
+
+#' @export
 S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
   x <- .create_rowid(x, f_tab@.rowId)
   f_tab@x <- dplyr::rows_insert(
@@ -72,6 +77,11 @@ update <- S7::new_generic('update', c('f_tab', 'x'), \(f_tab, x) {
 #'
 #' @usage update(f_tab, x)
 #'
+#' @export
+S7::method(update, list(faketable, S7::class_missing)) <- function(f_tab, x) {
+  cli::cli_abort('{.fun faketables::update} requires a second argument')
+}
+
 #' @export
 S7::method(update, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
   f_tab@x <- dplyr::rows_upsert(
