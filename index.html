@@ -86,6 +86,17 @@
 <p><a href="https://github.com/landeranalytics/faketables" class="external-link">faketables</a> is a table construction tool that creates and renders tables using <a href="https://shiny.posit.co/" class="external-link"><code>Shiny</code></a> inputs, while managing data inserts, updates, and deletions. Users define the column definitions using the provided constructors and pass their data, and <code>faketables</code> handles the rest. Because <code>faketables</code> is a Shiny module, it can be used in any Shiny application and excels in applications where users need to interact with the data in great detail.</p>
 </div>
 <div class="section level2">
+<h2 id="benefits">Benefits<a class="anchor" aria-label="anchor" href="#benefits"></a>
+</h2>
+<p><code>faketables</code> provides several distinct benefits over packages with similar features such as <a href="https://rstudio.github.io/DT/" class="external-link"><code>DT</code></a> and <a href="https://glin.github.io/reactable/" class="external-link"><code>reactable</code></a>:</p>
+<ul>
+<li>Users can implement any Shiny input method they wish into a cell</li>
+<li>A <code>faketables</code> object contains the entirety of the data that is shown to the user, along with any columns the developer has chosen to hide from the user</li>
+<li>Information on which rows are inserted, updated, or deleted is retained. Again, this data is stored in its entirety.</li>
+<li>All setup can be performed outside of a Shiny server context and developers only need two functions in the Shiny app, one in the UI and one in the server, for update and delete functionality, with a third needed for insertions.</li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of faketables from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>

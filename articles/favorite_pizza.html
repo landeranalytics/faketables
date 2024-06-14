@@ -87,6 +87,10 @@
 
     
     
+<p>The source for this app can be found <a href="https://raw.githubusercontent.com/landeranalytics/faketables/main/vignettes/pizza.R" class="external-link">here</a></p>
+<div class="section level2">
+<h2 id="create-the-column-definitions-with-col_def">Create the column definitions with <code>col_def()</code><a class="anchor" aria-label="anchor" href="#create-the-column-definitions-with-col_def"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">c_def</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/col_def.html">col_def</a></span><span class="op">(</span></span>
@@ -147,11 +151,19 @@
 <span>    cast <span class="op">=</span> <span class="va">as.integer</span>,</span>
 <span>    width <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">t_def</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/table_def.html">table_def</a></span><span class="op">(</span><span class="va">c_def</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pz</span> <span class="op">&lt;-</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="create-the-table-definition-with-table_def">Create the table definition with <code>table_def()</code><a class="anchor" aria-label="anchor" href="#create-the-table-definition-with-table_def"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">t_def</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/table_def.html">table_def</a></span><span class="op">(</span><span class="va">c_def</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="get-data-and-create-the-faketable">Get data and create the <code>faketable</code><a class="anchor" aria-label="anchor" href="#get-data-and-create-the-faketable"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pz</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/read_json.html" class="external-link">read_json</a></span><span class="op">(</span></span>
 <span>    path <span class="op">=</span> <span class="st">'https://www.jaredlander.com/data/FavoritePizzaPlaces.json'</span>,</span>
 <span>    simplifyVector <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -163,9 +175,13 @@
 <span>    <span class="st">'FavoritePizza'</span> <span class="op">=</span> <span class="st">'Cheese'</span>,</span>
 <span>    <span class="st">'Rating'</span> <span class="op">=</span> <span class="fl">11L</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/faketable.html">faketable</a></span><span class="op">(</span>table_def <span class="op">=</span> <span class="va">t_def</span>, show_delete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/page_navbar.html" class="external-link">page_navbar</a></span><span class="op">(</span></span>
+<span>  <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/faketable.html">faketable</a></span><span class="op">(</span>table_def <span class="op">=</span> <span class="va">t_def</span>, show_delete <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="create-the-ui">Create the UI<a class="anchor" aria-label="anchor" href="#create-the-ui"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/page_navbar.html" class="external-link">page_navbar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">'Favorite Pizza Places'</span>,</span>
 <span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/nav-items.html" class="external-link">nav_panel</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">'NYC'</span>,</span>
@@ -256,9 +272,13 @@
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="create-the-server">Create the server<a class="anchor" aria-label="anchor" href="#create-the-server"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">pz</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/shiny.html">faketablesServer</a></span><span class="op">(</span>faketable <span class="op">=</span> <span class="va">pz</span><span class="op">)</span></span>
 <span>  <span class="va">output</span><span class="op">$</span><span class="va">map</span> <span class="op">&lt;-</span></span>
 <span>    <span class="fu">leaflet</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/leaflet/reference/leaflet.html" class="external-link">leaflet</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -331,14 +351,16 @@
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/bindEvent.html" class="external-link">bindEvent</a></span><span class="op">(</span><span class="fu">pz</span><span class="op">(</span><span class="op">)</span>, <span class="va">input</span><span class="op">$</span><span class="va">add</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+</div>
 <div class="section level2">
-<h2 id="running-the-app">Running the app<a class="anchor" aria-label="anchor" href="#running-the-app"></a>
+<h2 id="run-the-app">Run the app<a class="anchor" aria-label="anchor" href="#run-the-app"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p><img src="../reference/figures/preview.png"></p>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
