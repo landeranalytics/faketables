@@ -14,6 +14,7 @@ Create an interactive table of shiny inputs by providing data and a table defini
 Useful links:
 \itemize{
   \item \url{https://github.com/landeranalytics/faketables}
+  \item \url{https://landeranalytics.github.io/faketables/}
   \item Report bugs at \url{https://github.com/landeranalytics/faketables/issues}
 }
 

@@ -8,3 +8,4 @@ DEPRECATED
 ^shinylive$
 ^vignettes$
 ^LICENSE\.md$
+^\.github$

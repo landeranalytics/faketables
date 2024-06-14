@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Create an interactive table of shiny inputs by providing data
     and a table definition.
 License: MIT + file LICENSE
-URL: https://github.com/landeranalytics/faketables
+URL: https://github.com/landeranalytics/faketables, https://landeranalytics.github.io/faketables/
 BugReports: https://github.com/landeranalytics/faketables/issues
 Imports:
     cli,
