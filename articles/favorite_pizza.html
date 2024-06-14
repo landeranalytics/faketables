@@ -183,6 +183,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/page_navbar.html" class="external-link">page_navbar</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">'Favorite Pizza Places'</span>,</span>
+<span>  <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/nav-items.html" class="external-link">nav_panel</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">'NYC'</span>,</span>
 <span>    <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bslib/man/layout_columns.html" class="external-link">layout_columns</a></span><span class="op">(</span></span>
@@ -272,7 +273,11 @@
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Navigation containers expect a collection of</span></span>
+<span><span class="co">#&gt; `bslib::nav_panel()`/`shiny::tabPanel()`s and/or</span></span>
+<span><span class="co">#&gt; `bslib::nav_menu()`/`shiny::navbarMenu()`s. Consider using `header` or `footer`</span></span>
+<span><span class="co">#&gt; if you wish to place content above (or below) every panel's contents.</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="create-the-server">Create the server<a class="anchor" aria-label="anchor" href="#create-the-server"></a>
