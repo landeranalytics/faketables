@@ -1,28 +1,4 @@
----
-title: "Favorite Pizza Places"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Favorite Pizza Places}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r, eval=FALSE,include=FALSE, cache=FALSE}
-knitr::read_chunk('pizza.R')
-```
-
-The source for this app can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/vignettes/pizza.R)
-
-## Create the column definitions with `col_def()`
-
-```{r}
+## ---- col_def --------
 c_def <- list(
   faketables::col_def(
     name = 'Name',
@@ -83,17 +59,11 @@ c_def <- list(
     width = 2
   )
 )
-```
 
-## Create the table definition with `table_def()`
-
-```{r}
+## ---- table_def --------
 t_def <- faketables::table_def(c_def)
-```
 
-## Get data and create the `faketable`
-
-```{r}
+## ---- faketables --------
 pz <-
   jsonlite::read_json(
     path = 'https://www.jaredlander.com/data/FavoritePizzaPlaces.json',
@@ -107,11 +77,8 @@ pz <-
     'Rating' = 11L
   ) |>
   faketables::faketable(table_def = t_def, show_delete = list(width = 1))
-```
 
-## Create the UI
-
-```{r}
+## ---- ui --------
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
   bslib::nav_panel(
@@ -204,11 +171,8 @@ ui <- bslib::page_navbar(
     )
   )
 )
-```
 
-## Create the server
-
-```{r}
+## ---- server --------
 server <- function(input, output, session) {
   pz <- faketables::faketablesServer(faketable = pz)
   output$map <-
@@ -282,13 +246,6 @@ server <- function(input, output, session) {
   }) |>
     shiny::bindEvent(pz(), input$add)
 }
-```
 
-## Run the app
-
-```{r eval=FALSE}
+## ---- run --------
 shiny::shinyApp(ui, server)
-```
-
-![](../man/figures/preview.png)
-

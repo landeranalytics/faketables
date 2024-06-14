@@ -18,6 +18,23 @@ definitions using the provided constructors and pass their data, and
 it can be used in any Shiny application and excels in applications where
 users need to interact with the data in great detail.
 
+## Benefits
+
+`faketables` provides several distinct benefits over packages with
+similar features such as [`DT`](https://rstudio.github.io/DT/) and
+[`reactable`](https://glin.github.io/reactable/):
+
+- Users can implement any Shiny input method they wish into a cell
+- A `faketables` object contains the entirety of the data that is shown
+  to the user, along with any columns the developer has chosen to hide
+  from the user
+- Information on which rows are inserted, updated, or deleted is
+  retained. Again, this data is stored in its entirety.
+- All setup can be performed outside of a Shiny server context and
+  developers only need two functions in the Shiny app, one in the UI and
+  one in the server, for update and delete functionality, with a third
+  needed for insertions.
+
 ## Installation
 
 You can install the development version of faketables from

@@ -24,13 +24,13 @@ In this vignette we will create a shiny app that allows us to modify data from o
 
 Load our library.
 
-```{r setup}
+```{r}
 library(faketables)
 ```
 
 To make sure things don't get out of hand, we first filter down to just the first six rows. Then, we want the rownames as a column, and then for the sake of example, we convert `qsec` to a list column where every row is a vector of length two that is the original value of `qsec` both subtracted by and added by `1`. We then select the columns we wish to display.
 
-```{r data}
+```{r}
 df <-
   mtcars |>
   head() |>
@@ -61,7 +61,7 @@ There are some things to note here:
 - `'rowname'` uses an anonymous function that wraps the input it `shinyjs::disabled()`. This is so the `rowname` column can be rendered as part of the table without users being allowed to modify its value.
 - `'qsec'` uses an anonymous function that wraps the actual casting function. This is because `qsec` should be a list column, but we still want to ensure the contents of the list match our desired class.
 
-```{r col_def}
+```{r}
 c_def <- list(
   col_def(
     name = 'rowname',
@@ -110,7 +110,7 @@ c_def <- list(
 
 A `table_def` is, at its core, a collection of `col_def` objects that have been neatly organized into a `tibble`. We will name ours `t_def`.
 
-```{r table_def}
+```{r}
 t_def <- table_def(c_def)
 ```
 
@@ -118,7 +118,7 @@ t_def <- table_def(c_def)
 
 The last step in creating our `faketable` is to bring our data and `table_def` together. Since we know our `rowname` column is unique, we use that as our `rowId`. We also supply an empty list so that the delete buttons are show for each row.
 
-```{r faketable}
+```{r}
 f_tab <- faketable(df, t_def, rowId = 'rowname', show_delete = list())
 ```
 
@@ -128,7 +128,7 @@ f_tab <- faketable(df, t_def, rowId = 'rowname', show_delete = list())
 
 Our UI will be relatively simple as we're just trying to demonstrate our `faketable`. First, we use `faketablesUI()` to make sure our `faketable` is rendered. Then we create a row of inputs that match those from our `col_def` so that we can input data and press the `'Add Row'` button to add the row. At the bottom, we have a radio button that lets us switch between each of our `faketable` object tables to preview.
 
-```{r ui}
+```{r}
 ui <- shiny::fluidPage(
   title = 'mtcars',
   faketablesUI(),
@@ -166,7 +166,7 @@ ui <- shiny::fluidPage(
 The first thing we do is call `faketablesServer()` on our `faketable`, `f_tab`, and assign it back to `f_tab`. This is no longer a `faketables` object, but a [shiny::reactive()](https://shiny.posit.co/r/reference/shiny/latest/reactive.html) that holds our `faketables` object. As such, in order to access our `faketable`, we now have to use `f_tab()` rather than `f_tab`. This reactive will handle all row updating and deleting on its own. In order to support inserting rows, we need to create an event listener for the `'Add Row'` button and call our `faketablesServer` again, but this time with the new `faketables` object created by `insert`.
 
 
-```{r server}
+```{r}
 server <- function(input, output, session) {
   f_tab <- faketablesServer(faketable = f_tab)
   
@@ -191,7 +191,7 @@ server <- function(input, output, session) {
 
 ### Running the app
 
-```{r shinyApp, eval=FALSE}
+```{r eval=FALSE}
 shiny::shinyApp(ui, server)
 ```
 
