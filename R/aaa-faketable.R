@@ -28,8 +28,8 @@
 #'   `show_delete`
 #'
 #' @details A `faketable` object is an [S7::S7_object()] with the class
-#'   `faketable`. S7 object properties are access using an `@`, rather than the
-#'   traditional `$`. For example, the property `x` for a `faketable` object
+#'   `faketable`. S7 object properties are accessed using an `@`, rather than
+#'   the traditional `$`. For example, the property `x` for a `faketable` object
 #'   called `f_tab` can be accessed using `f_tab@x`.
 #'
 #' @seealso For more details on `S7`, see the vignette [on the

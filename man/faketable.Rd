@@ -45,8 +45,8 @@ Create a \code{faketable} object
 }
 \details{
 A \code{faketable} object is an \code{\link[S7:S7_object]{S7::S7_object()}} with the class
-\code{faketable}. S7 object properties are access using an \code{@}, rather than the
-traditional \code{$}. For example, the property \code{x} for a \code{faketable} object
+\code{faketable}. S7 object properties are accessed using an \code{@}, rather than
+the traditional \code{$}. For example, the property \code{x} for a \code{faketable} object
 called \code{f_tab} can be accessed using \code{f_tab@x}.
 }
 \seealso{

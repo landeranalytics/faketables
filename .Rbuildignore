@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 DEPRECATED
 ^app\.R$
+^app2\.R$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
@@ -9,3 +10,4 @@ DEPRECATED
 ^vignettes$
 ^LICENSE\.md$
 ^\.github$
+^README\.Rmd$

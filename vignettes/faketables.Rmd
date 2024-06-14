@@ -57,6 +57,7 @@ First, we need a `col_def` for each column we wish to display. We will name ours
 
 There are some things to note here:
 
+- Our label is `NULL` so that the input isn't labelled for each row, but it doesn't have to be that way.
 - `'rowname'` uses an anonymous function that wraps the input it `shinyjs::disabled()`. This is so the `rowname` column can be rendered as part of the table without users being allowed to modify its value.
 - `'qsec'` uses an anonymous function that wraps the actual casting function. This is because `qsec` should be a list column, but we still want to ensure the contents of the list match our desired class.
 
@@ -96,7 +97,7 @@ c_def <- list(
     name = 'qsec',
     input = input_call(
       fun = shiny::sliderInput,
-      args = list(label = 'Quarter Mile', min = 10, max = 25)
+      args = list(label = NULL, min = 10, max = 25)
     ),
     cast = \(x) purrr::map(x, as.numeric),
     width = 3,
@@ -170,6 +171,7 @@ server <- function(input, output, session) {
   f_tab <- faketablesServer(faketable = f_tab)
   
   # get the table referenced by the radio buttons
+  # `object@property_name` is the same as `prop(object, 'property_name')`
   preview_table <- shiny::reactive({ S7::prop(f_tab(), input$preview) })
   # use an un-exported function to ensure list columns render
   output$preview_table <- shiny::renderTable(faketables:::.list_col_to_chr(preview_table()))
