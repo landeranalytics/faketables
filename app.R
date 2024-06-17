@@ -82,7 +82,7 @@ pz <-
 ## ---- ui --------
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
-  shinyjs::useShinyjs(),
+  header = shinyjs::useShinyjs(),
   bslib::nav_panel(
     title = 'NYC',
     bslib::layout_columns(
@@ -153,6 +153,9 @@ ui <- bslib::page_navbar(
           ),
           shiny::fluidRow(
             shiny::actionButton('add', label = 'Add Data')
+          ),
+          shiny::fluidRow(
+            shiny::actionButton('update', label = 'Update')
           )
         )
       ),
@@ -176,25 +179,13 @@ ui <- bslib::page_navbar(
 
 ## ---- server --------
 server <- function(input, output, session) {
-  pz <- faketables::faketablesServer(faketable = pz)
+  pz <- faketables::faketablesServer(faketable = pz) |>
+    shiny::reactiveVal()
   output$map <-
     leaflet::leaflet() |>
     leaflet::addTiles() |>
-    leaflet::setView(-74.0060, 40.7128, 11) |>
+    leaflet::setView(-74.0060, 40.7128, 0) |>
     leaflet::renderLeaflet()
-
-  map_data <- shiny::reactive({
-    pz()@x |>
-      dplyr::mutate(
-        'label' = shiny::HTML(glue::glue('{.data$Name}<br>{.data$Address}, {.data$City}, NY, {.data$Zip}')),
-        .by = '.rowId'
-      ) |>
-      dplyr::mutate(
-        'fill_color' = dplyr::case_when(
-          stringr::str_detect(tolower(.data$FavoritePizza), 'cheese') ~ '#FFCA45'
-        )
-      )
-  })
 
   shiny::observe({
     ins <- tibble::tibble(
@@ -215,7 +206,8 @@ server <- function(input, output, session) {
         type = 'error'
       )
     } else {
-      pz <- faketables::faketablesServer(faketable = faketables::insert(pz(), ins))
+      faketables::faketablesServer(faketable = pz(), insert = ins) |>
+        pz()
     }
   }) |>
     shiny::bindEvent(input$add)
@@ -229,7 +221,8 @@ server <- function(input, output, session) {
       ) |>
       dplyr::mutate(
         'fill_color' = dplyr::case_when(
-          stringr::str_detect(tolower(.data$FavoritePizza), 'cheese') ~ '#FFCA45'
+          .data$label == 'cheese' ~ '#FFCA45',
+          .default = '#FFCA45'
         )
       )
     leaflet::leafletProxy('map', data = map_data) |>
@@ -246,7 +239,7 @@ server <- function(input, output, session) {
         label = ~label
       )
   }) |>
-    shiny::bindEvent(pz(), input$add)
+    shiny::bindEvent(input$update)
 }
 
 ## ---- run --------

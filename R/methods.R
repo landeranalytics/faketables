@@ -84,10 +84,11 @@ S7::method(update, list(faketable, S7::class_missing)) <- function(f_tab, x) {
 
 #' @export
 S7::method(update, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  f_tab@x <- dplyr::rows_upsert(
+  f_tab@x <- dplyr::rows_update(
     x = f_tab@x,
     y = x,
-    by = '.rowId'
+    by = '.rowId',
+    unmatched = 'ignore'
   )
   return(f_tab)
 }

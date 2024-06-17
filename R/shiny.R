@@ -33,7 +33,8 @@ faketablesUI <- function(id = 'faketables') {
 #' @rdname shiny
 #'
 #' @export
-faketablesServer <- function(id = 'faketables', faketable) {
+faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
+  if (!is.null(insert)) faketable <- insert(faketable, insert)
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -46,10 +47,6 @@ faketablesServer <- function(id = 'faketables', faketable) {
       deleted_rowId() |>
         append(rowId) |>
         deleted_rowId()
-
-      # rowId <- stringr::str_extract(input$table_btns, "[a-f0-9]{32}")
-      # faketable <- .delete(faketable, rowId)
-      # render_table(faketable)
     }) |>
       shiny::bindEvent(input$table_btns)
 
@@ -69,6 +66,6 @@ faketablesServer <- function(id = 'faketables', faketable) {
     output$table <- shiny::renderUI({
       .render_table(f_tab(), ns)
     })
-    return(f_tab)
+    return(shiny::isolate(f_tab()))
   })
 }
