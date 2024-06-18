@@ -3,6 +3,7 @@
 export(col_def)
 export(delete)
 export(faketable)
+export(faketablesInsert)
 export(faketablesServer)
 export(faketablesUI)
 export(input_call)

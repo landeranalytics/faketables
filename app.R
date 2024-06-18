@@ -179,12 +179,11 @@ ui <- bslib::page_navbar(
 
 ## ---- server --------
 server <- function(input, output, session) {
-  pz <- faketables::faketablesServer(faketable = pz) |>
-    shiny::reactiveVal()
+  pz <- faketables::faketablesServer(faketable = pz)
   output$map <-
     leaflet::leaflet() |>
     leaflet::addTiles() |>
-    leaflet::setView(-74.0060, 40.7128, 0) |>
+    leaflet::setView(-74.0060, 40.7128, 11) |>
     leaflet::renderLeaflet()
 
   shiny::observe({
@@ -206,8 +205,7 @@ server <- function(input, output, session) {
         type = 'error'
       )
     } else {
-      faketables::faketablesServer(faketable = pz(), insert = ins) |>
-        pz()
+      faketables::faketablesInsert(pz, ins)
     }
   }) |>
     shiny::bindEvent(input$add)
@@ -230,7 +228,7 @@ server <- function(input, output, session) {
       leaflet::addCircleMarkers(
         lng = ~longitude,
         lat = ~latitude,
-        radius = 15,
+        radius = ~Rating + 4,
         color = '#C9AA6E',
         weight = 4,
         opacity = 1,
@@ -239,7 +237,7 @@ server <- function(input, output, session) {
         label = ~label
       )
   }) |>
-    shiny::bindEvent(input$update)
+    shiny::bindEvent(input$update, pz())
 }
 
 ## ---- run --------

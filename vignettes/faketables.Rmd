@@ -164,7 +164,7 @@ ui <- shiny::fluidPage(
 
 ### Creating the Server
 
-The first thing we do is call `faketablesServer()` on our `faketable`, `f_tab`, and assign it back to `f_tab`. This is no longer a `faketables` object, but a [shiny::reactive()](https://shiny.posit.co/r/reference/shiny/latest/reactive.html) that holds our `faketables` object. As such, in order to access our `faketable`, we now have to use `f_tab()` rather than `f_tab`. This reactive will handle all row updating and deleting on its own. In order to support inserting rows, we need to create an event listener for the `'Add Row'` button and call our `faketablesServer` again, but this time with the new `faketables` object created by `insert`.
+The first thing we do is call `faketablesServer()` on our `faketable`, `f_tab`, and assign it back to `f_tab`. This is no longer a `faketables` object, but a [shiny::reactive()](https://shiny.posit.co/r/reference/shiny/latest/reactive.html) that holds our `faketables` object. As such, in order to access our `faketable`, we now have to use `f_tab()` rather than `f_tab`. This reactive will handle all row updating and deleting on its own. In order to support inserting rows, we need to create an event listener for the `'Add Row'` button and call our `faketablesInsert` using our now reactive `f_tab` and the new data we want to insert.
 
 
 ```{r}
@@ -184,7 +184,7 @@ server <- function(input, output, session) {
       'cyl' = as.numeric(input$cyl),
       'qsec' = list(as.integer(input$qsec))
     )
-    f_tab <- faketablesServer(faketable = insert(f_tab(), ins))
+    faketables::faketablesInsert(f_tab, ins)
   }) |>
     shiny::bindEvent(input$add_row)
 }

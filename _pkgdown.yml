@@ -24,7 +24,9 @@ reference:
   - col_def
   - table_def
 - title: Implement
-  contents: shiny
+  contents:
+  - shiny
+  - insert
 - title: Manipulate
   contents: methods
 

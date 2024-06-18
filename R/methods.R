@@ -68,7 +68,6 @@ S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) 
   return(f_tab)
 }
 
-
 update <- S7::new_generic('update', c('f_tab', 'x'), \(f_tab, x) {
   S7::S7_dispatch()
 })

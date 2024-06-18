@@ -8,7 +8,7 @@
 \usage{
 faketablesUI(id = "faketables")
 
-faketablesServer(id = "faketables", faketable)
+faketablesServer(id = "faketables", faketable, insert = NULL)
 }
 \arguments{
 \item{id}{An ID string used to identify the module UI}
