@@ -26,7 +26,13 @@ reference:
 - title: Implement
   contents:
   - shiny
-  - insert
+  - faketablesInsert
 - title: Manipulate
   contents: methods
+articles:
+- title: Reference
+  navbar: ~
+  contents: inserting_data
+- title: Examples
+  contents: favorite_pizza
 

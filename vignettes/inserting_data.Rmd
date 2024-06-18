@@ -1,0 +1,42 @@
+---
+title: "Inserting Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Inserting Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`faketables` provides two methods for inserting data. If you're trying to insert data in a `Shiny` app, you want `faketablesInsert()`. Otherwise, you may want `insert()`.
+
+## `insert()`
+
+`insert()` is for use on a `faketables` object and does the actual data insertion. This is called automatically in `faketablesServer()` when the `insert` argument is supplied data. Alternatively, if `faketables` is being used outside of a `Shiny` context for its data history properties, it can be used to safely add new data to the `faketables` object.
+
+Usage is simply `insert(faketable, new_data)`.
+
+## `faketablesInsert()`
+
+`faketablesInsert()` is for use in `Shiny` apps when the app developer wants new data added to the `faketables` object represented by a `reactive` object. Just like `insert()`, it is provided two arguments. The latter of which is the new data to be inserted. However, unlike `insert()`, the first argument is not a `faketables` object, but rather the variable that represents the output of a `faketablesServer()` call.
+
+Usage is a little bit more complex than that of `insert()` and requires two components. The first is that the server call and assign `faketablesServer()` and the second is a call to `faketablesInsert` where the new data is being actively added to the `faketables` object.
+
+```{r, eval=FALSE}
+f_tab <- faketables::faketable()
+server <- function(input, output, session) {
+  f_tab <- faketables::faketablesServer(f_tab)
+  
+  shiny::observe({
+    faketables::faketablesInsert(f_tab, new_data)
+  }) |>
+    shiny::bindEvent(input$new_data_button)
+}
+```
+

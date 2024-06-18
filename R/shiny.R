@@ -72,7 +72,7 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 
 
 #' Insert data into a `faketable`
-#' @name insert
+#' @name faketablesInsert
 #' @rdname insert
 #'
 #' @param reactive_faketable A [shiny::reactive] object that holds an underlying

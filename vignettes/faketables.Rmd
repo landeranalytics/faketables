@@ -20,6 +20,8 @@ This vignette is a complete example and shows how to use `faketables` and all of
 
 In this vignette we will create a shiny app that allows us to modify data from our dataset and then preview each component of our `faketables` object.
 
+There is a more in-depth example available [here](https://landeranalytics.github.io/faketables/articles/favorite_pizza.html).
+
 ## Setup
 
 Load our library.
