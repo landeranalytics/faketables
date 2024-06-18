@@ -10,6 +10,9 @@
 #' @examples
 #' input_call(shiny::textInput, args = list(label = 'Text Input'))
 input_call <- function(fun, args) {
+  if (!rlang::is_function(fun) | !rlang::is_list(args)) {
+    cli::cli_abort('{.fun input_call} expects `fun` to be a bare function call and `args` to be a list')
+  }
   structure(
     {
       function(...) {
