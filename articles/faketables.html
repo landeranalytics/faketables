@@ -291,9 +291,9 @@ access our <code>faketable</code>, we now have to use
 <code>f_tab()</code> rather than <code>f_tab</code>. This reactive will
 handle all row updating and deleting on its own. In order to support
 inserting rows, we need to create an event listener for the
-<code>'Add Row'</code> button and call our <code>faketablesServer</code>
-again, but this time with the new <code>faketables</code> object created
-by <code>insert</code>.</p>
+<code>'Add Row'</code> button and call our <code>faketablesInsert</code>
+using our now reactive <code>f_tab</code> and the new data we want to
+insert.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shiny.html">faketablesServer</a></span><span class="op">(</span>faketable <span class="op">=</span> <span class="va">f_tab</span><span class="op">)</span></span>
@@ -311,7 +311,7 @@ by <code>insert</code>.</p>
 <span>      <span class="st">'cyl'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">cyl</span><span class="op">)</span>,</span>
 <span>      <span class="st">'qsec'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">qsec</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span>    <span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shiny.html">faketablesServer</a></span><span class="op">(</span>faketable <span class="op">=</span> <span class="fu"><a href="../reference/methods.html">insert</a></span><span class="op">(</span><span class="fu">f_tab</span><span class="op">(</span><span class="op">)</span>, <span class="va">ins</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/insert.html">faketablesInsert</a></span><span class="op">(</span><span class="va">f_tab</span>, <span class="va">ins</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/bindEvent.html" class="external-link">bindEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">add_row</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
