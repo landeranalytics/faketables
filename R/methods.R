@@ -15,13 +15,6 @@
 #'   as specified in [faketables::table_def()] or a data.frame of rows to remove
 #'   with that vector as a column.
 #'
-#' @details Unlike [faketables::update()] and [faketables::delete()] which are
-#' generally only used internally [faketables::insert()] must be implemented by
-#' end users. To do so, the return from [faketables::insert()] must be passed
-#' back into a [faketables::faketablesServer()] call and then reassigned to the
-#' users chosen variable as done with the initial
-#' [faketables::faketablesServer()] call.
-#'
 #' @returns A [faketables::faketable()] object
 #'
 #' @keywords internal

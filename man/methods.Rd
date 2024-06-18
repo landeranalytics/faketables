@@ -35,14 +35,6 @@ A \code{\link[=faketable]{faketable()}} object
 \description{
 \code{insert}, \code{update}, or \code{delete} rows from a \code{faketables} object
 }
-\details{
-Unlike \code{\link[=update]{update()}} and \code{\link[=delete]{delete()}} which are
-generally only used internally \code{\link[=insert]{insert()}} must be implemented by
-end users. To do so, the return from \code{\link[=insert]{insert()}} must be passed
-back into a \code{\link[=faketablesServer]{faketablesServer()}} call and then reassigned to the
-users chosen variable as done with the initial
-\code{\link[=faketablesServer]{faketablesServer()}} call.
-}
 \examples{
 \dontrun{
 # insert
