@@ -34,9 +34,6 @@
     <loc>https://landeranalytics.github.io/faketables/reference/delete_button.html</loc>
   </url>
   <url>
-    <loc>https://landeranalytics.github.io/faketables/reference/dot-better_list_flatten.html</loc>
-  </url>
-  <url>
     <loc>https://landeranalytics.github.io/faketables/reference/dot-better_rbind.html</loc>
   </url>
   <url>
@@ -77,5 +74,8 @@
   </url>
   <url>
     <loc>https://landeranalytics.github.io/faketables/reference/table_def.html</loc>
+  </url>
+  <url>
+    <loc>https://landeranalytics.github.io/faketables/reference/validation.html</loc>
   </url>
 </urlset>
