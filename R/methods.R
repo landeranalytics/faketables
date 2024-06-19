@@ -15,13 +15,6 @@
 #'   as specified in [faketables::table_def()] or a data.frame of rows to remove
 #'   with that vector as a column.
 #'
-#' @details Unlike [faketables::update()] and [faketables::delete()] which are
-#' generally only used internally [faketables::insert()] must be implemented by
-#' end users. To do so, the return from [faketables::insert()] must be passed
-#' back into a [faketables::faketablesServer()] call and then reassigned to the
-#' users chosen variable as done with the initial
-#' [faketables::faketablesServer()] call.
-#'
 #' @returns A [faketables::faketable()] object
 #'
 #' @keywords internal
@@ -68,7 +61,6 @@ S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) 
   return(f_tab)
 }
 
-
 update <- S7::new_generic('update', c('f_tab', 'x'), \(f_tab, x) {
   S7::S7_dispatch()
 })
@@ -84,10 +76,11 @@ S7::method(update, list(faketable, S7::class_missing)) <- function(f_tab, x) {
 
 #' @export
 S7::method(update, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  f_tab@x <- dplyr::rows_upsert(
+  f_tab@x <- dplyr::rows_update(
     x = f_tab@x,
     y = x,
-    by = '.rowId'
+    by = '.rowId',
+    unmatched = 'ignore'
   )
   return(f_tab)
 }

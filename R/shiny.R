@@ -33,7 +33,8 @@ faketablesUI <- function(id = 'faketables') {
 #' @rdname shiny
 #'
 #' @export
-faketablesServer <- function(id = 'faketables', faketable) {
+faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
+  if (!is.null(insert)) faketable <- insert(faketable, insert)
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -46,10 +47,6 @@ faketablesServer <- function(id = 'faketables', faketable) {
       deleted_rowId() |>
         append(rowId) |>
         deleted_rowId()
-
-      # rowId <- stringr::str_extract(input$table_btns, "[a-f0-9]{32}")
-      # faketable <- .delete(faketable, rowId)
-      # render_table(faketable)
     }) |>
       shiny::bindEvent(input$table_btns)
 
@@ -71,4 +68,35 @@ faketablesServer <- function(id = 'faketables', faketable) {
     })
     return(f_tab)
   })
+}
+
+
+#' Insert data into a `faketable`
+#' @name faketablesInsert
+#' @rdname insert
+#'
+#' @param reactive_faketable A [shiny::reactive] object that holds an underlying
+#'   [faketables::faketable()]
+#' @param x A data.frame to add to the data in the [faketables::faketable()]
+#'   object. If it does not already have a primary key column as specified in
+#'   [faketables::table_def()], one will be created and primary keys will be
+#'   generated.
+#'
+#' @returns `faketablesInsert` does not return, but does reassign the
+#'   `faketable` reactive object in the parent environment
+#' @export
+faketablesInsert <- function(reactive_faketable, x) {
+  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(x))
+    cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
+  env <- rlang::env_parent(rlang::caller_env(), n = 2)
+  reactive_faketable |>
+    substitute() |>
+    deparse() |>
+    assign(
+      value = faketablesServer(
+        faketable = do.call(reactive_faketable, args = list()),
+        insert = x
+      ),
+      envir = env
+    )
 }

@@ -11,6 +11,35 @@ test_that("input is constructed properly", {
       args = list(label = NULL, choices = c(2,4,6))
     )('inputId' = 'id', 'selected' = 2)
   )
+
+  expect_equal(
+    shiny::sliderInput(
+      inputId = 'id',
+      label = NULL,
+      min = 0,
+      max = 10,
+      value = 5
+    ),
+    input_call(
+      shiny::sliderInput,
+      args = list(label = NULL, min = 0, max = 10)
+    )('inputId' = 'id', 'value' = 5)
+  )
+
+  expect_true(
+    is_input_call(
+      input_call(
+        shiny::sliderInput,
+        args = list(label = NULL, min = 0, max = 10)
+      )
+    )
+  )
+
+  expect_false(
+    is_input_call(
+      tibble::tibble()
+    )
+  )
 })
 
 test_that('user supplied `inputId` is overwritten', {
@@ -50,5 +79,21 @@ test_that('arg name not required for value', {
       shiny::textInput,
       args = list(label = NULL)
     )('inputId' = 'id', 2)
+  )
+})
+
+test_that("'fun' and 'args' are the correct class/type", {
+  expect_error(
+    input_call(
+      isTRUE(TRUE),
+      args = list()
+    )
+  )
+
+  expect_error(
+    input_call(
+      shiny::textInput,
+      args = c(label = 'label')
+    )
   )
 })

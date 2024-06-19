@@ -82,7 +82,7 @@ pz <-
 ## ---- ui --------
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
-  shinyjs::useShinyjs(),
+  header = shinyjs::useShinyjs(),
   bslib::nav_panel(
     title = 'NYC',
     bslib::layout_columns(
@@ -153,6 +153,9 @@ ui <- bslib::page_navbar(
           ),
           shiny::fluidRow(
             shiny::actionButton('add', label = 'Add Data')
+          ),
+          shiny::fluidRow(
+            shiny::actionButton('update', label = 'Update')
           )
         )
       ),
@@ -183,19 +186,6 @@ server <- function(input, output, session) {
     leaflet::setView(-74.0060, 40.7128, 11) |>
     leaflet::renderLeaflet()
 
-  map_data <- shiny::reactive({
-    pz()@x |>
-      dplyr::mutate(
-        'label' = shiny::HTML(glue::glue('{.data$Name}<br>{.data$Address}, {.data$City}, NY, {.data$Zip}')),
-        .by = '.rowId'
-      ) |>
-      dplyr::mutate(
-        'fill_color' = dplyr::case_when(
-          stringr::str_detect(tolower(.data$FavoritePizza), 'cheese') ~ '#FFCA45'
-        )
-      )
-  })
-
   shiny::observe({
     ins <- tibble::tibble(
       'Name' = input$name,
@@ -215,7 +205,7 @@ server <- function(input, output, session) {
         type = 'error'
       )
     } else {
-      pz <- faketables::faketablesServer(faketable = faketables::insert(pz(), ins))
+      faketables::faketablesInsert(pz, ins)
     }
   }) |>
     shiny::bindEvent(input$add)
@@ -229,7 +219,8 @@ server <- function(input, output, session) {
       ) |>
       dplyr::mutate(
         'fill_color' = dplyr::case_when(
-          stringr::str_detect(tolower(.data$FavoritePizza), 'cheese') ~ '#FFCA45'
+          .data$label == 'cheese' ~ '#FFCA45',
+          .default = '#FFCA45'
         )
       )
     leaflet::leafletProxy('map', data = map_data) |>
@@ -237,7 +228,7 @@ server <- function(input, output, session) {
       leaflet::addCircleMarkers(
         lng = ~longitude,
         lat = ~latitude,
-        radius = 15,
+        radius = ~Rating + 4,
         color = '#C9AA6E',
         weight = 4,
         opacity = 1,
@@ -246,7 +237,7 @@ server <- function(input, output, session) {
         label = ~label
       )
   }) |>
-    shiny::bindEvent(pz(), input$add)
+    shiny::bindEvent(input$update, pz())
 }
 
 ## ---- run --------

@@ -24,7 +24,17 @@ reference:
   - col_def
   - table_def
 - title: Implement
-  contents: shiny
+  contents:
+  - shiny
+  - faketablesInsert
 - title: Manipulate
   contents: methods
+- title: Validate
+  contents: validation
+articles:
+- title: Reference
+  navbar: ~
+  contents: inserting_data
+- title: Examples
+  contents: favorite_pizza
 
