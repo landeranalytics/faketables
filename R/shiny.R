@@ -86,9 +86,8 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 #'   `faketable` reactive object in the parent environment
 #' @export
 faketablesInsert <- function(reactive_faketable, x) {
-  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(x)) {
+  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(x))
     cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
-  }
   env <- rlang::env_parent(rlang::caller_env(), n = 2)
   reactive_faketable |>
     substitute() |>

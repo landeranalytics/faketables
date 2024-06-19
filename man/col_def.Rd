@@ -4,12 +4,12 @@
 \alias{col_def}
 \title{Create a \code{faketable} column definition}
 \usage{
-col_def(name, input, cast, width, display_name = name, ...)
+col_def(name, input_call, cast, width, display_name = name, ...)
 }
 \arguments{
 \item{name}{The column name}
 
-\item{input}{A \code{\link[=input_call]{input_call()}} object}
+\item{input_call}{A \code{\link[=input_call]{input_call()}} object}
 
 \item{cast}{A bare function call to convert the column to its intended class.
 It is important that this match exactly, or the \code{updated} table will
