@@ -15,35 +15,6 @@
   if (length(dots) == 1) dots[[1]] else dplyr::bind_rows(dots, .id)
 }
 
-#' @inherit purrr::list_flatten title params
-#'
-#' @description Unlike [purrr::list_flatten()] which only removes a single layer
-#'   of hierarchy, `.better_list_flatten()` flattens a list until it is a list
-#'   where every item matches the desired class OR it is completely flattened
-#'   and cannot be flattened further.
-#'
-#' @param .fn A function that determines if the list item is of the desired
-#'   class. It must return a `logical`.
-#'
-#' @returns A list where the class of every item is evaluated to `TRUE` by `.fn`
-#'   OR a list that cannot be flattened any more.
-#' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' chr <- list('a', list(c('b', 'c'), list('d')))
-#' .better_list_flatten(chr, is.character)
-#' }
-#'
-.better_list_flatten <- function(x, .fn, name_spec = "{outer}_{inner}", name_repair = c("minimal", "unique", "check_unique", "universal")) {
-  is_f <- purrr::map_lgl(x, .fn)
-  if (!all(is_f) & purrr::pluck_depth(x) > 2) {
-    x |>
-      purrr::list_flatten(name_spec = name_spec, name_repair = name_repair) |>
-      .better_list_flatten(.fn)
-  } else { x }
-}
-
 #' Add a `.rowId` column to a data frame
 #'
 #' @param x A data frame
