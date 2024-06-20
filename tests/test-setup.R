@@ -1,3 +1,4 @@
+library(faketables)
 x <- tibble::tibble('name' = 'this is my test data', 'name2' = 'this is my other test data')
 valid_input_call <-
   input_call(
