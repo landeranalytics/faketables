@@ -1,3 +1,4 @@
+source('../test-setup.R')
 test_that("input is constructed properly", {
   expect_equal(
     shiny::selectInput(

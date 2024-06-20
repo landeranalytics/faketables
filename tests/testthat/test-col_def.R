@@ -1,20 +1,4 @@
-valid_input_call <-
-  input_call(
-    shiny::sliderInput,
-    args = list(label = NULL, min = 0, max = 10)
-  )
-valid_col_def <-
-  structure(
-    tibble::tibble(
-      'name' = 'name',
-      'input_call' = list(valid_input_call),
-      'cast' = list(as.character),
-      'width' = 1,
-      'display_name' = 'display_name'
-    ),
-    class = c(class(tibble::tibble()), 'col_def')
-  )
-
+source('../test-setup.R')
 test_that("col_def has the required columns", {
   expect_in(
     c('name', 'input_call', 'cast', 'width', 'display_name'),

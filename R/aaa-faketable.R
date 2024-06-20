@@ -72,14 +72,21 @@ faketable <- S7::new_class(
     '.rowId' = S7::class_character,
     '.deleted' = S7::class_data.frame,
     '.table_def' = S7::new_S3_class('table_def'),
-    '.show_delete' = S7::new_property(
-      class = S7::class_any,
-      # getter = \(self) { self@.show_delete },
-      # default = list()
-    )
+    '.show_delete' = S7::class_list
   ),
   constructor = \(x, table_def, rowId = NULL, show_delete = NULL) {
-    stopifnot(is.null(show_delete) | (!is.null(show_delete) & is.list(show_delete)))
+    if (!is.data.frame(x))
+      cli::cli_abort('{.fun faketables::faketable} expects `x` to be a `data.frame`')
+    if (!is_table_def(table_def))
+      cli::cli_abort('{.fun faketables::faketable} expects `table_def` to be a valid {.fun faketables::table_def}')
+    if (!all(table_def$name %in% colnames(x)))
+      cli::cli_abort('{.fun faketables::faketable} expects all `table_def$name` to be column names in `x`')
+    if (!is.null(rowId) && !(rowId %in% colnames(x)))
+      cli::cli_abort('{.fun faketables::faketable} expects `rowId` to be `NULL` or a column name in `x`')
+    if (!is.null(show_delete) && (!rlang::is_list(show_delete) || !rlang::is_named2(show_delete)))
+      cli::cli_abort('{.fun faketables::faketable} expects `show_delete` to be `NULL` or a named list')
+
+    if (is.null(show_delete)) show_delete <- list()
     x <-
       x |>
       tibble::as_tibble() |>
