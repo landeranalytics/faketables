@@ -7,7 +7,7 @@
 
 [![R-CMD-check](https://github.com/landeranalytics/faketables/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/landeranalytics/faketables/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/landeranalytics/faketables/branch/main/graph/badge.svg)](https://app.codecov.io/gh/landeranalytics/faketables?branch=master)
+coverage](https://codecov.io/gh/landeranalytics/faketables/branch/main/graph/badge.svg)](https://app.codecov.io/gh/landeranalytics/faketables?branch=main)
 <!-- badges: end -->
 
 ## Overview
