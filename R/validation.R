@@ -36,10 +36,12 @@ is_col_def <- function(x) {
       nrow(x) == 1 &&
       is.character(x$name) &&
       rlang::is_list(x$input_call) &&
+      rlang::is_function(x$input_call[[1]]) &&
       rlang::is_list(x$cast) &&
+      rlang::is_function(x$cast[[1]]) &&
       rlang::is_bare_numeric(x$width) &&
-      is.character(x$display_name) &&
-      x$width %% 1 == 0
+      x$width %% 1 == 0 &&
+      is.character(x$display_name)
   }
 }
 
