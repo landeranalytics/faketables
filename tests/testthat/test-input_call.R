@@ -84,7 +84,7 @@ test_that("'fun' and 'args' are the correct class/type", {
   )
 })
 
-test_that('args must have an `inputId` or be only `...`', {
+test_that('args must have an `inputId`', {
   input_call(
     fun = shiny::textInput,
     args = list(label = 'label')
@@ -95,7 +95,7 @@ test_that('args must have an `inputId` or be only `...`', {
     fun = \(...) { shiny::textInput(...) },
     args = list(label = 'label')
   ) |>
-    expect_no_error()
+    expect_error()
 
   input_call(
     fun = \(inputId, ...) { shiny::textInput(inputId, ...) },

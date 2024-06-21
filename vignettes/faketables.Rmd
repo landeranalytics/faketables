@@ -68,7 +68,7 @@ c_def <- list(
   col_def(
     name = 'rowname',
     input = input_call(
-      fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+      fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
       args = list(label = NULL, placeholder = 'Vehicle Name')
     ),
     cast = as.character,

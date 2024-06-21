@@ -27,7 +27,7 @@ c_def <- list(
   faketables::col_def(
     name = 'Name',
     input = faketables::input_call(
-      fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+      fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
       args = list(label = NULL)
     ),
     cast = as.character,
