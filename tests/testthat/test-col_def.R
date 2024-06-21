@@ -67,3 +67,4 @@ test_that('col_def returns a tibble with the proper structure', {
       rlang::is_list()
   )
 })
+

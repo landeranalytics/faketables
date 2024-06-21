@@ -33,7 +33,7 @@ Create a \code{faketable} column definition
 col_def(
   name = 'mpg',
   input = input_call(
-    fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+    fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
     args = list(label = NULL, placeholder = 'mpg')
   ),
   cast = as.numeric,

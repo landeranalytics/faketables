@@ -46,7 +46,7 @@ input_call <- function(fun, args) {
 #' col_def(
 #'   name = 'mpg',
 #'   input = input_call(
-#'     fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+#'     fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
 #'     args = list(label = NULL, placeholder = 'mpg')
 #'   ),
 #'   cast = as.numeric,
@@ -91,7 +91,7 @@ col_def <- function(name, input_call, cast, width, display_name = name, ...) {
 #'  col_def(
 #'    name = 'mpg',
 #'    input = input_call(
-#'      fun = \(...) { shinyjs::disabled(shiny::textInput(...)) },
+#'      fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
 #'      args = list(label = NULL, placeholder = 'mpg')
 #'    ),
 #'    cast = as.numeric,

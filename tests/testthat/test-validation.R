@@ -133,3 +133,22 @@ test_that('is_col_def returns TRUE only for a valid col_def', {
     is_col_def() |>
     expect_false()
 })
+
+test_that('is_table_def returns TRUE for a valid table_def', {
+  is_table_def(valid_table_def) |>
+    expect_true()
+
+  (class(valid_table_def) <- class(tibble::tibble())) |>
+    is_table_def() |>
+    expect_false()
+
+  valid_table_def |>
+    dplyr::mutate('name' = 'name') |>
+    is_table_def() |>
+    expect_false()
+})
+
+test_that('is_faketable returns TRUE for a valid faketable', {
+  is_faketable(valid_faketable) |>
+    expect_true()
+})

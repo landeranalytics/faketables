@@ -71,5 +71,5 @@ is_table_def <- function(x) {
 #'
 #' @export
 is_faketable <- function(x) {
-  S7::check_is_S7(x, 'faketable')
+  S7::S7_inherits(x, faketable)
 }
