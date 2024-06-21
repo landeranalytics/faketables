@@ -18,7 +18,8 @@ is_input_call <- function(x) {
   {
     length(class(x)) == length(needed) &&
       all(needed %in% class(x)) &&
-      rlang::is_function(x)
+      rlang::is_function(x) &&
+      names(formals(x)) == '...'
   }
 }
 

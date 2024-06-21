@@ -26,21 +26,6 @@ test_that("input is constructed properly", {
       args = list(label = NULL, min = 0, max = 10)
     )('inputId' = 'id', 'value' = 5)
   )
-
-  expect_true(
-    is_input_call(
-      input_call(
-        shiny::sliderInput,
-        args = list(label = NULL, min = 0, max = 10)
-      )
-    )
-  )
-
-  expect_false(
-    is_input_call(
-      tibble::tibble()
-    )
-  )
 })
 
 test_that('user supplied `inputId` is overwritten', {

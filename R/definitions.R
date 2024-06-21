@@ -12,6 +12,8 @@
 input_call <- function(fun, args) {
   if (!rlang::is_function(fun) | !rlang::is_list(args))
     cli::cli_abort('{.fun faketables::input_call} expects `fun` to be a bare function call and `args` to be a list')
+  if (!('inputId' %in% names(formals(fun))))
+    cli::cli_abort('{.fun faketables::input_call} exects `fun` to be a function that takes an argument `inputId`')
   structure(
     {
       function(...) {
