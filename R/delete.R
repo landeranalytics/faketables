@@ -52,23 +52,25 @@ NULL
 #' @param rowId The `.rowId` value that corresponds to the row where the button
 #'   will be displayed
 #' @param ... Further arguments to pass to [shiny::column()]. This can include
-#'   `width`.
+#'   `width`. If not provided, width will default to `2`.
+#' @param .delete_style The CSS style for the delete button
+#' @param .delete_label The label for the delete button
 #'
 #' @returns A [shiny::column()] containing a [shiny::actionButton()] that allows
 #'   users to send a delete request.
 #' @keywords internal
-.delete_button <- function(rowId, ...) {
-  dots <- rlang::list2(...) |> unlist(recursive = FALSE) |> as.list()
+.delete_button <- function(rowId, ..., .delete_style = 'background: #bf5959; color: #fff; border: none; width: 100%', .delete_label = 'Delete') {
+  dots <- rlang::list2(...) |> purrr::list_flatten()
   if (is.null(dots$width)) width <- 2 else { width <- dots$width; dots$width <- NULL; }
   shiny::column(
     width = width,
     shiny::actionButton(
       inputId = glue::glue('{rowId}_delete'),
       class = 'btn-remove',
-      style = 'background: #bf5959; color: #fff; border: none; width: 100%',
-      label = "Delete"
+      style = .delete_style,
+      label = .delete_label
     ),
-    dots
+    rlang::splice(dots)
   )
 }
 

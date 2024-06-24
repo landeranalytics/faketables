@@ -6,7 +6,12 @@
 \alias{.create_delete_listener}
 \title{Create and monitor a delete button}
 \usage{
-.delete_button(rowId, ...)
+.delete_button(
+  rowId,
+  ...,
+  .delete_style = "background: #bf5959; color: #fff; border: none; width: 100\%",
+  .delete_label = "Delete"
+)
 
 .create_delete_listener(ns = shiny::NS(NULL))
 }
@@ -15,7 +20,11 @@
 will be displayed}
 
 \item{...}{Further arguments to pass to \code{\link[shiny:column]{shiny::column()}}. This can include
-\code{width}.}
+\code{width}. If not provided, width will default to \code{2}.}
+
+\item{.delete_style}{The CSS style for the delete button}
+
+\item{.delete_label}{The label for the delete button}
 
 \item{ns}{The output of a call to \code{\link[shiny:NS]{shiny::NS()}}}
 }
