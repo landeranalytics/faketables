@@ -111,10 +111,10 @@ faketable <- S7::new_class(
       cli::cli_abort('{.fun faketables::faketable} expects `self@.table_def` to be a valid {.fun faketables::table_def}')
     if (!all(self@.table_def$name %in% colnames(self@x)))
       cli::cli_abort('{.fun faketables::faketable} expects all `self@.table_def$name` to be column names in `self@x`')
-    if (!('.rowId' %in% colnames(self@x)))
+    if (!(self@.rowId %in% colnames(self@x)))
       cli::cli_abort("{.fun faketables::faketable} expects '.rowId' to be  a column name in `self@x`")
     if ((!rlang::is_list(self@.show_delete) || !rlang::is_named2(self@.show_delete)))
-      cli::cli_abort('{.fun faketables::faketable} expects `self@.show_delete` to be a named list')
+      cli::cli_abort('{.fun faketables::faketable} expects `self@.show_delete` to be an empty or named list')
     if(!is_faketable(self))
       cli::cli_abort("This is awkward. You've managed to make an invalid `faketables` object despite our best efforts.")
   }

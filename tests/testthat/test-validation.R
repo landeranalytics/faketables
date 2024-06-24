@@ -149,6 +149,25 @@ test_that('is_table_def returns TRUE for a valid table_def', {
 })
 
 test_that('is_faketable returns TRUE for a valid faketable', {
+  # S7 classes use a validator function
   is_faketable(valid_faketable) |>
     expect_true()
+
+  expect_error(valid_faketable@x <- matrix(1))
+
+  expect_error(valid_faketable@.table_def <- matrix(1))
+  expect_error(valid_faketable@.table_def <- mtcars)
+
+  expect_error(
+    valid_faketable@.table_def <- table_def(col_def(
+      name = 'col_doesnt_exist',
+      input_call = input_call(shiny::textInput, list(label = NULL)),
+      cast = as.character,
+      width = 3
+    )))
+
+  expect_error(valid_faketable@.rowId <- 'col_doesnt_exist')
+
+  expect_error(valid_faketable@.show_delete <- NULL)
+  expect_error(valid_faketable@.show_delete <- c())
 })
