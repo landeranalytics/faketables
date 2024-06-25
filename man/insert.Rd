@@ -4,13 +4,13 @@
 \alias{faketablesInsert}
 \title{Insert data into a \code{faketable}}
 \usage{
-faketablesInsert(reactive_faketable, x)
+faketablesInsert(reactive_faketable, data)
 }
 \arguments{
 \item{reactive_faketable}{A \link[shiny:reactive]{shiny::reactive} object that holds an underlying
 \code{\link[=faketable]{faketable()}}}
 
-\item{x}{A data.frame to add to the data in the \code{\link[=faketable]{faketable()}}
+\item{data}{A data.frame to add to the data in the \code{\link[=faketable]{faketable()}}
 object. If it does not already have a primary key column as specified in
 \code{\link[=table_def]{table_def()}}, one will be created and primary keys will be
 generated.}

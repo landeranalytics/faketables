@@ -77,7 +77,7 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 #'
 #' @param reactive_faketable A [shiny::reactive] object that holds an underlying
 #'   [faketables::faketable()]
-#' @param x A data.frame to add to the data in the [faketables::faketable()]
+#' @param data A data.frame to add to the data in the [faketables::faketable()]
 #'   object. If it does not already have a primary key column as specified in
 #'   [faketables::table_def()], one will be created and primary keys will be
 #'   generated.
@@ -85,8 +85,8 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 #' @returns `faketablesInsert` does not return, but does reassign the
 #'   `faketable` reactive object in the parent environment
 #' @export
-faketablesInsert <- function(reactive_faketable, x) {
-  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(x))
+faketablesInsert <- function(reactive_faketable, data) {
+  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(data))
     cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
   env <- rlang::env_parent(rlang::caller_env(), n = 2)
   reactive_faketable |>
@@ -95,7 +95,7 @@ faketablesInsert <- function(reactive_faketable, x) {
     assign(
       value = faketablesServer(
         faketable = do.call(reactive_faketable, args = list()),
-        insert = x
+        insert = data
       ),
       envir = env
     )
