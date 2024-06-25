@@ -59,12 +59,12 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">faketable</span><span class="op">(</span><span class="va">x</span>, <span class="va">table_def</span>, rowId <span class="op">=</span> <span class="cn">NULL</span>, show_delete <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">faketable</span><span class="op">(</span><span class="va">data</span>, <span class="va">table_def</span>, rowId <span class="op">=</span> <span class="cn">NULL</span>, show_delete <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt>data</dt>
 <dd><p>A data.frame</p></dd>
 
 
@@ -86,19 +86,19 @@ the Delete button. If <code>NULL</code>, the delete column will not be shown.</p
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A <code>faketable</code> object with the following properties:</p><ul><li><p><code>x</code>: The current state of the table of inputs</p></li>
-<li><p><code>inserted</code>: Rows from <code>x</code> that were inserted into the data (were not
+<p>A <code>faketable</code> object with the following properties:</p><ul><li><p><code>data</code>: The current state of the table of inputs</p></li>
+<li><p><code>inserted</code>: Rows from <code>data</code> that were inserted into the data (were not
 present in <code>.raw_data</code>)</p></li>
-<li><p><code>updated</code>: Rows from <code>x</code> that have been modified, but were present in
+<li><p><code>updated</code>: Rows from <code>data</code> that have been modified, but were present in
 <code>.raw_data</code></p></li>
 <li><p><code>deleted</code>: Rows that were in <code>.raw_data</code>, but have been removed from and
-do not appear in <code>x</code></p></li>
+do not appear in <code>data</code></p></li>
 <li><p><code>.raw_data</code>: The data originally pased to <code>faketable()</code> with
 the addition of a <code>.rowId</code> column as the first column. This column is
 calculated using by hashing either the provided <code>rowId</code> column or using the
 row number and system time.</p></li>
 <li><p><code>.rowId</code>: The value of the <code>rowId</code> argument</p></li>
-<li><p><code>.deleted</code>: All rows that have been removed from <code>x</code>, including those that
+<li><p><code>.deleted</code>: All rows that have been removed from <code>data</code>, including those that
 were inserted then deleted</p></li>
 <li><p><code>.table_def</code>: A copy of the user supplied <code><a href="table_def.html">table_def()</a></code> passed
 as the argument <code>table_def</code></p></li>
@@ -109,8 +109,8 @@ as the argument <code>table_def</code></p></li>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>A <code>faketable</code> object is an <code><a href="https://rconsortium.github.io/S7/reference/S7_object.html" class="external-link">S7::S7_object()</a></code> with the class
 <code>faketable</code>. S7 object properties are accessed using an <code>@</code>, rather than
-the traditional <code>$</code>. For example, the property <code>x</code> for a <code>faketable</code> object
-called <code>f_tab</code> can be accessed using <code>f_tab@x</code>.</p>
+the traditional <code>$</code>. For example, the property <code>data</code> for a <code>faketable</code>
+object called <code>faketable</code> can be accessed using <code>faketable@data</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
