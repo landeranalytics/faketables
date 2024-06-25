@@ -107,7 +107,7 @@ table_def <- function(...) {
     cli::cli_abort('{.fun faketables::table_def} requires at least one {.fun faketables::col_def} object')
   if (!all(purrr::map_lgl(c_def, is_col_def)))
     cli::cli_abort('{.fun faketables::table_def} requires all arguments to be a {.fun faketables::col_def} object')
-  if (max(table(purrr::map_chr(c_def, \(x) x$name))) > 1)
+  if (any(duplicated(purrr::map_chr(c_def, \(x) x$name))))
     cli::cli_abort('{.fun faketables::table_def} requires each supplied {.fun faketables::col_def} object to have a unique `name` property')
 
   structure(

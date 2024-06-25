@@ -11,7 +11,7 @@
 #' }
 #'
 .better_rbind <- function(..., .id = NULL) {
-  dots <- rlang::list2(...)
+  dots <- rlang::list2(...) |> purrr::list_flatten()
   if (length(dots) == 1) dots[[1]] else dplyr::bind_rows(dots, .id)
 }
 
@@ -36,6 +36,8 @@
   if (is.null(rowId) || is.null(x[[rowId]])) {
     x <- dplyr::mutate(x, '.rowId' = dplyr::row_number() + Sys.time())
   } else {
+    if (any(duplicated(x[[rowId]])))
+      cli::cli_abort('{.fun faketables::.create_rowid} expects a provided `rowId` column to contain unique values')
     x <- dplyr::mutate(x, '.rowId' = .data[[rowId]])
   }
   x |>
@@ -115,7 +117,7 @@
 #' }
 #'
 .list_col_to_chr <- function(x) {
-  list_cols <- names(x)[purrr::map_lgl(x, is.list)]
+  list_cols <- names(x)[purrr::map_lgl(x, \(x) rlang::is_list(x) & rlang::is_atomic(x[[1]]))]
 
   for(n in list_cols) {
     x[[n]] <- purrr::map_chr(x[[n]], \(x) glue::glue("c('{paste0(x, collapse = \"','\")}')"))

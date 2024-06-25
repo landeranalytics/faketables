@@ -7,16 +7,16 @@
 \alias{delete}
 \title{\code{insert}, \code{update}, or \code{delete} rows from a \code{faketables} object}
 \usage{
-insert(f_tab, x)
+insert(faketable, data)
 
-update(f_tab, x)
+update(faketable, data)
 
-delete(f_tab, x)
+delete(faketable, data)
 }
 \arguments{
-\item{f_tab}{A \code{\link[=faketable]{faketable()}} object}
+\item{faketable}{A \code{\link[=faketable]{faketable()}} object}
 
-\item{x}{\itemize{
+\item{data}{\itemize{
 \item \code{insert}: A data.frame to add to the data in the \code{\link[=faketable]{faketable()}}
 object. If it does not already have a primary key column as specified in
 \code{\link[=table_def]{table_def()}}, one will be created and primary keys will be
@@ -39,7 +39,7 @@ A \code{\link[=faketable]{faketable()}} object
 \dontrun{
 # insert
 # to insert new rows of data from a data.frame called `ins`
-f_tab <- faketablesServer(faketable = insert(f_tab(), ins))
+faketable <- faketablesServer(faketable = insert(faketable(), ins))
 
 # update
 # to update with a new column called 'new' that has the value 'new'
