@@ -4,10 +4,10 @@
 \alias{faketable}
 \title{Create a \code{faketable} object}
 \usage{
-faketable(x, table_def, rowId = NULL, show_delete = NULL)
+faketable(data, table_def, rowId = NULL, show_delete = NULL)
 }
 \arguments{
-\item{x}{A data.frame}
+\item{data}{A data.frame}
 
 \item{table_def}{A \code{\link[=table_def]{table_def()}} object}
 
@@ -20,19 +20,19 @@ the Delete button. If \code{NULL}, the delete column will not be shown.}
 \value{
 A \code{faketable} object with the following properties:
 \itemize{
-\item \code{x}: The current state of the table of inputs
-\item \code{inserted}: Rows from \code{x} that were inserted into the data (were not
+\item \code{data}: The current state of the table of inputs
+\item \code{inserted}: Rows from \code{data} that were inserted into the data (were not
 present in \code{.raw_data})
-\item \code{updated}: Rows from \code{x} that have been modified, but were present in
+\item \code{updated}: Rows from \code{data} that have been modified, but were present in
 \code{.raw_data}
 \item \code{deleted}: Rows that were in \code{.raw_data}, but have been removed from and
-do not appear in \code{x}
+do not appear in \code{data}
 \item \code{.raw_data}: The data originally pased to \code{\link[=faketable]{faketable()}} with
 the addition of a \code{.rowId} column as the first column. This column is
 calculated using by hashing either the provided \code{rowId} column or using the
 row number and system time.
 \item \code{.rowId}: The value of the \code{rowId} argument
-\item \code{.deleted}: All rows that have been removed from \code{x}, including those that
+\item \code{.deleted}: All rows that have been removed from \code{data}, including those that
 were inserted then deleted
 \item \code{.table_def}: A copy of the user supplied \code{\link[=table_def]{table_def()}} passed
 as the argument \code{table_def}
@@ -46,8 +46,8 @@ Create a \code{faketable} object
 \details{
 A \code{faketable} object is an \code{\link[S7:S7_object]{S7::S7_object()}} with the class
 \code{faketable}. S7 object properties are accessed using an \code{@}, rather than
-the traditional \code{$}. For example, the property \code{x} for a \code{faketable} object
-called \code{f_tab} can be accessed using \code{f_tab@x}.
+the traditional \code{$}. For example, the property \code{data} for a \code{faketable}
+object called \code{faketable} can be accessed using \code{faketable@data}.
 }
 \seealso{
 For more details on \code{S7}, see the vignette \href{https://rconsortium.github.io/S7/articles/S7.html}{on the website} or by running:

@@ -4,16 +4,16 @@
 \alias{.create_rowid}
 \title{Add a \code{.rowId} column to a data frame}
 \usage{
-.create_rowid(x, rowId = NULL)
+.create_rowid(data, rowId = NULL)
 }
 \arguments{
-\item{x}{A data frame}
+\item{data}{A data frame}
 
 \item{rowId}{The name of the primary key column}
 }
 \value{
-\code{x} with a new column named \code{.rowId} at column position one that has
-an MD5 hash uniquely identifying that row
+\code{data} with a new column named \code{.rowId} at column position one that
+has an MD5 hash uniquely identifying that row
 }
 \description{
 Add a \code{.rowId} column to a data frame

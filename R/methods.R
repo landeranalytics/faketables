@@ -2,8 +2,8 @@
 #' @name methods
 #' @rdname methods
 #'
-#' @param f_tab A [faketables::faketable()] object
-#' @param x
+#' @param faketable A [faketables::faketable()] object
+#' @param data
 #'  * `insert`: A data.frame to add to the data in the [faketables::faketable()]
 #'   object. If it does not already have a primary key column as specified in
 #'   [faketables::table_def()], one will be created and primary keys will be
@@ -22,92 +22,92 @@
 #' \dontrun{
 #' # insert
 #' # to insert new rows of data from a data.frame called `ins`
-#' f_tab <- faketablesServer(faketable = insert(f_tab(), ins))
+#' faketable <- faketablesServer(faketable = insert(faketable(), ins))
 #'
 #' # update
 #' # to update with a new column called 'new' that has the value 'new'
-#' faketable <- update(faketable, dplyr::mutate(faketable@x, 'new' = 'new'))
+#' faketable <- update(faketable, dplyr::mutate(faketable@data, 'new' = 'new'))
 #'
 #' # delete
 #' # to delete the first six rows of the data where the primary key column is `rowId`
-#' rows_to_delete <- utils::head(faketable@x)
+#' rows_to_delete <- utils::head(faketable@data)
 #' faketable <- delete(faketable, rows_to_delete$.rowId)
 #' # OR
 #' faketable <- delete(faketable, rows_to_delete)
 #' }
 NULL
 
-insert <- S7::new_generic('insert', c('f_tab', 'x'), \(f_tab, x) {
+insert <- S7::new_generic('insert', c('faketable', 'data'), \(faketable, data) {
   S7::S7_dispatch()
 })
 #' @name insert
 #' @rdname methods
 #'
-#' @usage insert(f_tab, x)
+#' @usage insert(faketable, data)
 #'
 #' @export
-S7::method(insert, list(faketable, S7::class_missing)) <- function(f_tab, x) {
+S7::method(insert, list(faketable, S7::class_missing)) <- function(faketable, data) {
   cli::cli_abort('{.fun faketables::insert} requires a second argument')
 }
 
 #' @export
-S7::method(insert, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  x <- .create_rowid(x, f_tab@.rowId)
-  f_tab@x <- dplyr::rows_insert(
-    x = f_tab@x,
-    y = x,
+S7::method(insert, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
+  data <- .create_rowid(data, faketable@.rowId)
+  faketable@data <- dplyr::rows_insert(
+    x = faketable@data,
+    y = data,
     by = '.rowId'
   )
-  return(f_tab)
+  return(faketable)
 }
 
-update <- S7::new_generic('update', c('f_tab', 'x'), \(f_tab, x) {
+update <- S7::new_generic('update', c('faketable', 'data'), \(faketable, data) {
   S7::S7_dispatch()
 })
 #' @name update
 #' @rdname methods
 #'
-#' @usage update(f_tab, x)
+#' @usage update(faketable, data)
 #'
 #' @export
-S7::method(update, list(faketable, S7::class_missing)) <- function(f_tab, x) {
+S7::method(update, list(faketable, S7::class_missing)) <- function(faketable, data) {
   cli::cli_abort('{.fun faketables::update} requires a second argument')
 }
 
 #' @export
-S7::method(update, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  f_tab@x <- dplyr::rows_update(
-    x = f_tab@x,
-    y = x,
+S7::method(update, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
+  faketable@data <- dplyr::rows_update(
+    x = faketable@data,
+    y = data,
     by = '.rowId',
     unmatched = 'ignore'
   )
-  return(f_tab)
+  return(faketable)
 }
 
-delete <- S7::new_generic('delete', c('f_tab', 'x'), \(f_tab, x) {
+delete <- S7::new_generic('delete', c('faketable', 'data'), \(faketable, data) {
   S7::S7_dispatch()
 })
 #' @name delete
 #' @rdname methods
 #'
-#' @usage delete(f_tab, x)
+#' @usage delete(faketable, data)
 #'
 #' @export
-S7::method(delete, list(faketable, S7::class_missing)) <- function(f_tab, x) {
+S7::method(delete, list(faketable, S7::class_missing)) <- function(faketable, data) {
   cli::cli_abort('{.fun faketables::delete} requires a second argument')
 }
 
 #' @export
-S7::method(delete, list(faketable, S7::class_vector)) <- function(f_tab, x) {
-  x <- dplyr::filter(f_tab@x, .data$.rowId %in% .env$x)
-  f_tab <- delete(f_tab, x)
-  return(f_tab)
+S7::method(delete, list(faketable, S7::class_character)) <- function(faketable, data) {
+  data <- dplyr::filter(faketable@data, .data$.rowId %in% .env$data)
+  faketable <- delete(faketable, data)
+  return(faketable)
 }
 
 #' @export
-S7::method(delete, list(faketable, S7::class_data.frame)) <- function(f_tab, x) {
-  f_tab@.deleted <- dplyr::bind_rows(f_tab@.deleted, x)
-  f_tab@x <- dplyr::anti_join(f_tab@x, x, by = '.rowId')
-  return(f_tab)
+S7::method(delete, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
+  faketable@.deleted <- dplyr::bind_rows(faketable@.deleted, data)
+  faketable@data <- dplyr::anti_join(faketable@data, data, by = '.rowId')
+  return(faketable)
 }

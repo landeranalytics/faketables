@@ -5,17 +5,17 @@
 \alias{.create_table_header}
 \title{Create and render a \code{faketables} table header}
 \usage{
-.render_header(f_tab)
+.render_header(faketable)
 
-.create_table_header(f_tab)
+.create_table_header(faketable)
 }
 \arguments{
-\item{f_tab}{A \code{\link[=faketable]{faketable()}} object}
+\item{faketable}{A \code{\link[=faketable]{faketable()}} object}
 }
 \value{
 \code{NULL}
 
-A \code{\link[shiny:fluidPage]{shiny::fluidRow()}} containing the display names from \code{f_tab}'s
+A \code{\link[shiny:fluidPage]{shiny::fluidRow()}} containing the display names from \code{faketable}'s
 \code{\link[=table_def]{table_def()}} each rendered in \code{\link[shiny:column]{shiny::column()}}
 }
 \description{

@@ -17,11 +17,11 @@
 
 #' Add a `.rowId` column to a data frame
 #'
-#' @param x A data frame
+#' @param data A data frame
 #' @param rowId The name of the primary key column
 #'
-#' @returns `x` with a new column named `.rowId` at column position one that has
-#'   an MD5 hash uniquely identifying that row
+#' @returns `data` with a new column named `.rowId` at column position one that
+#'   has an MD5 hash uniquely identifying that row
 #' @keywords internal
 #'
 #' @examples
@@ -32,15 +32,15 @@
 #'   .create_rowid(rowId = 'rowname')
 #' }
 #'
-.create_rowid <- function(x, rowId = NULL) {
-  if (is.null(rowId) || is.null(x[[rowId]])) {
-    x <- dplyr::mutate(x, '.rowId' = dplyr::row_number() + Sys.time())
+.create_rowid <- function(data, rowId = NULL) {
+  if (is.null(rowId) || is.null(data[[rowId]])) {
+    data <- dplyr::mutate(data, '.rowId' = dplyr::row_number() + Sys.time())
   } else {
-    if (any(duplicated(x[[rowId]])))
+    if (any(duplicated(data[[rowId]])))
       cli::cli_abort('{.fun faketables::.create_rowid} expects a provided `rowId` column to contain unique values')
-    x <- dplyr::mutate(x, '.rowId' = .data[[rowId]])
+    data <- dplyr::mutate(data, '.rowId' = .data[[rowId]])
   }
-  x |>
+  data |>
     dplyr::mutate(
       '.rowId' = purrr::map_chr(.data$.rowId, digest::digest),
       .before = 0,
@@ -57,10 +57,10 @@
 #' @details This is used internally to capture the changes made to the data in
 #'   the UI by the user. It first captures all of `input`, then filters by input
 #'   name to only inputs created by the table. These are then reconstructed into
-#'   a format matching `faketable@x` with column class handling done by the user
-#'   supplied `cast` function in [faketables::col_def()].
+#'   a format matching `faketable@data` with column class handling done by the
+#'   user supplied `cast` function in [faketables::col_def()].
 #'
-#' @returns The state of `faketable@x` as the user sees it in the UI
+#' @returns The state of `faketable@data` as the user sees it in the UI
 #' @keywords internal
 .reconstruct_inputs <- function(faketable, input) {
   all_vals <- shiny::reactiveValuesToList(input)
@@ -94,9 +94,9 @@
         tibble::tibble({{idx}} := x) # handle list-type cols
       }) |>
       dplyr::bind_cols() |>
-      dplyr::select(tidyselect::any_of(colnames(faketable@x)))
+      dplyr::select(tidyselect::any_of(colnames(faketable@data)))
   } else {
-    utils::head(faketable@x, 0)
+    utils::head(faketable@data, 0)
   }
 }
 
@@ -105,9 +105,10 @@
 #' @description This is handy for using [shiny::renderTable()] with list type
 #'   columns
 #'
-#' @param x A data frame
+#' @param data A data frame
 #'
-#' @returns `x`, except list type columns are now `character`
+#' @returns `data`, except list type columns that contain atomic vectors are now
+#'   `character`
 #' @keywords internal
 #'
 #' @examples
@@ -116,12 +117,15 @@
 #' .list_col_to_chr(df)
 #' }
 #'
-.list_col_to_chr <- function(x) {
-  list_cols <- names(x)[purrr::map_lgl(x, \(x) rlang::is_list(x) & rlang::is_atomic(x[[1]]))]
+.list_col_to_chr <- function(data) {
+  list_cols <- names(data)[purrr::map_lgl(data, \(x) {
+    rlang::is_list(x) &&
+      (length(x) == 0 || rlang::is_atomic(x[[1]]))
+    })]
 
   for(n in list_cols) {
-    x[[n]] <- purrr::map_chr(x[[n]], \(x) glue::glue("c('{paste0(x, collapse = \"','\")}')"))
+    data[[n]] <- purrr::map_chr(data[[n]], \(x) glue::glue("c('{paste0(x, collapse = \"','\")}')"))
   }
 
-  return(x)
+  return(data)
 }

@@ -1,11 +1,11 @@
 #' Create and render a `faketables` table header
 #' @rdname render_header
 #'
-#' @param f_tab A [faketables::faketable()] object
+#' @param faketable A [faketables::faketable()] object
 #'
 #' @returns `NULL`
 #' @keywords internal
-.render_header <- function(f_tab) {
+.render_header <- function(faketable) {
   shiny::removeUI(
     selector = glue::glue("#table-header .table-header"),
     multiple = TRUE
@@ -15,7 +15,7 @@
     selector = '#table-header',
     where = 'afterBegin',
     ui = shiny::tags$div(
-      .create_table_header(f_tab),
+      .create_table_header(faketable),
       shiny::tags$hr(style = 'margin-top: 0;'),
       class = 'table-header'
     )
@@ -24,12 +24,12 @@
 
 #' @rdname render_header
 #'
-#' @returns A [shiny::fluidRow()] containing the display names from `f_tab`'s
+#' @returns A [shiny::fluidRow()] containing the display names from `faketable`'s
 #'   [faketables::table_def()] each rendered in [shiny::column()]
 #' @keywords internal
-.create_table_header <- function(f_tab) {
+.create_table_header <- function(faketable) {
   cols <-
-    f_tab@.table_def |>
+    faketable@.table_def |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
       shiny::column(
@@ -37,8 +37,8 @@
         shiny::tags$b(dots$display_name)
       )
     })
-  if (!is.null(f_tab@.show_delete)) {
-    if (is.null(f_tab@.show_delete$width)) width <- 2 else width <- f_tab@.show_delete$width
+  if (!is.null(faketable@.show_delete)) {
+    if (is.null(faketable@.show_delete$width)) width <- 2 else width <- faketable@.show_delete$width
     cols <-
       cols |>
       append(
@@ -58,22 +58,22 @@
 #' @description This output should be passed to [shiny::renderUI()] in the
 #'   server
 #'
-#' @param f_tab A [faketables::faketable()] object
+#' @param faketable A [faketables::faketable()] object
 #' @param ns The session namespace from `shiny::NS()`or `session$ns`
 #'
 #' @keywords internal
-.render_table <- function(f_tab, ns) {
-  .create_table_body(f_tab, ns)
+.render_table <- function(faketable, ns) {
+  .create_table_body(faketable, ns)
 }
 
 #' @rdname render_table
 #'
 #' @returns A [shiny::fluidRow()] containing a [shiny::column()] for each column
-#'   specified in `f_tab`'s [faketables::table_def()]
+#'   specified in `faketable`'s [faketables::table_def()]
 #' @keywords internal
-.create_table_body <- function(f_tab, ns) {
-  f_tab@x |>
-    dplyr::select(tidyselect::all_of(c('.rowId', f_tab@.table_def$name))) |>
+.create_table_body <- function(faketable, ns) {
+  faketable@data |>
+    dplyr::select(tidyselect::all_of(c('.rowId', faketable@.table_def$name))) |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
       cols <-
@@ -81,25 +81,25 @@
         names() |>
         utils::tail(-1) |> # drop rowId column
         purrr::map(\(nm) {
-          c_def <- which(f_tab@.table_def$name == nm)
+          c_def <- which(faketable@.table_def$name == nm)
           args <- list(
             inputId = ns(glue::glue('table_{dots[[".rowId"]]}_{nm}')),
             dots[[nm]] # TODO: find way to name this to ensure right values are used
           )
           shiny::column(
-            width = f_tab@.table_def$width[c_def],
+            width = faketable@.table_def$width[c_def],
             {
-              f_tab@.table_def$input_call[[c_def]] |>
+              faketable@.table_def$input_call[[c_def]] |>
                 rlang::call2(!!!args) |>
                 rlang::eval_tidy()
             }
           )
         })
-      if (!is.null(f_tab@.show_delete)) {
+      if (!is.null(faketable@.show_delete)) {
         cols <-
           cols |>
           append(
-            list(.delete_button(dots[[".rowId"]], !!!f_tab@.show_delete)),
+            list(.delete_button(dots[[".rowId"]], !!!faketable@.show_delete)),
             after = 0
           )
       }

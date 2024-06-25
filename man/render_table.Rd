@@ -5,18 +5,18 @@
 \alias{.create_table_body}
 \title{Create and render a \code{faketables} table body}
 \usage{
-.render_table(f_tab, ns)
+.render_table(faketable, ns)
 
-.create_table_body(f_tab, ns)
+.create_table_body(faketable, ns)
 }
 \arguments{
-\item{f_tab}{A \code{\link[=faketable]{faketable()}} object}
+\item{faketable}{A \code{\link[=faketable]{faketable()}} object}
 
 \item{ns}{The session namespace from \code{shiny::NS()}or \code{session$ns}}
 }
 \value{
 A \code{\link[shiny:fluidPage]{shiny::fluidRow()}} containing a \code{\link[shiny:column]{shiny::column()}} for each column
-specified in \code{f_tab}'s \code{\link[=table_def]{table_def()}}
+specified in \code{faketable}'s \code{\link[=table_def]{table_def()}}
 }
 \description{
 This output should be passed to \code{\link[shiny:renderUI]{shiny::renderUI()}} in the

@@ -4,13 +4,14 @@
 \alias{.list_col_to_chr}
 \title{Convert list-type columns to character}
 \usage{
-.list_col_to_chr(x)
+.list_col_to_chr(data)
 }
 \arguments{
-\item{x}{A data frame}
+\item{data}{A data frame}
 }
 \value{
-\code{x}, except list type columns are now \code{character}
+\code{data}, except list type columns that contain atomic vectors are now
+\code{character}
 }
 \description{
 This is handy for using \code{\link[shiny:renderTable]{shiny::renderTable()}} with list type

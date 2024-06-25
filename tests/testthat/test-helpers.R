@@ -29,4 +29,9 @@ test_that('.list_col_to_chr converts a list column to a character vector', {
     dt2$vec,
     c("c('1','2')", "c('3','4')")
   )
+
+  dt |>
+    head(0) |>
+    .list_col_to_chr() |>
+    expect_no_error()
 })

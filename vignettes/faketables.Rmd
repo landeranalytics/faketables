@@ -157,7 +157,7 @@ ui <- shiny::fluidPage(
   shiny::radioButtons(
     'preview', 
     label = 'Choose Table to Preview', 
-    choices = c('x', 'inserted', 'updated', 'deleted'),
+    choices = c('data', 'inserted', 'updated', 'deleted'),
     inline = TRUE
   ),
   shiny::tableOutput('preview_table')

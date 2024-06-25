@@ -153,7 +153,7 @@ test_that('is_faketable returns TRUE for a valid faketable', {
   is_faketable(valid_faketable) |>
     expect_true()
 
-  expect_error(valid_faketable@x <- matrix(1))
+  expect_error(valid_faketable@data <- matrix(1))
 
   expect_error(valid_faketable@.table_def <- matrix(1))
   expect_error(valid_faketable@.table_def <- mtcars)

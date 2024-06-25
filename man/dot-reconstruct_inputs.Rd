@@ -12,7 +12,7 @@
 \item{input}{The shiny server \code{input}}
 }
 \value{
-The state of \code{faketable@x} as the user sees it in the UI
+The state of \code{faketable@data} as the user sees it in the UI
 }
 \description{
 Reconstruct a table from shiny inputs
@@ -21,7 +21,7 @@ Reconstruct a table from shiny inputs
 This is used internally to capture the changes made to the data in
 the UI by the user. It first captures all of \code{input}, then filters by input
 name to only inputs created by the table. These are then reconstructed into
-a format matching \code{faketable@x} with column class handling done by the user
-supplied \code{cast} function in \code{\link[=col_def]{col_def()}}.
+a format matching \code{faketable@data} with column class handling done by the
+user supplied \code{cast} function in \code{\link[=col_def]{col_def()}}.
 }
 \keyword{internal}

@@ -244,7 +244,7 @@ server <- function(input, output, session) {
 
   shiny::observe({
     map_data <-
-      pz()@x |>
+      pz()@data |>
       dplyr::mutate(
         'label' = shiny::HTML(glue::glue('{.data$Name}<br>{.data$Address}, {.data$City}, NY, {.data$Zip}')),
         .by = '.rowId'
