@@ -34,7 +34,7 @@
 #'
 .create_rowid <- function(data, rowId = NULL) {
   if (is.null(rowId) || is.null(data[[rowId]])) {
-    data <- dplyr::mutate(data, '.rowId' = dplyr::row_number() + Sys.time())
+    data <- dplyr::mutate(data, '.rowId' = dplyr::row_number() + stats::rnorm(1))
   } else {
     if (any(duplicated(data[[rowId]])))
       cli::cli_abort('{.fun faketables::.create_rowid} expects a provided `rowId` column to contain unique values')

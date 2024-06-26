@@ -14,3 +14,4 @@ DEPRECATED
 ^\.github$
 ^README\.Rmd$
 ^rsconnect$
+_\.new\.png$
