@@ -17,16 +17,35 @@
 #'
 #' @returns A [faketables::faketable()] object
 #'
+#' @details
+#'  * `update`: This method cannot add new columns or change the class of
+#'    existing columns because it is based on [dplyr::rows_update()].
+#'
 #' @keywords internal
 #' @examples
-#' \dontrun{
+#' faketable <- faketable(
+#'   mtcars,
+#'   table_def(
+#'     col_def(
+#'       name = 'mpg',
+#'       input = input_call(
+#'         fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
+#'         args = list(label = NULL, placeholder = 'mpg')
+#'       ),
+#'       cast = as.numeric,
+#'       width = 3,
+#'       display_name = 'MPG'
+#'     )
+#'   )
+#' )
+#'
 #' # insert
-#' # to insert new rows of data from a data.frame called `ins`
-#' faketable <- faketablesServer(faketable = insert(faketable(), ins))
+#' # to insert a copy of the first row of `mtcars`
+#' faketable <- insert(faketable, utils::head(mtcars, 1))
 #'
 #' # update
-#' # to update with a new column called 'new' that has the value 'new'
-#' faketable <- update(faketable, dplyr::mutate(faketable@data, 'new' = 'new'))
+#' # to update 'mpg' to only whole numbers
+#' faketable <- update(faketable, dplyr::mutate(faketable@data, 'mpg' = round(mpg)))
 #'
 #' # delete
 #' # to delete the first six rows of the data where the primary key column is `rowId`
@@ -34,7 +53,8 @@
 #' faketable <- delete(faketable, rows_to_delete$.rowId)
 #' # OR
 #' faketable <- delete(faketable, rows_to_delete)
-#' }
+#'
+#' faketable@data
 NULL
 
 insert <- S7::new_generic('insert', c('faketable', 'data'), \(faketable, data) {
@@ -79,8 +99,7 @@ S7::method(update, list(faketable, S7::class_data.frame)) <- function(faketable,
   faketable@data <- dplyr::rows_update(
     x = faketable@data,
     y = data,
-    by = '.rowId',
-    unmatched = 'ignore'
+    by = '.rowId'
   )
   return(faketable)
 }

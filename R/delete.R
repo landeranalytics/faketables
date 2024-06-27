@@ -16,7 +16,7 @@
 #'   listener that acts on the button presses by monitoring `input$table_btns`.
 #'
 #' @examples
-#' \dontrun{
+#' if (interactive()) {
 #' # this example creates a button for every row of `mtcars`
 #' # when the user presses a button, it will print the inputId of the button pressed
 #' shiny::shinyApp(

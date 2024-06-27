@@ -19,12 +19,10 @@ has an MD5 hash uniquely identifying that row
 Add a \code{.rowId} column to a data frame
 }
 \examples{
-\dontrun{
-.create_rowid(mtcars)
+faketables:::.create_rowid(mtcars)
 mtcars |>
   tibble::rownames_to_column() |>
-  .create_rowid(rowId = 'rowname')
-}
+  faketables:::.create_rowid(rowId = 'rowname')
 
 }
 \keyword{internal}

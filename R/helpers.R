@@ -1,20 +1,3 @@
-#' @inherit dplyr::bind_rows title description params return
-#'
-#' @details Unlike [dplyr::bind_rows()], `.better_rbind()` does not complain if
-#'   only one data frame is supplied.
-#'
-#' @keywords internal
-#' @examples
-#' \dontrun{
-#' .better_rbind(mtcars)
-#' .better_rbind(mtcars, mtcars, .id = 'id')
-#' }
-#'
-.better_rbind <- function(..., .id = NULL) {
-  dots <- rlang::list2(...) |> purrr::list_flatten()
-  if (length(dots) == 1) dots[[1]] else dplyr::bind_rows(dots, .id)
-}
-
 #' Add a `.rowId` column to a data frame
 #'
 #' @param data A data frame
@@ -25,12 +8,10 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
-#' .create_rowid(mtcars)
+#' faketables:::.create_rowid(mtcars)
 #' mtcars |>
 #'   tibble::rownames_to_column() |>
-#'   .create_rowid(rowId = 'rowname')
-#' }
+#'   faketables:::.create_rowid(rowId = 'rowname')
 #'
 .create_rowid <- function(data, rowId = NULL) {
   if (is.null(rowId) || is.null(data[[rowId]])) {
@@ -112,10 +93,8 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
 #' df <- tibble::tibble('ls' = list('a', 'b'), 'num' = 1:2)
-#' .list_col_to_chr(df)
-#' }
+#' faketables:::.list_col_to_chr(df)
 #'
 .list_col_to_chr <- function(data) {
   list_cols <- names(data)[purrr::map_lgl(data, \(x) {

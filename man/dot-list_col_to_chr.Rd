@@ -18,10 +18,8 @@ This is handy for using \code{\link[shiny:renderTable]{shiny::renderTable()}} wi
 columns
 }
 \examples{
-\dontrun{
 df <- tibble::tibble('ls' = list('a', 'b'), 'num' = 1:2)
-.list_col_to_chr(df)
-}
+faketables:::.list_col_to_chr(df)
 
 }
 \keyword{internal}
