@@ -64,7 +64,7 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 
     .render_header(faketable)
     output$table <- shiny::renderUI({
-      .render_table(faketable_reactive(), ns)
+      .create_table_body(faketable_reactive(), ns)
     })
     return(faketable_reactive)
   })

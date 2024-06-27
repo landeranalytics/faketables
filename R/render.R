@@ -52,21 +52,14 @@
   shiny::fluidRow(cols, class = 'table-header-row')
 }
 
-#' Create and render a `faketables` table body
-#' @rdname render_table
+#' Create a `faketables` table body
+#' @rdname create_table_body
 #'
 #' @description This output should be passed to [shiny::renderUI()] in the
 #'   server
 #'
 #' @param faketable A [faketables::faketable()] object
 #' @param ns The session namespace from `shiny::NS()`or `session$ns`
-#'
-#' @keywords internal
-.render_table <- function(faketable, ns) {
-  .create_table_body(faketable, ns)
-}
-
-#' @rdname render_table
 #'
 #' @returns A [shiny::fluidRow()] containing a [shiny::column()] for each column
 #'   specified in `faketable`'s [faketables::table_def()]
