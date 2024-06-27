@@ -31,6 +31,9 @@
     <loc>https://landeranalytics.github.io/faketables/reference/col_def.html</loc>
   </url>
   <url>
+    <loc>https://landeranalytics.github.io/faketables/reference/create_table_body.html</loc>
+  </url>
+  <url>
     <loc>https://landeranalytics.github.io/faketables/reference/delete_button.html</loc>
   </url>
   <url>
@@ -65,9 +68,6 @@
   </url>
   <url>
     <loc>https://landeranalytics.github.io/faketables/reference/render_header.html</loc>
-  </url>
-  <url>
-    <loc>https://landeranalytics.github.io/faketables/reference/render_table.html</loc>
   </url>
   <url>
     <loc>https://landeranalytics.github.io/faketables/reference/shiny.html</loc>
