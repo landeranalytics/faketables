@@ -18,13 +18,14 @@ A \code{\link[=table_def]{table_def()}} object
 Create a \code{faketable} table definition
 }
 \examples{
+\dontshow{if (rlang::is_installed('shinyjs')) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # to create a table_def to display mtcars$mpg
 # see faketables::col_def() for more information
 table_def(
  col_def(
    name = 'mpg',
    input = input_call(
-     fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
+     fun = shiny::textInput,
      args = list(label = NULL, placeholder = 'mpg')
    ),
    cast = as.numeric,
@@ -32,4 +33,5 @@ table_def(
    display_name = 'MPG'
  )
 )
+\dontshow{\}) # examplesIf}
 }

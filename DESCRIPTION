@@ -1,12 +1,12 @@
 Type: Package
 Package: faketables
-Title: Create a table of shiny inputs
+Title: Create a Table of Shiny Inputs
 Version: 0.1.0
 Authors@R: c(
     person("Gus", "Lipkin", , "gus@landeranalytics.com", role = c("cre", "aut")),
     person("Lander Analytics", role = c("cph", "fnd"))
   )
-Description: Create an interactive table of shiny inputs by providing data
+Description: Create an interactive table of Shiny inputs by providing data
     and a table definition.
 License: MIT + file LICENSE
 URL: https://github.com/landeranalytics/faketables, https://landeranalytics.github.io/faketables/

@@ -29,7 +29,7 @@
 #'     col_def(
 #'       name = 'mpg',
 #'       input = input_call(
-#'         fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
+#'         fun = shiny::textInput,
 #'         args = list(label = NULL, placeholder = 'mpg')
 #'       ),
 #'       cast = as.numeric,

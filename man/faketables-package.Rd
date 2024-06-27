@@ -4,11 +4,11 @@
 \name{faketables-package}
 \alias{faketables}
 \alias{faketables-package}
-\title{faketables: Create a table of shiny inputs}
+\title{faketables: Create a Table of Shiny Inputs}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Create an interactive table of shiny inputs by providing data and a table definition.
+Create an interactive table of Shiny inputs by providing data and a table definition.
 }
 \seealso{
 Useful links:

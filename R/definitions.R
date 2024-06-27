@@ -46,7 +46,7 @@ input_call <- function(fun, args) {
 #' col_def(
 #'   name = 'mpg',
 #'   input = input_call(
-#'     fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
+#'     fun = shiny::textInput,
 #'     args = list(label = NULL, placeholder = 'mpg')
 #'   ),
 #'   cast = as.numeric,
@@ -84,14 +84,14 @@ col_def <- function(name, input_call, cast, width, display_name = name, ...) {
 #' @returns A [faketables::table_def()] object
 #' @export
 #'
-#' @examples
+#' @examplesIf rlang::is_installed('shinyjs')
 #' # to create a table_def to display mtcars$mpg
 #' # see faketables::col_def() for more information
 #' table_def(
 #'  col_def(
 #'    name = 'mpg',
 #'    input = input_call(
-#'      fun = \(inputId, ...) { shinyjs::disabled(shiny::textInput(inputId, ...)) },
+#'      fun = shiny::textInput,
 #'      args = list(label = NULL, placeholder = 'mpg')
 #'    ),
 #'    cast = as.numeric,
