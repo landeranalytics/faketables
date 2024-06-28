@@ -33,7 +33,7 @@ faketablesUI <- function(id = 'faketables') {
 #' @rdname shiny
 #'
 #' @export
-faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
+faketablesServer <- function(id = 'faketables', faketable, insert = NULL, reload = FALSE) {
   if (!is.null(insert)) faketable <- insert(faketable, insert)
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -69,7 +69,6 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
     return(faketable_reactive)
   })
 }
-
 
 #' Insert data into a `faketable`
 #' @name faketablesInsert

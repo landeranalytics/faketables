@@ -65,7 +65,7 @@
 #'   specified in `faketable`'s [faketables::table_def()]
 #' @keywords internal
 .create_table_body <- function(faketable, ns) {
-  faketable@data |>
+  faketable@.data |>
     dplyr::select(tidyselect::all_of(c('.rowId', faketable@.table_def$name))) |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)

@@ -41,41 +41,56 @@ faketable <- S7::new_class(
   name = 'faketable',
   package = 'faketables',
   properties = list( # .prop values are "private"
-    'data' = S7::class_data.frame,
-    'inserted' = S7::new_property(
-      class = S7::class_data.frame,
+    'data' = S7::new_property(
+      class = S7::new_S3_class('tbl'),
       getter = \(self) {
-        dplyr::anti_join(self@data, self@.raw_data, by = '.rowId')
+        dplyr::select(self@.data, -'.rowId')
+      }
+    ),
+    'inserted' = S7::new_property(
+      class = S7::new_S3_class('tbl'),
+      getter = \(self) {
+        dplyr::select(self@.inserted, -'.rowId')
       }
     ),
     'updated' = S7::new_property(
-      class = S7::class_data.frame,
+      class = S7::new_S3_class('tbl'),
       getter = \(self) {
-        self@data |>
+        self@.data |>
           dplyr::anti_join(
-            y = self@inserted,
+            y = self@.inserted,
             by = '.rowId'
           ) |>
           dplyr::anti_join(
             y = self@.raw_data,
             by = colnames(self@.raw_data)
-          )
+          ) |>
+          dplyr::select(-'.rowId')
       }
     ),
     'deleted' = S7::new_property(
-      class = S7::class_data.frame,
+      class = S7::new_S3_class('tbl'),
       getter = \(self) {
-        dplyr::filter(self@.deleted, .data$.rowId %in% self@.raw_data$.rowId)
+        self@.deleted |>
+          dplyr::filter(.data$.rowId %in% self@.raw_data$.rowId) |>
+          dplyr::select(-'.rowId')
       }
     ),
-    '.raw_data' = S7::class_data.frame,
+    '.raw_data' = S7::new_S3_class('tbl'),
     '.rowId' = S7::class_character,
-    '.deleted' = S7::class_data.frame,
+    '.data' = S7::new_S3_class('tbl'),
+    '.inserted' = S7::new_property(
+      class = S7::new_S3_class('tbl'),
+      getter = \(self) {
+        dplyr::anti_join(self@.data, self@.raw_data, by = '.rowId')
+      }
+    ),
+    '.deleted' = S7::new_S3_class('tbl'),
     '.table_def' = S7::new_S3_class('table_def'),
     '.show_delete' = S7::class_list
   ),
   constructor = \(data, table_def, rowId = NULL, show_delete = NULL) {
-    if (!is.data.frame(data))
+    if (!dplyr::is.tbl(data) & !is.data.frame(data))
       cli::cli_abort('{.fun faketables::faketable} expects `data` to be a `data.frame`')
     if (!is_table_def(table_def))
       cli::cli_abort('{.fun faketables::faketable} expects `table_def` to be a valid {.fun faketables::table_def}')
@@ -96,23 +111,23 @@ faketable <- S7::new_class(
 
     S7::new_object(
       S7::S7_object(),
-      'data' = data,
       '.raw_data' = data,
       '.rowId' = rowId,
+      '.data' = data,
       '.deleted' = utils::head(data, 0),
       '.table_def' = table_def,
       '.show_delete' = show_delete
     )
   },
   validator = \(self) {
-    if (!is.data.frame(self@data))
+    if (!dplyr::is.tbl(self@.data))
       cli::cli_abort('{.fun faketables::faketable} expects `self@data` to be a `data.frame`')
     if (!is_table_def(self@.table_def))
       cli::cli_abort('{.fun faketables::faketable} expects `self@.table_def` to be a valid {.fun faketables::table_def}')
-    if (!all(self@.table_def$name %in% colnames(self@data)))
-      cli::cli_abort('{.fun faketables::faketable} expects all `self@.table_def$name` to be column names in `self@data`')
-    if (!(self@.rowId %in% colnames(self@data)))
-      cli::cli_abort("{.fun faketables::faketable} expects '.rowId' to be  a column name in `self@data`")
+    if (!all(self@.table_def$name %in% colnames(self@.data)))
+      cli::cli_abort('{.fun faketables::faketable} expects all `self@.table_def$name` to be column names in `self@.data`')
+    if (!(self@.rowId %in% colnames(self@.data)))
+      cli::cli_abort("{.fun faketables::faketable} expects '.rowId' to be  a column name in `self@.data`")
     if ((!rlang::is_list(self@.show_delete) || !rlang::is_named2(self@.show_delete)))
       cli::cli_abort('{.fun faketables::faketable} expects `self@.show_delete` to be an empty or named list')
     if(!is_faketable(self))

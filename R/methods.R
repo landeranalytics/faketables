@@ -45,11 +45,11 @@
 #'
 #' # update
 #' # to update 'mpg' to only whole numbers
-#' faketable <- update(faketable, dplyr::mutate(faketable@data, 'mpg' = round(mpg)))
+#' faketable <- update(faketable, dplyr::mutate(faketable@.data, 'mpg' = round(mpg)))
 #'
 #' # delete
 #' # to delete the first six rows of the data where the primary key column is `rowId`
-#' rows_to_delete <- utils::head(faketable@data)
+#' rows_to_delete <- utils::head(faketable@.data)
 #' faketable <- delete(faketable, rows_to_delete$.rowId)
 #' # OR
 #' faketable <- delete(faketable, rows_to_delete)
@@ -71,10 +71,10 @@ S7::method(insert, list(faketable, S7::class_missing)) <- function(faketable, da
 }
 
 #' @export
-S7::method(insert, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
+S7::method(insert, list(faketable, S7::new_union(S7::class_data.frame, S7::new_S3_class('tbl')))) <- function(faketable, data) {
   data <- .create_rowid(data, faketable@.rowId)
-  faketable@data <- dplyr::rows_insert(
-    x = faketable@data,
+  faketable@.data <- dplyr::rows_insert(
+    x = faketable@.data,
     y = data,
     by = '.rowId'
   )
@@ -95,9 +95,9 @@ S7::method(update, list(faketable, S7::class_missing)) <- function(faketable, da
 }
 
 #' @export
-S7::method(update, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
-  faketable@data <- dplyr::rows_update(
-    x = faketable@data,
+S7::method(update, list(faketable, S7::new_union(S7::class_data.frame, S7::new_S3_class('tbl')))) <- function(faketable, data) {
+  faketable@.data <- dplyr::rows_update(
+    x = faketable@.data,
     y = data,
     by = '.rowId'
   )
@@ -119,14 +119,14 @@ S7::method(delete, list(faketable, S7::class_missing)) <- function(faketable, da
 
 #' @export
 S7::method(delete, list(faketable, S7::class_character)) <- function(faketable, data) {
-  data <- dplyr::filter(faketable@data, .data$.rowId %in% .env$data)
+  data <- dplyr::filter(faketable@.data, .data$.rowId %in% .env$data)
   faketable <- delete(faketable, data)
   return(faketable)
 }
 
 #' @export
-S7::method(delete, list(faketable, S7::class_data.frame)) <- function(faketable, data) {
+S7::method(delete, list(faketable, S7::new_union(S7::class_data.frame, S7::new_S3_class('tbl')))) <- function(faketable, data) {
   faketable@.deleted <- dplyr::bind_rows(faketable@.deleted, data)
-  faketable@data <- dplyr::anti_join(faketable@data, data, by = '.rowId')
+  faketable@.data <- dplyr::anti_join(faketable@.data, data, by = '.rowId')
   return(faketable)
 }

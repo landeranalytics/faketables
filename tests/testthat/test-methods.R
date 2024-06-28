@@ -14,7 +14,7 @@ test_that('insert works', {
   f_tab <- insert(valid_faketable, insert_data)
 
   expect_equal(
-    dplyr::select(f_tab@inserted, -'.rowId'),
+    f_tab@inserted,
     insert_data
   )
 
@@ -24,8 +24,7 @@ test_that('insert works', {
         dplyr::semi_join(
           y = insert_data,
           by = c('name', 'name2')
-        ) |>
-        dplyr::select(-'.rowId')
+        )
     },
     insert_data
   )
@@ -33,7 +32,7 @@ test_that('insert works', {
 
 test_that('update works', {
   update_data <- tibble::tibble(
-    '.rowId' = valid_faketable@data$.rowId,
+    '.rowId' = valid_faketable@.data$.rowId,
     'name' = 'new name',
     'name2' = 'new name 2'
   )
@@ -51,18 +50,18 @@ test_that('update works', {
 
   expect_equal(
     f_tab@updated,
-    update_data
+    dplyr::select(update_data, -'.rowId')
   )
 
   expect_equal(
-    dplyr::semi_join(f_tab@data, update_data, by = c('.rowId', 'name', 'name2')),
+    dplyr::semi_join(f_tab@.data, update_data, by = c('.rowId', 'name', 'name2')),
     update_data
   )
 })
 
 test_that('delete works', {
-  delete_row <- valid_faketable@data$.rowId
-  delete_data <- valid_faketable@data[1,]
+  delete_row <- valid_faketable@.data$.rowId
+  delete_data <- valid_faketable@.data[1,]
 
   delete(valid_faketable) |>
     expect_error()
@@ -80,7 +79,7 @@ test_that('delete works', {
 
   expect_equal(
     f_tab_row@deleted,
-    delete_data
+    dplyr::select(delete_data, -'.rowId')
   )
 
   expect_equal(
@@ -92,7 +91,7 @@ test_that('delete works', {
 
   expect_equal(
     f_tab_data@deleted,
-    delete_data
+    dplyr::select(delete_data, -'.rowId')
   )
 
   expect_equal(

@@ -75,9 +75,9 @@
         tibble::tibble({{idx}} := x) # handle list-type cols
       }) |>
       dplyr::bind_cols() |>
-      dplyr::select(tidyselect::any_of(colnames(faketable@data)))
+      dplyr::select(tidyselect::any_of(colnames(faketable@.data)))
   } else {
-    utils::head(faketable@data, 0)
+    utils::head(faketable@.data, 0)
   }
 }
 

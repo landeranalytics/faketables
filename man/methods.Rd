@@ -64,11 +64,11 @@ faketable <- insert(faketable, utils::head(mtcars, 1))
 
 # update
 # to update 'mpg' to only whole numbers
-faketable <- update(faketable, dplyr::mutate(faketable@data, 'mpg' = round(mpg)))
+faketable <- update(faketable, dplyr::mutate(faketable@.data, 'mpg' = round(mpg)))
 
 # delete
 # to delete the first six rows of the data where the primary key column is `rowId`
-rows_to_delete <- utils::head(faketable@data)
+rows_to_delete <- utils::head(faketable@.data)
 faketable <- delete(faketable, rows_to_delete$.rowId)
 # OR
 faketable <- delete(faketable, rows_to_delete)
