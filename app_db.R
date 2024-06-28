@@ -68,7 +68,10 @@ t_def <- faketables::table_def(c_def)
 # pz <-
 #   dplyr::tbl(con, 'favorite_pizza_nyc') |>
 #   faketables::faketable(table_def = t_def, show_delete = list(width = 1))
-con <- duckdb::dbConnect(duckdb::duckdb(), dbdir = 'db')
+get_con <- function() {
+  duckdb::dbConnect(duckdb::duckdb(), dbdir = 'db')
+}
+con <- get_con()
 duckdb::dbWriteTable(con, 'favorite_pizza_nyc', {
   jsonlite::read_json(
     path = 'https://www.jaredlander.com/data/FavoritePizzaPlaces.json',
@@ -82,6 +85,7 @@ duckdb::dbWriteTable(con, 'favorite_pizza_nyc', {
       'Rating' = 11L
     )
 }, overwrite = TRUE)
+duckdb::dbDisconnect(con)
 
 ## ---- ui --------
 ui <- bslib::page_navbar(
@@ -183,6 +187,7 @@ ui <- bslib::page_navbar(
 
 ## ---- server --------
 server <- function(input, output, session) {
+  con <- get_con()
   pz <-
     con |>
     dplyr::tbl('favorite_pizza_nyc') |>
@@ -252,7 +257,7 @@ server <- function(input, output, session) {
     shiny::bindEvent(pz())
 
   shiny::observe({
-    con <- duckdb::dbConnect(duckdb::duckdb(), dbdir = 'db')
+    con <- get_con()
     print('Before Write')
     con |>
       dplyr::tbl('favorite_pizza_nyc') |>
