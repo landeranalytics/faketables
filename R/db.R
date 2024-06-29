@@ -2,6 +2,11 @@
 #' @name dbWriteTable
 #' @rdname db
 #'
+#' @description A convenience function to use the `@inserted`, `@updated`, and
+#'   `@deleted` tables to write back to the database using a series of
+#'   corresponding [dplyr::rows] functions, then restart the `faketablesServer`
+#'   with the new data to maintain integrity for future writes.
+#'
 #' @param src A DBIConnection object produced by [DBI::dbConnect()]
 #' @param name A table name for a table present in the `src`
 #' @param reactive_faketable A [shiny::reactive] object that holds an underlying

@@ -19,5 +19,8 @@ dbWriteTable(src, name, reactive_faketable)
 reactive object in the parent environment
 }
 \description{
-Write a \code{faketable} to a database table
+A convenience function to use the \verb{@inserted}, \verb{@updated}, and
+\verb{@deleted} tables to write back to the database using a series of
+corresponding \link[dplyr:rows]{dplyr::rows} functions, then restart the \code{faketablesServer}
+with the new data to maintain integrity for future writes.
 }
