@@ -26,6 +26,7 @@ Imports:
     tidyselect,
     utils
 Suggests: 
+    dbplyr,
     duckdb,
     leaflet,
     rmarkdown,
