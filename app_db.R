@@ -188,11 +188,11 @@ ui <- bslib::page_navbar(
 ## ---- server --------
 server <- function(input, output, session) {
   con <- get_con()
-  pz <-
+  pz_data <-
     con |>
     dplyr::tbl('favorite_pizza_nyc') |>
-    faketables::faketable(table_def = t_def, show_delete = list(width = 1)) |>
-    faketables::faketablesServer(faketable = _)
+    faketables::faketable(table_def = t_def, show_delete = list(width = 1))
+  pz <- faketables::faketablesServer(faketable = pz_data)
   duckdb::dbDisconnect(con)
   output$map <-
     leaflet::leaflet() |>
