@@ -35,7 +35,9 @@ reference:
 articles:
 - title: Reference
   navbar: ~
-  contents: inserting_data
+  contents:
+  - inserting_data
+  - db_writing
 - title: Examples
   contents: favorite_pizza
 

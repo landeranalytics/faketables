@@ -47,5 +47,5 @@ pak::pak("landeranalytics/faketables")
 
 Usage is detailed in the [Get Started Vignette](articles/faketables.html) and an example app about the best pizza in NYC can be found [here](https://landeranalytics.shinyapps.io/faketables/) with the code for that app [here](articles/favorite_pizza.html).
 
-![](man/figures/preview.png)
+![](man/figures/preview.jpg)
 

@@ -83,6 +83,10 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
 #'
 #' @returns `faketablesInsert` does not return, but does reassign the
 #'   `faketable` reactive object in the parent environment
+#'
+#' @seealso For more details, see the vignette by running
+#'   \code{vignette('inserting_data')}
+#'
 #' @export
 faketablesInsert <- function(reactive_faketable, data) {
   if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(data))

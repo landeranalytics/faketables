@@ -279,5 +279,5 @@ server <- function(input, output, session) {
 shiny::shinyApp(ui, server)
 ```
 
-![](../man/figures/preview.png)
+![](../man/figures/preview.jpg)
 

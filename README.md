@@ -57,4 +57,4 @@ pizza in NYC can be found
 [here](https://landeranalytics.shinyapps.io/faketables/) with the code
 for that app [here](articles/favorite_pizza.html).
 
-![](man/figures/preview.png)
+![](man/figures/preview.jpg)
