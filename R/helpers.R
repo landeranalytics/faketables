@@ -45,13 +45,22 @@
 #' @keywords internal
 .reconstruct_inputs <- function(faketable, input) {
   all_vals <- shiny::reactiveValuesToList(input)
-  all_vals <- all_vals[grepl("table_[a-f0-9]{32}_", names(all_vals))]
+  all_vals <- all_vals[{
+    glue::glue(
+      "table_<faketable@.iteration>_[a-f0-9]{32}_",
+      .open = '<', .close = '>'
+    ) |>
+      grepl(names(all_vals))
+  }]
   if (length(all_vals) > 0) {
     all_vals |>
       tibble::as_tibble() |>
       tidyr::pivot_longer(
         cols = tidyselect::everything(),
-        names_pattern = 'table_([a-f0-9]{32})_(.*)$',
+        names_pattern = glue::glue(
+          'table_<faketable@.iteration>_([a-f0-9]{32})_(.*)$',
+          .open = '<', .close = '>'
+        ),
         names_to = c('.rowId', 'col'),
         values_transform = as.character
       ) |>

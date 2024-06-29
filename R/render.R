@@ -76,7 +76,7 @@
         purrr::map(\(nm) {
           c_def <- which(faketable@.table_def$name == nm)
           args <- list(
-            inputId = ns(glue::glue('table_{dots[[".rowId"]]}_{nm}')),
+            inputId = ns(glue::glue('table_{faketable@.iteration}_{dots[[".rowId"]]}_{nm}')),
             dots[[nm]] # TODO: find way to name this to ensure right values are used
           )
           shiny::column(

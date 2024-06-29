@@ -87,7 +87,8 @@ faketable <- S7::new_class(
     ),
     '.deleted' = S7::new_S3_class('tbl'),
     '.table_def' = S7::new_S3_class('table_def'),
-    '.show_delete' = S7::class_list
+    '.show_delete' = S7::class_list,
+    '.iteration' = S7::class_integer
   ),
   constructor = \(data, table_def, rowId = NULL, show_delete = NULL) {
     if (!dplyr::is.tbl(data) & !is.data.frame(data))
@@ -116,7 +117,8 @@ faketable <- S7::new_class(
       '.data' = data,
       '.deleted' = utils::head(data, 0),
       '.table_def' = table_def,
-      '.show_delete' = show_delete
+      '.show_delete' = show_delete,
+      '.iteration' = 0L
     )
   },
   validator = \(self) {

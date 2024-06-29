@@ -33,24 +33,9 @@ faketablesUI <- function(id = 'faketables') {
 #' @rdname shiny
 #'
 #' @export
-faketablesServer <- function(id = 'faketables', faketable, insert = NULL, reload = FALSE) {
+faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
   if (!is.null(insert)) faketable <- insert(faketable, insert)
   shiny::moduleServer(id, function(input, output, session) {
-    if (reload) {
-      input_list <- shiny::reactiveValuesToList(input)
-      grep('table_[a-f0-9]{32}_', names(input), value = TRUE) |>
-        purrr::walk(\(id) {
-          shiny::removeUI(selector = glue::glue('#{id}'))
-          # rm(id, envir = .subset2(input, 'impl')$.values)
-          # .subset2(input, 'impl')$.values$remove(id)
-          # .subset(input, 'impl')$.valuesDeps$invalidate()
-          ind <- which(names(input) == id)
-          input <- .subset2(input, 'impl')
-          input$.values$remove(id)
-          input$.nameOrder <- setdiff(input$.nameOrder, ind)
-        })
-      print(shiny::reactiveValuesToList(input))
-    }
     ns <- session$ns
 
     deleted_rowId <- shiny::reactiveVal(character())

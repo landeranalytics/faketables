@@ -42,9 +42,9 @@ dbWriteTable <- function(conn, name, reactive_faketable) {
         faketable = {
           conn |>
             dplyr::tbl(name) |>
-            faketable(faketable@.table_def, rowId, faketable@.show_delete)
-        },
-        reload = TRUE
+            faketable(faketable@.table_def, rowId, faketable@.show_delete) |>
+            S7::`prop<-`('.iteration', value = faketable@.iteration + 1L)
+        }
       ),
       envir = env
     )
