@@ -10,6 +10,9 @@
     <loc>https://landeranalytics.github.io/faketables/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://landeranalytics.github.io/faketables/articles/db_writing.html</loc>
+  </url>
+  <url>
     <loc>https://landeranalytics.github.io/faketables/articles/faketables.html</loc>
   </url>
   <url>
@@ -35,6 +38,9 @@
   </url>
   <url>
     <loc>https://landeranalytics.github.io/faketables/reference/create_table_body.html</loc>
+  </url>
+  <url>
+    <loc>https://landeranalytics.github.io/faketables/reference/db.html</loc>
   </url>
   <url>
     <loc>https://landeranalytics.github.io/faketables/reference/delete_button.html</loc>

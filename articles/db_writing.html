@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="faketables">
-<title>Inserting Data • faketables</title>
+<title>Writing to a DB • faketables</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Inserting Data">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Writing to a DB">
 <meta property="og:description" content="faketables">
 <meta property="og:image" content="https://landeranalytics.github.io/faketables/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -84,62 +84,40 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Inserting Data</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Writing to a DB</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/landeranalytics/faketables/blob/HEAD/vignettes/inserting_data.Rmd" class="external-link"><code>vignettes/inserting_data.Rmd</code></a></small>
-      <div class="d-none name"><code>inserting_data.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/landeranalytics/faketables/blob/HEAD/vignettes/db_writing.Rmd" class="external-link"><code>vignettes/db_writing.Rmd</code></a></small>
+      <div class="d-none name"><code>db_writing.Rmd</code></div>
     </div>
 
     
     
-<p><code>faketables</code> provides two methods for inserting data. If
-you’re trying to insert data in a <code>Shiny</code> app, you want
-<code><a href="../reference/insert.html">faketablesInsert()</a></code>. Otherwise, you may want
-<code><a href="../reference/methods.html">insert()</a></code>.</p>
-<div class="section level2">
-<h2 id="insert">
-<code>insert()</code><a class="anchor" aria-label="anchor" href="#insert"></a>
-</h2>
-<p><code><a href="../reference/methods.html">insert()</a></code> is for use on a <code>faketables</code> object
-and does the actual data insertion. This is called automatically in
-<code><a href="../reference/shiny.html">faketablesServer()</a></code> when the <code>insert</code> argument is
-supplied data. Alternatively, if <code>faketables</code> is being used
-outside of a <code>Shiny</code> context for its data history properties,
-it can be used to safely add new data to the <code>faketables</code>
-object.</p>
-<p>Usage is simply <code>insert(faketable, new_data)</code>.</p>
-</div>
-<div class="section level2">
-<h2 id="faketablesinsert">
-<code>faketablesInsert()</code><a class="anchor" aria-label="anchor" href="#faketablesinsert"></a>
-</h2>
-<p><code><a href="../reference/insert.html">faketablesInsert()</a></code> is for use in <code>Shiny</code> apps
-when the app developer wants new data added to the
-<code>faketables</code> object represented by a <code>reactive</code>
-object. Just like <code><a href="../reference/methods.html">insert()</a></code>, it is provided two arguments.
-The latter of which is the new data to be inserted. However, unlike
-<code><a href="../reference/methods.html">insert()</a></code>, the first argument is not a
-<code>faketables</code> object, but rather the variable that represents
-the output of a <code><a href="../reference/shiny.html">faketablesServer()</a></code> call.</p>
-<p>Usage is a little bit more complex than that of <code><a href="../reference/methods.html">insert()</a></code>
-and requires two components. The first is that the server call and
-assign <code><a href="../reference/shiny.html">faketablesServer()</a></code> and the second is a call to
-<code>faketablesInsert</code> where the new data is being actively added
-to the <code>faketables</code> object.</p>
+<p><code>faketables</code> offers <code><a href="../reference/db.html">dbWriteTable()</a></code> as a
+convenient way to write modified data back to a data source.</p>
+<p>In the below example, <code>dbConnect()</code> and
+<code>dbDisconnect()</code> should produce a <a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI Connection
+Object</a> and disconnect from that database, respectively.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/faketable.html">faketable</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">actionButton</a></span><span class="op">(</span><span class="st">'db_write'</span>, <span class="st">'Write to DB'</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/shiny.html">faketablesServer</a></span><span class="op">(</span><span class="va">f_tab</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observe.html" class="external-link">observe</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/insert.html">faketablesInsert</a></span><span class="op">(</span><span class="va">f_tab</span>, <span class="va">new_data</span><span class="op">)</span></span>
+<span>    <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/db.html">dbWriteTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">'table_name'</span>, <span class="va">f_tab</span><span class="op">)</span></span>
+<span>    <span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/bindEvent.html" class="external-link">bindEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">new_data_button</span><span class="op">)</span></span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/bindEvent.html" class="external-link">bindEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">db_write</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
-    </nav></aside>
+<p>A more complete example using the same <a href="https://landeranalytics.github.io/faketables/articles/favorite_pizza.html">Favorite
+Pizza Places app</a> can be found <a href="https://raw.githubusercontent.com/landeranalytics/faketables/main/app_db.R" class="external-link">here</a>.</p>
+  </main>
 </div>
 
 

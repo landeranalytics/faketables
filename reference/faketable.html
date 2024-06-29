@@ -28,6 +28,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/inserting_data.html">Inserting Data</a>
+    <a class="dropdown-item" href="../articles/db_writing.html">Writing to a DB</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
@@ -107,6 +108,7 @@ were inserted then deleted</p></li>
 as the argument <code>table_def</code></p></li>
 <li><p><code>.show_delete</code>: A copy of the user supplied list passed as the argument
 <code>show_delete</code></p></li>
+<li><p><code>.iteration</code>: INTERNAL USE ONLY.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -114,6 +116,10 @@ as the argument <code>table_def</code></p></li>
 <code>faketable</code>. S7 object properties are accessed using an <code>@</code>, rather than
 the traditional <code>$</code>. For example, the property <code>data</code> for a <code>faketable</code>
 object called <code>faketable</code> can be accessed using <code>faketable@data</code>.</p>
+<p>A note on <code>faketables@.iteration</code>: Shiny does not currently support
+removing inputs from the server. This allows <code>faketables</code> to refresh fully
+after using <code><a href="db.html">dbWriteTable()</a></code>, by creating a new backend set of
+input ids which otherwise would be duplicated because the data is the same.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
