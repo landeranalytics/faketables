@@ -27,6 +27,7 @@ reference:
   contents:
   - shiny
   - faketablesInsert
+  - dbWriteTable
 - title: Manipulate
   contents: methods
 - title: Validate
@@ -34,7 +35,9 @@ reference:
 articles:
 - title: Reference
   navbar: ~
-  contents: inserting_data
+  contents:
+  - inserting_data
+  - db_writing
 - title: Examples
   contents: favorite_pizza
 

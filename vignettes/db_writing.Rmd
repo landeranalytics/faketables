@@ -1,0 +1,41 @@
+---
+title: "Writing to a DB"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Writing to a DB}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`faketables` offers `dbWriteTable()` as a convenient way to write modified data back to a data source.
+
+In the below example, `dbConnect()` and `dbDisconnect()` should produce a [DBI Connection Object](https://dbi.r-dbi.org/reference/dbConnect.html) and disconnect from that database, respectively.
+
+```{r, eval=FALSE}
+f_tab <- faketables::faketable()
+
+ui <- shiny::fluidPage(
+  shiny::actionButton('db_write', 'Write to DB')
+)
+
+server <- function(input, output, session) {
+  f_tab <- faketables::faketablesServer(f_tab)
+  
+  shiny::observe({
+    con <- dbConnect()
+    faketables::dbWriteTable(con, 'table_name', f_tab)
+    dbDisconnect(con)
+  }) |>
+    shiny::bindEvent(input$db_write)
+}
+```
+
+A more complete example using the same [Favorite Pizza Places app](https://landeranalytics.github.io/faketables/articles/favorite_pizza.html) can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/app_db.R).
+

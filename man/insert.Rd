@@ -22,3 +22,7 @@ generated.}
 \description{
 Insert data into a \code{faketable}
 }
+\seealso{
+For more details, see the vignette by running
+\code{vignette('inserting_data')}
+}

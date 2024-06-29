@@ -1,28 +1,5 @@
----
-title: "Favorite Pizza Places"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Favorite Pizza Places}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r, eval=FALSE,include=FALSE, cache=FALSE}
-knitr::read_chunk('../app.R')
-```
-
-The source for this app can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/app.R).
-
-## Create the column definitions with `col_def()`
-
-```{r}
+pkgload::load_all()
+## ---- col_def --------
 c_def <- list(
   faketables::col_def(
     name = 'Name',
@@ -83,38 +60,37 @@ c_def <- list(
     width = 2
   )
 )
-```
 
-## Create the table definition with `table_def()`
-
-```{r}
+## ---- table_def --------
 t_def <- faketables::table_def(c_def)
-```
 
-## Get data and create the `faketable`
-
-```{r}
-pz <-
+## ---- faketables --------
+# pz <-
+#   dplyr::tbl(con, 'favorite_pizza_nyc') |>
+#   faketables::faketable(table_def = t_def, show_delete = list(width = 1))
+get_con <- function() {
+  duckdb::dbConnect(duckdb::duckdb(), dbdir = 'db')
+}
+con <- get_con()
+duckdb::dbWriteTable(con, 'favorite_pizza_nyc', {
   jsonlite::read_json(
     path = 'https://www.jaredlander.com/data/FavoritePizzaPlaces.json',
     simplifyVector = TRUE
   ) |>
-  tibble::as_tibble() |>
-  tidyr::unnest(cols = c('Details', 'Coordinates')) |>
-  dplyr::mutate(
-    'Zip' = as.integer(.data$Zip),
-    'FavoritePizza' = 'Cheese',
-    'Rating' = 11L
-  ) |>
-  faketables::faketable(table_def = t_def, show_delete = list(width = 1))
-```
+    tibble::as_tibble() |>
+    tidyr::unnest(cols = c('Details', 'Coordinates')) |>
+    dplyr::mutate(
+      'Zip' = as.integer(.data$Zip),
+      'FavoritePizza' = 'Cheese',
+      'Rating' = 11L
+    )
+}, overwrite = TRUE)
+duckdb::dbDisconnect(con)
 
-## Create the UI
-
-```{r}
+## ---- ui --------
 ui <- bslib::page_navbar(
   title = 'Favorite Pizza Places',
-  shinyjs::useShinyjs(),
+  header = shinyjs::useShinyjs(),
   bslib::nav_panel(
     title = 'NYC',
     bslib::layout_columns(
@@ -154,7 +130,7 @@ ui <- bslib::page_navbar(
                     min = 10001,
                     max = 11697,
                     step = 1)
-                  )
+                )
               ),
               shiny::fluidRow(
                 shiny::column(
@@ -185,6 +161,9 @@ ui <- bslib::page_navbar(
           ),
           shiny::fluidRow(
             shiny::actionButton('add', label = 'Add Data')
+          ),
+          shiny::fluidRow(
+            shiny::actionButton('write', label = 'Write to DB')
           )
         )
       ),
@@ -205,13 +184,16 @@ ui <- bslib::page_navbar(
     )
   )
 )
-```
 
-## Create the server
-
-```{r}
+## ---- server --------
 server <- function(input, output, session) {
-  pz <- faketables::faketablesServer(faketable = pz)
+  con <- get_con()
+  pz_data <-
+    con |>
+    dplyr::tbl('favorite_pizza_nyc') |>
+    faketables::faketable(table_def = t_def, show_delete = list(width = 1))
+  pz <- faketables::faketablesServer(faketable = pz_data)
+  duckdb::dbDisconnect(con)
   output$map <-
     leaflet::leaflet() |>
     leaflet::addTiles() |>
@@ -246,8 +228,11 @@ server <- function(input, output, session) {
     map_data <-
       pz()@data |>
       dplyr::mutate(
+        'row_number' = dplyr::row_number()
+      ) |>
+      dplyr::mutate(
         'label' = shiny::HTML(glue::glue('{.data$Name}<br>{.data$Address}, {.data$City}, NY, {.data$Zip}')),
-        .by = '.rowId'
+        .by = 'row_number'
       ) |>
       dplyr::mutate(
         'fill_color' = dplyr::case_when(
@@ -269,15 +254,15 @@ server <- function(input, output, session) {
         label = ~label
       )
   }) |>
-    shiny::bindEvent(input$update, pz())
+    shiny::bindEvent(pz())
+
+  shiny::observe({
+    con <- get_con()
+    dbWriteTable(con, 'favorite_pizza_nyc', pz)
+    duckdb::dbDisconnect(con)
+  }) |>
+    shiny::bindEvent(input$write)
 }
-```
 
-## Run the app
-
-```{r eval=FALSE}
+## ---- run --------
 shiny::shinyApp(ui, server)
-```
-
-![](../man/figures/preview.jpg)
-

@@ -2,7 +2,7 @@
 ^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-DEPRECATED
+^app_db\.R$
 ^app\.R$
 ^app2\.R$
 ^_pkgdown\.yml$

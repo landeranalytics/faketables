@@ -65,7 +65,7 @@
 #'   specified in `faketable`'s [faketables::table_def()]
 #' @keywords internal
 .create_table_body <- function(faketable, ns) {
-  faketable@data |>
+  faketable@.data |>
     dplyr::select(tidyselect::all_of(c('.rowId', faketable@.table_def$name))) |>
     purrr::pmap(\(...) {
       dots <- rlang::list2(...)
@@ -76,7 +76,7 @@
         purrr::map(\(nm) {
           c_def <- which(faketable@.table_def$name == nm)
           args <- list(
-            inputId = ns(glue::glue('table_{dots[[".rowId"]]}_{nm}')),
+            inputId = ns(glue::glue('table_{faketable@.iteration}_{dots[[".rowId"]]}_{nm}')),
             dots[[nm]] # TODO: find way to name this to ensure right values are used
           )
           shiny::column(
