@@ -1,5 +1,17 @@
-dbWriteTable <- function(conn, name, reactive_faketable) {
-  if (!inherits(conn, 'DBIConnection'))
+#' Write a `faketable` to a database table
+#' @name dbWriteTable
+#' @rdname db
+#'
+#' @param src A DBIConnection object produced by [DBI::dbConnect()]
+#' @param name A table name for a table present in the `src`
+#' @param reactive_faketable A [shiny::reactive] object that holds an underlying
+#'   [faketables::faketable()]
+#'
+#' @returns `dbWriteTable` does not return, but does reassign the `faketable`
+#'   reactive object in the parent environment
+#' @export
+dbWriteTable <- function(src, name, reactive_faketable) {
+  if (!inherits(src, 'DBIConnection'))
     cli::cli_abort('{.fun faketables::dbWriteTable} requires a valid {.fun DBI::dbConnect} object')
   if (!shiny::is.reactive(reactive_faketable))
     cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
@@ -8,7 +20,7 @@ dbWriteTable <- function(conn, name, reactive_faketable) {
 
   join_by <- if (faketable@.rowId == '.rowId') colnames(faketable@data) else faketable@.rowId
 
-  conn |>
+  src |>
     dplyr::tbl(name) |>
     dplyr::rows_delete(
       y = faketable@deleted,
@@ -40,7 +52,7 @@ dbWriteTable <- function(conn, name, reactive_faketable) {
     assign(
       value = faketablesServer(
         faketable = {
-          conn |>
+          src |>
             dplyr::tbl(name) |>
             faketable(faketable@.table_def, rowId, faketable@.show_delete) |>
             S7::`prop<-`('.iteration', value = faketable@.iteration + 1L)

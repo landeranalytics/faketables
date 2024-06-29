@@ -26,11 +26,17 @@
 #'   as the argument `table_def`
 #'  * `.show_delete`: A copy of the user supplied list passed as the argument
 #'   `show_delete`
+#'  * `.iteration`: INTERNAL USE ONLY.
 #'
 #' @details A `faketable` object is an [S7::S7_object()] with the class
 #'   `faketable`. S7 object properties are accessed using an `@`, rather than
 #'   the traditional `$`. For example, the property `data` for a `faketable`
 #'   object called `faketable` can be accessed using `faketable@data`.
+#'
+#'   A note on `faketables@.iteration`: Shiny does not currently support
+#'   removing inputs from the server. This allows `faketables` to refresh fully
+#'   after using [faketables::dbWriteTable()], by creating a new backend set of
+#'   input ids which otherwise would be duplicated because the data is the same.
 #'
 #' @seealso For more details on `S7`, see the vignette [on the
 #'   website](https://rconsortium.github.io/S7/articles/S7.html) or by running:

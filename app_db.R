@@ -258,17 +258,7 @@ server <- function(input, output, session) {
 
   shiny::observe({
     con <- get_con()
-    print('Before Write')
-    con |>
-      dplyr::tbl('favorite_pizza_nyc') |>
-      print()
-
     dbWriteTable(con, 'favorite_pizza_nyc', pz)
-
-    print('After Write')
-    con |>
-      dplyr::tbl('favorite_pizza_nyc') |>
-      print()
     duckdb::dbDisconnect(con)
   }) |>
     shiny::bindEvent(input$write)

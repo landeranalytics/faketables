@@ -2,7 +2,7 @@ source('../test-setup.R')
 test_that('inputs are correctly reconstructed from tables', {
   input <-
     valid_faketable@.data$name |>
-    `names<-`(glue::glue('table_{valid_faketable@.data$.rowId}_name')) |>
+    `names<-`(glue::glue('table_{valid_faketable@.iteration}_{valid_faketable@.data$.rowId}_name')) |>
     as.list() |>
     rlang::splice() |>
     shiny::reactiveValues()

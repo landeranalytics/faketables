@@ -38,6 +38,7 @@ were inserted then deleted
 as the argument \code{table_def}
 \item \code{.show_delete}: A copy of the user supplied list passed as the argument
 \code{show_delete}
+\item \code{.iteration}: INTERNAL USE ONLY.
 }
 }
 \description{
@@ -48,6 +49,11 @@ A \code{faketable} object is an \code{\link[S7:S7_object]{S7::S7_object()}} with
 \code{faketable}. S7 object properties are accessed using an \code{@}, rather than
 the traditional \code{$}. For example, the property \code{data} for a \code{faketable}
 object called \code{faketable} can be accessed using \code{faketable@data}.
+
+A note on \code{faketables@.iteration}: Shiny does not currently support
+removing inputs from the server. This allows \code{faketables} to refresh fully
+after using \code{\link[=dbWriteTable]{dbWriteTable()}}, by creating a new backend set of
+input ids which otherwise would be duplicated because the data is the same.
 }
 \seealso{
 For more details on \code{S7}, see the vignette \href{https://rconsortium.github.io/S7/articles/S7.html}{on the website} or by running:
