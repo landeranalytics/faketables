@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 knitr::read_chunk('../app.R')
 ```
 
-The source for this app can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/app.R)
+The source for this app can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/app.R).
 
 ## Create the column definitions with `col_def()`
 
