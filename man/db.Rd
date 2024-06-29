@@ -9,7 +9,7 @@ dbWriteTable(src, name, reactive_faketable)
 \arguments{
 \item{src}{A DBIConnection object produced by \code{\link[DBI:dbConnect]{DBI::dbConnect()}}}
 
-\item{name}{A table name for a table present in the \code{src}}
+\item{name}{A table name for a table already present in the \code{src}}
 
 \item{reactive_faketable}{A \link[shiny:reactive]{shiny::reactive} object that holds an underlying
 \code{\link[=faketable]{faketable()}}}
@@ -23,4 +23,8 @@ A convenience function to use the \verb{@inserted}, \verb{@updated}, and
 \verb{@deleted} tables to write back to the database using a series of
 corresponding \link[dplyr:rows]{dplyr::rows} functions, then restart the \code{faketablesServer}
 with the new data to maintain integrity for future writes.
+}
+\seealso{
+For more details, see the vignette by running
+\code{vignette('db_writing')}
 }

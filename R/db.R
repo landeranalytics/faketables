@@ -8,18 +8,22 @@
 #'   with the new data to maintain integrity for future writes.
 #'
 #' @param src A DBIConnection object produced by [DBI::dbConnect()]
-#' @param name A table name for a table present in the `src`
+#' @param name A table name for a table already present in the `src`
 #' @param reactive_faketable A [shiny::reactive] object that holds an underlying
 #'   [faketables::faketable()]
 #'
 #' @returns `dbWriteTable` does not return, but does reassign the `faketable`
 #'   reactive object in the parent environment
+#'
+#' @seealso For more details, see the vignette by running
+#'   \code{vignette('db_writing')}
+#'
 #' @export
 dbWriteTable <- function(src, name, reactive_faketable) {
   if (!inherits(src, 'DBIConnection'))
     cli::cli_abort('{.fun faketables::dbWriteTable} requires a valid {.fun DBI::dbConnect} object')
   if (!shiny::is.reactive(reactive_faketable))
-    cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
+    cli::cli_abort('{.fun faketables::dbWriteTable} requires a {.fun shiny::reactive} object and a data.frame')
 
   faketable <- do.call(reactive_faketable, args = list())
 
