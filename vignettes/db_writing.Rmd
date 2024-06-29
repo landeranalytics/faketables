@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 
 In the below example, `dbConnect()` and `dbDisconnect()` should produce a [DBI Connection Object](https://dbi.r-dbi.org/reference/dbConnect.html) and disconnect from that database, respectively.
 
+A more complete example using the same Favorite Pizza Places app as [here](https://landeranalytics.github.io/faketables/articles/favorite_pizza.html) can be found [here](https://raw.githubusercontent.com/landeranalytics/faketables/main/app_db.R).
+
 ```{r, eval=FALSE}
 f_tab <- faketables::faketable()
 
