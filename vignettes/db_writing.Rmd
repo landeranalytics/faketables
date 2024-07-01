@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 `faketables` offers `dbWriteTable()` as a convenient way to write modified data back to a data source.
 
-In the below example, `dbConnect()` and `dbDisconnect()` should produce a [DBI Connection Object](https://dbi.r-dbi.org/reference/dbConnect.html) and disconnect from that database, respectively.
+In the below example, `dbConnect()` and `dbDisconnect()` should produce a [DBI Connection Object](https://dbi.r-dbi.org/reference/dbConnect.html) and disconnect from that database, respectively. The database connection and disconnection is not required to be within the observe statement; the only requirement is that the connection passed to `dbWriteTable` be an active `DBIConnection` object.
 
 ```{r, eval=FALSE}
 f_tab <- faketables::faketable()

@@ -7,7 +7,7 @@
 dbWriteTable(src, name, reactive_faketable)
 }
 \arguments{
-\item{src}{A DBIConnection object produced by \code{\link[DBI:dbConnect]{DBI::dbConnect()}}}
+\item{src}{A \code{DBIConnection} object produced by \code{\link[DBI:dbConnect]{DBI::dbConnect()}}}
 
 \item{name}{A table name for a table already present in the \code{src}}
 
