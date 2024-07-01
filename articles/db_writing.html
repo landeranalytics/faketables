@@ -97,7 +97,11 @@
 convenient way to write modified data back to a data source.</p>
 <p>In the below example, <code>dbConnect()</code> and
 <code>dbDisconnect()</code> should produce a <a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">DBI Connection
-Object</a> and disconnect from that database, respectively.</p>
+Object</a> and disconnect from that database, respectively. The database
+connection and disconnection is not required to be within the observe
+statement; the only requirement is that the connection passed to
+<code>dbWriteTable</code> be an active <code>DBIConnection</code>
+object.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f_tab</span> <span class="op">&lt;-</span> <span class="fu">faketables</span><span class="fu">::</span><span class="fu"><a href="../reference/faketable.html">faketable</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
