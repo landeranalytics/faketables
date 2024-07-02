@@ -31,10 +31,10 @@ Usage is a little bit more complex than that of `insert()` and requires two comp
 ```{r, eval=FALSE}
 f_tab <- faketables::faketable()
 server <- function(input, output, session) {
-  f_tab <- faketables::faketablesServer(f_tab)
+  f_tab <- faketables::faketablesServer(faketable = f_tab)
   
   shiny::observe({
-    faketables::faketablesInsert(f_tab, new_data)
+    faketables::faketablesInsert(faketable = f_tab, data = new_data)
   }) |>
     shiny::bindEvent(input$new_data_button)
 }

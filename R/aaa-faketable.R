@@ -69,7 +69,7 @@ faketable <- S7::new_class(
           ) |>
           dplyr::anti_join(
             y = self@.raw_data,
-            by = colnames(self@.raw_data)
+            by = self@.table_def$name
           ) |>
           dplyr::select(-'.rowId')
       }
