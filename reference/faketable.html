@@ -46,7 +46,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">faketable</span><span class="op">(</span><span class="va">data</span>, <span class="va">table_def</span>, rowId <span class="op">=</span> <span class="cn">NULL</span>, show_delete <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">faketable</span><span class="op">(</span><span class="va">data</span>, <span class="va">table_def</span>, rowId <span class="op">=</span> <span class="cn">NULL</span>, show_delete <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,7 +68,7 @@ primary key, if any.</p></dd>
 
 <dt id="arg-show-delete">show_delete<a class="anchor" aria-label="anchor" href="#arg-show-delete"></a></dt>
 <dd><p>A named list passed to the <code><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">shiny::column()</a></code> that holds
-the Delete button. If <code>NULL</code>, the delete column will not be shown.</p></dd>
+the Delete button. If <code>FALSE</code>, the delete column will not be shown.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -85,12 +85,14 @@ the addition of a <code>.rowId</code> column as the first column. This column is
 calculated using by hashing either the provided <code>rowId</code> column or using the
 row number and system time.</p></li>
 <li><p><code>.rowId</code>: The value of the <code>rowId</code> argument</p></li>
+<li><p><code>.data</code>: The same as <code>data</code>, but retains the <code>.rowId</code> column</p></li>
+<li><p><code>.inserted</code>: The same as <code>inserted</code>, but retains the <code>.rowId</code> column</p></li>
 <li><p><code>.deleted</code>: All rows that have been removed from <code>data</code>, including those that
 were inserted then deleted</p></li>
 <li><p><code>.table_def</code>: A copy of the user supplied <code><a href="table_def.html">table_def()</a></code> passed
 as the argument <code>table_def</code></p></li>
 <li><p><code>.show_delete</code>: A copy of the user supplied list passed as the argument
-<code>show_delete</code></p></li>
+<code>show_delete</code>. If <code>TRUE</code> was supplied, it is replaced with <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></li>
 <li><p><code>.iteration</code>: INTERNAL USE ONLY.</p></li>
 </ul></div>
     <div class="section level2">
