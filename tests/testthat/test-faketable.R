@@ -33,7 +33,7 @@ test_that('rowId is null or a column in x', {
 })
 
 test_that('show_delete is NULL or a named list', {
-  faketable(x, valid_table_def, show_delete = NULL) |>
+  faketable(x, valid_table_def, show_delete = FALSE) |>
     expect_no_error()
 
   faketable(x, valid_table_def, show_delete = list()) |>

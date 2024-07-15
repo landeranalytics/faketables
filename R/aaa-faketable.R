@@ -5,7 +5,7 @@
 #' @param rowId A character vector of length one identifying which column is a
 #'   primary key, if any.
 #' @param show_delete A named list passed to the [shiny::column()] that holds
-#'   the Delete button. If `NULL`, the delete column will not be shown.
+#'   the Delete button. If `FALSE`, the delete column will not be shown.
 #'
 #' @returns A `faketable` object with the following properties:
 #'  * `data`: The current state of the table of inputs
@@ -20,12 +20,14 @@
 #'   calculated using by hashing either the provided `rowId` column or using the
 #'   row number and system time.
 #'  * `.rowId`: The value of the `rowId` argument
+#'  * `.data`: The same as `data`, but retains the `.rowId` column
+#'  * `.inserted`: The same as `inserted`, but retains the `.rowId` column
 #'  * `.deleted`: All rows that have been removed from `data`, including those that
 #'   were inserted then deleted
 #'  * `.table_def`: A copy of the user supplied [faketables::table_def()] passed
 #'   as the argument `table_def`
 #'  * `.show_delete`: A copy of the user supplied list passed as the argument
-#'   `show_delete`
+#'   `show_delete`. If `TRUE` was supplied, it is replaced with `list()`.
 #'  * `.iteration`: INTERNAL USE ONLY.
 #'
 #' @details A `faketable` object is an [S7::S7_object()] with the class
@@ -93,10 +95,10 @@ faketable <- S7::new_class(
     ),
     '.deleted' = S7::new_S3_class('tbl'),
     '.table_def' = S7::new_S3_class('table_def'),
-    '.show_delete' = S7::class_list,
+    '.show_delete' = S7::new_union(S7::class_list, S7::class_logical),
     '.iteration' = S7::class_integer
   ),
-  constructor = \(data, table_def, rowId = NULL, show_delete = NULL) {
+  constructor = \(data, table_def, rowId = NULL, show_delete = FALSE) {
     if (!dplyr::is.tbl(data) & !is.data.frame(data))
       cli::cli_abort('{.fun faketables::faketable} expects `data` to be a `data.frame`')
     if (!is_table_def(table_def))
@@ -105,10 +107,10 @@ faketable <- S7::new_class(
       cli::cli_abort('{.fun faketables::faketable} expects all `table_def$name` to be column names in `data`')
     if (!is.null(rowId) && !(rowId %in% colnames(data)))
       cli::cli_abort('{.fun faketables::faketable} expects `rowId` to be `NULL` or a column name in `data`')
-    if (!is.null(show_delete) && (!rlang::is_list(show_delete) || !rlang::is_named2(show_delete)))
-      cli::cli_abort('{.fun faketables::faketable} expects `show_delete` to be `NULL` or a named list')
+    if (!is.logical(show_delete) && (!rlang::is_list(show_delete) || !rlang::is_named2(show_delete)))
+      cli::cli_abort('{.fun faketables::faketable} expects `show_delete` to be logical or a named list')
 
-    if (is.null(show_delete)) show_delete <- list()
+    if (is.logical(show_delete) && show_delete) show_delete <- list()
     data <-
       data |>
       tibble::as_tibble() |>
@@ -136,8 +138,8 @@ faketable <- S7::new_class(
       cli::cli_abort('{.fun faketables::faketable} expects all `self@.table_def$name` to be column names in `self@.data`')
     if (!(self@.rowId %in% colnames(self@.data)))
       cli::cli_abort("{.fun faketables::faketable} expects '.rowId' to be  a column name in `self@.data`")
-    if ((!rlang::is_list(self@.show_delete) || !rlang::is_named2(self@.show_delete)))
-      cli::cli_abort('{.fun faketables::faketable} expects `self@.show_delete` to be an empty or named list')
+    if (!is.logical(self@.show_delete) && (!rlang::is_list(self@.show_delete) || !rlang::is_named2(self@.show_delete)))
+      cli::cli_abort('{.fun faketables::faketable} expects `self@.show_delete` to be logical or a named list')
     if(!is_faketable(self))
       cli::cli_abort("This is awkward. You've managed to make an invalid `faketables` object despite our best efforts.")
   }

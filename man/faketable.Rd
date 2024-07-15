@@ -4,7 +4,7 @@
 \alias{faketable}
 \title{Create a \code{faketable} object}
 \usage{
-faketable(data, table_def, rowId = NULL, show_delete = NULL)
+faketable(data, table_def, rowId = NULL, show_delete = FALSE)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -15,7 +15,7 @@ faketable(data, table_def, rowId = NULL, show_delete = NULL)
 primary key, if any.}
 
 \item{show_delete}{A named list passed to the \code{\link[shiny:column]{shiny::column()}} that holds
-the Delete button. If \code{NULL}, the delete column will not be shown.}
+the Delete button. If \code{FALSE}, the delete column will not be shown.}
 }
 \value{
 A \code{faketable} object with the following properties:
@@ -32,12 +32,14 @@ the addition of a \code{.rowId} column as the first column. This column is
 calculated using by hashing either the provided \code{rowId} column or using the
 row number and system time.
 \item \code{.rowId}: The value of the \code{rowId} argument
+\item \code{.data}: The same as \code{data}, but retains the \code{.rowId} column
+\item \code{.inserted}: The same as \code{inserted}, but retains the \code{.rowId} column
 \item \code{.deleted}: All rows that have been removed from \code{data}, including those that
 were inserted then deleted
 \item \code{.table_def}: A copy of the user supplied \code{\link[=table_def]{table_def()}} passed
 as the argument \code{table_def}
 \item \code{.show_delete}: A copy of the user supplied list passed as the argument
-\code{show_delete}
+\code{show_delete}. If \code{TRUE} was supplied, it is replaced with \code{list()}.
 \item \code{.iteration}: INTERNAL USE ONLY.
 }
 }

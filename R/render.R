@@ -37,7 +37,7 @@
         shiny::tags$b(dots$display_name)
       )
     })
-  if (!is.null(faketable@.show_delete)) {
+  if (!is.logical(faketable@.show_delete)) {
     if (is.null(faketable@.show_delete$width)) width <- 2 else width <- faketable@.show_delete$width
     cols <-
       cols |>
@@ -88,7 +88,7 @@
             }
           )
         })
-      if (!is.null(faketable@.show_delete)) {
+      if (!is.logical(faketable@.show_delete)) {
         cols <-
           cols |>
           append(
