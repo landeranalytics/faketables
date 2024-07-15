@@ -237,7 +237,7 @@ server <- function(input, output, session) {
         type = 'error'
       )
     } else {
-      faketables::faketablesInsert(pz, ins)
+      faketables::faketablesInsert(reactive_faketable = pz, data = ins)
     }
   }) |>
     shiny::bindEvent(input$add)
@@ -245,6 +245,7 @@ server <- function(input, output, session) {
   shiny::observe({
     map_data <-
       pz()@data |>
+      dplyr::mutate('.rowId' = dplyr::row_number()) |>
       dplyr::mutate(
         'label' = shiny::HTML(glue::glue('{.data$Name}<br>{.data$Address}, {.data$City}, NY, {.data$Zip}')),
         .by = '.rowId'
@@ -254,7 +255,8 @@ server <- function(input, output, session) {
           .data$label == 'cheese' ~ '#FFCA45',
           .default = '#FFCA45'
         )
-      )
+      ) |>
+      dplyr::select(-'.rowId')
     leaflet::leafletProxy('map', data = map_data) |>
       leaflet::clearMarkers() |>
       leaflet::addCircleMarkers(

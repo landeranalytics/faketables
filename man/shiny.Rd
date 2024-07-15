@@ -6,12 +6,14 @@
 \alias{faketablesServer}
 \title{Create the \code{shiny} components required to use \code{faketables}}
 \usage{
-faketablesUI(id = "faketables")
+faketablesUI(outputId = "faketables")
 
-faketablesServer(id = "faketables", faketable, insert = NULL)
+faketablesServer(inputId = "faketables", faketable)
 }
 \arguments{
-\item{id}{An ID string used to identify the module UI}
+\item{outputId}{An ID string used to identify the module UI}
+
+\item{inputId}{An ID string used to identify the module UI}
 
 \item{faketable}{A \code{\link[=faketable]{faketable()}} object}
 }

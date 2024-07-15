@@ -35,14 +35,14 @@ test_that('the server functions', {
     )
 
     expect_equal(
-      faketablesServer(faketable = valid_faketable)(),
+      faketablesServer(inputId = 'faketables', faketable = valid_faketable)(),
       valid_faketable
     )
 
     expect_equal(
       faketablesServer(
-        faketable = valid_faketable,
-        insert = insert_data
+        inputId = 'faketables',
+        faketable = insert(valid_faketable, insert_data)
       )(),
       insert(valid_faketable, insert_data)
     )
@@ -61,11 +61,11 @@ test_that('faketablesInsert functions and doesnt clutter the global env', {
 
     f_tab <- faketablesServer(faketable = valid_faketable)
 
-    faketablesInsert(f_tab(), insert_data) |>
+    faketablesInsert(inputId = 'faketables', f_tab(), insert_data) |>
       expect_error()
 
     expect_equal(
-      faketablesInsert(f_tab, insert_data)(), # modifies original object
+      faketablesInsert(inputId = 'faketables', f_tab, insert_data)(), # modifies original object
       insert(valid_faketable, insert_data)
     )
 

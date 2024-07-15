@@ -186,7 +186,7 @@ server <- function(input, output, session) {
       'cyl' = as.numeric(input$cyl),
       'qsec' = list(as.integer(input$qsec))
     )
-    faketables::faketablesInsert(f_tab, ins)
+    faketablesInsert(reactive_faketable = f_tab, data = ins)
   }) |>
     shiny::bindEvent(input$add_row)
 }

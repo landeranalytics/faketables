@@ -26,7 +26,7 @@ reference:
 - title: Implement
   contents:
   - shiny
-  - faketablesInsert
+  - shiny-manipulate
   - dbWriteTable
 - title: Manipulate
   contents: methods

@@ -2,7 +2,8 @@
 #' @name shiny
 #' @rdname shiny
 #'
-#' @param id An ID string used to identify the module UI
+#' @param outputId An ID string used to identify the module UI
+#' @param inputId An ID string used to identify the module UI
 #' @param faketable A [faketables::faketable()] object
 #'
 #' @returns
@@ -17,8 +18,8 @@ NULL
 #' @rdname shiny
 #'
 #' @export
-faketablesUI <- function(id = 'faketables') {
-  ns <- shiny::NS(id)
+faketablesUI <- function(outputId = 'faketables') {
+  ns <- shiny::NS(outputId)
   shiny::tagList(
     .create_delete_listener(ns),
     shiny::div(
@@ -33,9 +34,8 @@ faketablesUI <- function(id = 'faketables') {
 #' @rdname shiny
 #'
 #' @export
-faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
-  if (!is.null(insert)) faketable <- insert(faketable, insert)
-  shiny::moduleServer(id, function(input, output, session) {
+faketablesServer <- function(inputId = 'faketables', faketable) {
+  shiny::moduleServer(id = inputId, function(input, output, session) {
     ns <- session$ns
 
     deleted_rowId <- shiny::reactiveVal(character())
@@ -68,38 +68,4 @@ faketablesServer <- function(id = 'faketables', faketable, insert = NULL) {
     })
     return(faketable_reactive)
   })
-}
-
-#' Insert data into a `faketable`
-#' @name faketablesInsert
-#' @rdname insert
-#'
-#' @param reactive_faketable A [shiny::reactive] object that holds an underlying
-#'   [faketables::faketable()]
-#' @param data A data.frame to add to the data in the [faketables::faketable()]
-#'   object. If it does not already have a primary key column as specified in
-#'   [faketables::table_def()], one will be created and primary keys will be
-#'   generated.
-#'
-#' @returns `faketablesInsert` does not return, but does reassign the
-#'   `faketable` reactive object in the parent environment
-#'
-#' @seealso For more details, see the vignette by running
-#'   \code{vignette('inserting_data')}
-#'
-#' @export
-faketablesInsert <- function(reactive_faketable, data) {
-  if (!shiny::is.reactive(reactive_faketable) | !is.data.frame(data))
-    cli::cli_abort('{.fun faketables::faketablesInsert} requires a {.fun shiny::reactive} object and a data.frame')
-  env <- rlang::env_parent(rlang::caller_env(), n = 2)
-  reactive_faketable |>
-    substitute() |>
-    deparse() |>
-    assign(
-      value = faketablesServer(
-        faketable = do.call(reactive_faketable, args = list()),
-        insert = data
-      ),
-      envir = env
-    )
 }

@@ -4,7 +4,6 @@
 #'
 #' @description These functions are used internally in `faketables`
 #'
-#'
 #' @details The delete button itself does not actually delete a row from the
 #'   data, this only creates a button that reports which row a user wishes to
 #'   delete.
