@@ -1,13 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   db_writing: db_writing.html
   faketables: faketables.html
   favorite_pizza: favorite_pizza.html
   inserting_data: inserting_data.html
-last_built: 2024-07-02T19:24Z
+last_built: 2024-07-15T20:52Z
 urls:
   reference: https://landeranalytics.github.io/faketables/reference
   article: https://landeranalytics.github.io/faketables/articles
-
