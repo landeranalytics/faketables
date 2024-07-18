@@ -54,6 +54,7 @@
   }]
   if (length(all_vals) > 0) {
     all_vals |>
+      purrr::map(\(x) x %||% NA) |>
       tibble::as_tibble() |>
       tidyr::pivot_longer(
         cols = tidyselect::everything(),
@@ -78,7 +79,7 @@
         by = '.rowId'
       ) |>
       purrr::imap(\(x, idx) {
-        col <- which(idx == faketable@.table_def$name)
+        col <- which(faketable@.table_def$name == idx)
         x <- if (length(col) != 0) faketable@.table_def$cast[col][[1]](x) else x
         tibble::tibble({{idx}} := x) # handle list-type cols
       }) |>
