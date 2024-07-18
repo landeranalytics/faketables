@@ -54,7 +54,7 @@
   }]
   if (length(all_vals) > 0) {
     all_vals |>
-      purrr::map(\(x) x %||% NA) |>
+      purrr::map(\(x) rlang::`%||%`(x, NA)) |>
       tibble::as_tibble() |>
       tidyr::pivot_longer(
         cols = tidyselect::everything(),
